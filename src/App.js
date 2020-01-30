@@ -1,16 +1,31 @@
 import React, { Component } from 'react';
-import './App.css';
+import Viewer from './Viewer/';
+import { connect } from 'react-redux';
+import { testExampleData } from './actions';
 
-import Viewer from './Viewer/'; 
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-      <Viewer />
-      </div>
-    );
-  }
+
+	componentDidMount() {
+		this.props.testExampleData();
+	}
+
+	render() {
+		console.log(this.props.loaded);
+
+		return (
+			<div className="App">
+				<Viewer />
+			</div>
+		);
+	}
 }
 
-export default App;
+const mapStateToProps = ({ example }) => {
+	const { loaded } = example;
+	return { loaded };
+};
+
+export default connect(mapStateToProps, {
+	testExampleData
+})(App);

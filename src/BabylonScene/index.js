@@ -1,25 +1,8 @@
 import * as BABYLON from 'babylonjs';
 import React, { Component } from 'react';
 
-// export type SceneEventArgs = {
-//   engine: BABYLON.Engine,
-//   scene: BABYLON.Scene,
-//   canvas: HTMLCanvasElement
-// };
-
-// export type SceneProps = {
-//   engineOptions?: BABYLON.EngineOptions,
-//   adaptToDeviceRatio?: boolean,
-//   onSceneMount?: (args: SceneEventArgs) => void,
-//   width?: number,
-//   height?: number
-// };
 
 export default class BabylonScene extends Component {
-
-  // private scene: BABYLON.Scene;
-  // private engine: BABYLON.Engine;
-  // private canvas: HTMLCanvasElement;
 
   onResizeWindow = () => {
     if (this.engine) {

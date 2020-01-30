@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import * as BABYLON from 'babylonjs';
-import BabylonScene from '../BabylonScene/'; // import the component above linking to file we just created.
+import BabylonScene from '../BabylonScene/';
 
 export default class Viewer extends Component {
     
@@ -33,9 +33,7 @@ export default class Viewer extends Component {
 
     render() {               
         return (
-            // <div>
-                <BabylonScene onSceneMount={this.onSceneMount} />
-            // </div>
+            <BabylonScene onSceneMount={this.onSceneMount} />
         )
     }
 }

@@ -1,17 +1,15 @@
 import React from 'react';
-import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 import IntroScreen from './screens/IntroScreen';
-
+import GameScreen from './screens/GameScreen';
+import history from './history';
 
 const Routes = () => {
 
     return (
-      <Router>
-          <Switch>
-            <Route path="/">
-                <Route path="/" component={IntroScreen} exact/>
-            </Route>
-          </Switch>
+      <Router history={history}>
+          <Route path="/" component={IntroScreen} exact/>
+          <Route path="/gameScreen" component={GameScreen}/>
       </Router>
     );
     

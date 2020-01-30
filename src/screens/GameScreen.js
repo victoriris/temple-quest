@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { testExampleData } from './actions';
-import GameArea from './components/GameArea';
+import { testExampleData } from '../actions';
+import GameArea from '../components/GameArea';
 
 
 class GameScreen extends Component {

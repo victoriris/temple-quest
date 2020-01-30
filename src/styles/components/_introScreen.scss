@@ -1,0 +1,13 @@
+.introScreen {
+    align-items: center;
+    background-color: $brand-black;
+    display: flex;
+    flex: 1;
+    height: 100vh;
+    justify-content: center;
+    width: 100vw;
+}
+
+.introScreen-logo {
+    width: 50em;
+}

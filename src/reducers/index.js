@@ -4,8 +4,9 @@
  */ 
 import { combineReducers } from 'redux';
 import ExampleReducer from './ExampleReducer';
-
+import IntroReducer from './IntroReducer';
 
 export default combineReducers({
-    example: ExampleReducer
+    example: ExampleReducer,
+    intro: IntroReducer
 });

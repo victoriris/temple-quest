@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import Viewer from './Viewer/';
 import { connect } from 'react-redux';
 import { testExampleData } from './actions';
+import GameArea from './components/GameArea';
 
 
-class App extends Component {
+class GameScreen extends Component {
 
 	componentDidMount() {
 		this.props.testExampleData();
@@ -14,8 +14,8 @@ class App extends Component {
 		console.log(this.props.loaded);
 
 		return (
-			<div className="App">
-				<Viewer />
+			<div className="GameScreen">
+				<GameArea />
 			</div>
 		);
 	}
@@ -28,4 +28,4 @@ const mapStateToProps = ({ example }) => {
 
 export default connect(mapStateToProps, {
 	testExampleData
-})(App);
+})(GameScreen);

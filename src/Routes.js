@@ -1,6 +1,6 @@
 import React from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
-import App from './App';
+import IntroScreen from './screens/IntroScreen';
 
 
 const Routes = () => {
@@ -9,7 +9,7 @@ const Routes = () => {
       <Router>
           <Switch>
             <Route path="/">
-                <Route path="/" component={App} exact/>
+                <Route path="/" component={IntroScreen} exact/>
             </Route>
           </Switch>
       </Router>

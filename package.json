@@ -9,6 +9,7 @@
   "dependencies": {
     "babylonjs": "^4.0.3",
     "electron-is": "^3.0.0",
+    "node-sass": "^4.13.1",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "react-redux": "^7.1.3",

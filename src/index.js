@@ -3,10 +3,10 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { applyMiddleware, createStore } from 'redux';
 import ReduxThunk from 'redux-thunk';
-import './index.css';
 import reducers from './reducers';
 import Routes from './Routes';
 import * as serviceWorker from './serviceWorker';
+import './styles/main.scss';
 
 const store = createStore(
     reducers, {}, 

@@ -1,0 +1,14 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Delete merged branch
+      uses: SvanBoxel/delete-merged-branch@v1.3.3 
+    - name: Slack Notify
+      uses: rtCamp/action-slack-notify@v1.0.0

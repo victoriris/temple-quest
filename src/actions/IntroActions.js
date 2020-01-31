@@ -3,7 +3,7 @@ import history from '../history';
 
 
 export const stopIntroLoading = () => {
-    console.log('aaaaa');
+
     return (dispatch) => {
         history.push('/gameScreen');
         dispatch(updateIntroData('loading', false));

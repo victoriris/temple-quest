@@ -61,8 +61,9 @@ class BoardScreen extends Component {
 
         return (
             <div>
+                <h1>Current turn: Player {this.props.isUserTurn ? 1 : 2}</h1>
                 <h1>Pieces bag</h1>
-                {this.renderPiecesBag()}
+                    {this.renderPiecesBag()}
                 <h1>Board cells</h1>
                 <div>
                     {this.renderCells()}

@@ -3,7 +3,7 @@ import { BOARD_UPDATE_DATA, BOARD_INIT, BOARD_PLACE_PIECE } from './types';
 
 export const checkBoardWin = (pieceId) => {
     return (dispatch, getState) => {
-        const { pieces } = getState().board;
+        const { pieces, isUserTurn } = getState().board;
 
         // Find piece, exit otherwise
         const piece = pieces.find(({ id }) => id === parseInt(pieceId));
@@ -43,7 +43,8 @@ export const checkBoardWin = (pieceId) => {
             return Object.values(direction).some(value => value === 4);
         });
 
-        if (hasWon) alert('Game over');
+        const message = 'Game over. The winner is Player ' + (!isUserTurn ? 1 : 2);
+        if (hasWon) alert(message);
         
     };
 };
@@ -73,7 +74,6 @@ export const selectBoardCell = (row, column) => {
             payload: {
                 pieceId: selectedPieceId, 
                 location: { row, column },
-                owned: true
             } 
         });
         

@@ -53,7 +53,7 @@ export default (state = INITIAL_STATE, { type, payload }) => {
             // Modify piece properties
             newPieces[pieceIdx] = {
                 ...newPieces[pieceIdx],
-                owned: payload.owned,
+                owned: state.isUserTurn,
                 location: payload.location
             };
 
@@ -61,6 +61,7 @@ export default (state = INITIAL_STATE, { type, payload }) => {
                 ...state, 
                 pieces: newPieces, 
                 selectedPieceId: '',
+                isUserTurn: !state.isUserTurn
             };
         }
 

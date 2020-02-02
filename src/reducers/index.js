@@ -5,8 +5,10 @@
 import { combineReducers } from 'redux';
 import ExampleReducer from './ExampleReducer';
 import IntroReducer from './IntroReducer';
+import BoardReducer from './BoardReducer';
 
 export default combineReducers({
     example: ExampleReducer,
-    intro: IntroReducer
+    intro: IntroReducer,
+    board: BoardReducer,
 });

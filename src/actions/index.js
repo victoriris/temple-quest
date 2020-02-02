@@ -6,3 +6,4 @@
 
 export * from './ExampleActions';
 export * from './IntroActions';
+export * from './BoardActions';

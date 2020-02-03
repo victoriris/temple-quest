@@ -20,6 +20,7 @@ function createWindow () {
   defaultWidth: 1000,
   defaultHeight: 800,
   maximize: false,
+  fullscreen: true,
   autoHideMenuBar: true
   });
   mainWindow.maximize()

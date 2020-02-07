@@ -6,11 +6,11 @@ import { combineReducers } from 'redux';
 import ExampleReducer from './ExampleReducer';
 import IntroReducer from './IntroReducer';
 import BoardReducer from './BoardReducer';
-import NetworkReducer from './NetworkReducer';
+import ChatReducer from './ChatReducer';
 
 export default combineReducers({
     example: ExampleReducer,
     intro: IntroReducer,
     board: BoardReducer,
-    network: NetworkReducer,
+    network: ChatReducer,
 });

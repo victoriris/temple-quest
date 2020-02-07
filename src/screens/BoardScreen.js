@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'semantic-ui-react';
-import { initBoard, selectBagPiece, selectBoardCell } from '../actions';
+import { initBoard, selectBagPiece, selectBoardCell, sendChatMessage, updateChatData } from '../actions';
+import ChatBox from '../components/ChatBox';
 
 
 class BoardScreen extends Component {
@@ -58,7 +59,6 @@ class BoardScreen extends Component {
     }
 
     render() {
-
         return (
             <div>
                 <h1>Current turn: Player {this.props.isUserTurn ? 1 : 2}</h1>
@@ -68,17 +68,19 @@ class BoardScreen extends Component {
                 <div>
                     {this.renderCells()}
                 </div>
+                <ChatBox />
             </div>
         )
     }
 }
 
-const mapStateToProps = ({ board }) => {
+const mapStateToProps = ({ board, network }) => {
+    const { remotePeerId } = network;
     const { pieces, isUserTurn, selectedPieceId } = board;
-    return { pieces, isUserTurn, selectedPieceId };
+    return { pieces, isUserTurn, selectedPieceId, remotePeerId };
 };
 
 
 export default connect(mapStateToProps, {
-    initBoard, selectBagPiece, selectBoardCell
+    initBoard, selectBagPiece, selectBoardCell, updateNetworkData: updateChatData, sendNetworkMessage: sendChatMessage
 })(BoardScreen);

@@ -11,6 +11,7 @@
     "babylonjs-loaders": "^4.0.3",
     "deep-equal": "^2.0.1",
     "electron-is": "^3.0.0",
+    "moment": "^2.24.0",
     "node-sass": "^4.13.1",
     "peerjs": "^1.2.0",
     "react": "^16.8.3",

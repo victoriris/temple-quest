@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import * as BABYLON from 'babylonjs';
 import BabylonScene from './BabylonScene';
+// eslint-disable-next-line
 import * as BABYLON_LOADER from 'babylonjs-loaders';
 import  sadObject from '../objects/tallLightFlatSquare.glb';
 import gayObject from '../objects/tallLightHoleCylinder.glb';
 import slightlyHappierObject from '../objects/gameBoard.glb';
+// eslint-disable-next-line
 import { PositionGizmo, ShadowGenerator } from 'babylonjs';
 
 export default class Viewer extends Component {

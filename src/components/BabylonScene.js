@@ -49,7 +49,7 @@ export default class BabylonScene extends Component {
   render () {
     // 'rest' can contain additional properties that you can flow through to canvas:
     // (id, className, etc.)
-    const { width, height } = this.props;
+    const { width, height, ...rest } = this.props;
 
     const opts = {};
 

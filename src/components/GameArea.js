@@ -1,9 +1,11 @@
-import * as BABYLON from 'babylonjs';
 import React, { Component } from 'react';
-import slightlyHappierObject from '../objects/gameBoard.glb';
-import sadObject from '../objects/tallLightFlatSquare.glb';
-import gayObject from '../objects/tallLightHoleCylinder.glb';
+import * as BABYLON from 'babylonjs';
 import BabylonScene from './BabylonScene';
+import * as BABYLON_LOADER from 'babylonjs-loaders';
+import  sadObject from '../objects/tallLightFlatSquare.glb';
+import gayObject from '../objects/tallLightHoleCylinder.glb';
+import slightlyHappierObject from '../objects/gameBoard.glb';
+import { PositionGizmo, ShadowGenerator } from 'babylonjs';
 
 export default class Viewer extends Component {
     

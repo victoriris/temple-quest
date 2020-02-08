@@ -13,7 +13,7 @@ export const checkBoardWin = (pieceId) => {
         const isDiagonal = (rootPiece, comparedPiece) => {
             const colDiff = (comparedPiece.location.column - rootPiece.location.column);
             const rowDif = (comparedPiece.location.row - rootPiece.location.row);
-            const result = colDiff / rowDif;
+            const result = (colDiff / rowDif) || 1;
             return result === 1 || result === -1;
         };
 

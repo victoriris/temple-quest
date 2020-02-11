@@ -10,4 +10,3 @@ export const BOARD_UPDATE_DATA = 'board_update_data';
 // Intro
 export const INTRO_UPDATE_DATA = 'intro_update_data';
 export const EXAMPLE_TEST_DATA = 'example_test_data';
-

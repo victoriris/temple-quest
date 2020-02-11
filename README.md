@@ -1,4 +1,5 @@
 # Temple Quest
+![Build](https://github.com/victormidp/templeQuest/workflows/Build/badge.svg)
 
 ## How to use
 ### `npm install`

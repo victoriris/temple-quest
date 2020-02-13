@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button } from 'semantic-ui-react';
-import { initBoard, selectBagPiece, selectBoardCell } from '../actions';
+import { Button, Radio } from 'semantic-ui-react';
+import { initBoard, selectBagPiece, selectBoardCell, updateBoardData } from '../actions';
 import ChatBox from '../components/ChatBox';
 
 
@@ -9,6 +9,11 @@ class BoardScreen extends Component {
 
     componentWillMount() {
         this.props.initBoard();
+    }
+
+    handleOnlineChange () {
+        const { isOnlineMode } = this.props;
+        this.props.updateBoardData('isOnlineMode', !isOnlineMode);
     }
 
     handlePieceClick (pieceId) {
@@ -59,15 +64,19 @@ class BoardScreen extends Component {
     }
 
     render() {
-        const { selectedPieceId, isUserTurn } = this.props;
+        const { selectedPieceId, isUserTurn, isOnlineMode } = this.props;
         return (
             <div>
+                <Radio toggle 
+                onChange={this.handleOnlineChange.bind(this)}
+                label={`Online mode is ${isOnlineMode ? 'on' : 'off'}`} 
+                checked={isOnlineMode}/>
                 <h1>Current turn: Player {this.props.isUserTurn ? 1 : 2}</h1>
                 <h1>Pieces bag</h1>
-                    {isUserTurn && !selectedPieceId && this.renderPiecesBag()}
+                    {(!isOnlineMode || isUserTurn) && !selectedPieceId && this.renderPiecesBag()}
                 <h1>Board cells</h1>
                 <div>
-                    {isUserTurn && selectedPieceId && this.renderCells()}
+                    {(!isOnlineMode || isUserTurn) && selectedPieceId && this.renderCells()}
                 </div>
                 <ChatBox />
             </div>
@@ -77,11 +86,11 @@ class BoardScreen extends Component {
 
 const mapStateToProps = ({ board, network }) => {
     const { remotePeerId } = network;
-    const { pieces, isUserTurn, selectedPieceId } = board;
-    return { pieces, isUserTurn, selectedPieceId, remotePeerId };
+    const { pieces, isUserTurn, selectedPieceId, isOnlineMode } = board;
+    return { pieces, isUserTurn, selectedPieceId, remotePeerId, isOnlineMode };
 };
 
 
 export default connect(mapStateToProps, {
-    initBoard, selectBagPiece, selectBoardCell
+    initBoard, selectBagPiece, selectBoardCell, updateBoardData
 })(BoardScreen);

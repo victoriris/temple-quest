@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'semantic-ui-react';
-import { initBoard, selectBagPiece, selectBoardCell, sendChatMessage, updateChatData } from '../actions';
+import { initBoard, selectBagPiece, selectBoardCell } from '../actions';
 import ChatBox from '../components/ChatBox';
 
 
@@ -82,5 +82,5 @@ const mapStateToProps = ({ board, network }) => {
 
 
 export default connect(mapStateToProps, {
-    initBoard, selectBagPiece, selectBoardCell, updateNetworkData: updateChatData, sendNetworkMessage: sendChatMessage
+    initBoard, selectBagPiece, selectBoardCell
 })(BoardScreen);

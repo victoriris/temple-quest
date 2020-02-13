@@ -1,7 +1,7 @@
 import Peer from 'peerjs';
 
 //yarn upgrade caniuse-lite browserslist
-export const peer = new Peer('victormidp', {
+export const peer = new Peer({
     host: 'temple-quest-peerjs.herokuapp.com',
     port: 80,
     debug: 2,

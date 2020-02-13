@@ -70,6 +70,7 @@ export const initBoard = () => {
 
 export const selectBagPiece = (pieceId) => {
     return (dispatch) => {
+        // send move to peer
         dispatch(updateBoardData('selectedPieceId', pieceId.toString()));
     };
 };

@@ -1,4 +1,4 @@
-import { CHAT_RECEIVE_MESSSAGE, CHAT_UPDATE_DATA } from "../actions/types";
+import { NETWORK_RECEIVE_MESSSAGE, NETWORK_UPDATE_DATA } from "../actions/types";
 import moment from "moment";
 
 const INITIAL_STATE = {
@@ -10,10 +10,10 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, { type, payload }) => {
     switch (type) {
         
-        case CHAT_UPDATE_DATA:
+        case NETWORK_UPDATE_DATA:
             return { ...state, [payload.prop]: payload.value };
 
-        case CHAT_RECEIVE_MESSSAGE:
+        case NETWORK_RECEIVE_MESSSAGE:
             return {
                 ...state,
                 messages: [...state.messages, {

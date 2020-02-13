@@ -12,6 +12,7 @@ export const INTRO_UPDATE_DATA = 'intro_update_data';
 export const EXAMPLE_TEST_DATA = 'example_test_data';
 
 
-// Networking
-export const CHAT_UPDATE_DATA = 'chat_update_data';
-export const CHAT_RECEIVE_MESSSAGE = 'chat_receive_messsage';
+// Chat
+export const NETWORK_UPDATE_DATA = 'chat_update_data';
+export const NETWORK_RECEIVE_MESSSAGE = 'network_receive_messsage';
+export const NETWORK_RECEIVE_DATA = 'network_receive_data';

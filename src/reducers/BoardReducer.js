@@ -4,6 +4,7 @@ const INITIAL_STATE = {
     isUserTurn: false,
     pieces: [],
     selectedPieceId: '',
+    isOnlineMode: false,
 }
 
 export default (state = INITIAL_STATE, { type, payload }) => {

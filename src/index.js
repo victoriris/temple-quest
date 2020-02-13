@@ -7,11 +7,14 @@ import reducers from './reducers';
 import Routes from './Routes';
 import * as serviceWorker from './serviceWorker';
 import './styles/main.scss';
-import 'semantic-ui-css/semantic.min.css'
+import 'semantic-ui-css/semantic.min.css';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 const store = createStore(
     reducers, {}, 
-    applyMiddleware(ReduxThunk)
+    composeWithDevTools (
+        applyMiddleware(ReduxThunk)
+    )
 );
 
 render(

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'semantic-ui-react';
-import { initBoard, selectBagPiece, selectBoardCell } from '../actions';
+import { initBoard, selectBagPiece, selectBoardCell, miniMaxStart } from '../actions';
 
 
 class BoardScreen extends Component {
@@ -12,6 +12,8 @@ class BoardScreen extends Component {
 
     handlePieceClick (pieceId) {
         this.props.selectBagPiece(pieceId);
+
+        this.props.miniMaxStart();
     }
 
     handleCellClick (row, column) {
@@ -80,5 +82,5 @@ const mapStateToProps = ({ board }) => {
 
 
 export default connect(mapStateToProps, {
-    initBoard, selectBagPiece, selectBoardCell
+    initBoard, selectBagPiece, selectBoardCell, miniMaxStart
 })(BoardScreen);

@@ -11,10 +11,9 @@ export const checkBoardWin = (pieceId) => {
 
         // Check if a piece is a valid diagonal compared to a root piece
         const isDiagonal = (rootPiece, comparedPiece) => {
-            const colDiff = (comparedPiece.location.column - rootPiece.location.column);
-            const rowDif = (comparedPiece.location.row - rootPiece.location.row);
-            const result = (colDiff / rowDif) || 1;
-            return result === 1 || result === -1;
+            const colDiff = Math.abs(comparedPiece.location.column - rootPiece.location.column);
+            const rowDif = Math.abs(comparedPiece.location.row - rootPiece.location.row);
+            return colDiff === rowDif;
         };
 
         // Get located pieces with same row OR column

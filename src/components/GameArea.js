@@ -1,9 +1,13 @@
-import * as BABYLON from 'babylonjs';
 import React, { Component } from 'react';
-import slightlyHappierObject from '../objects/gameBoard.glb';
+import * as BABYLON from 'babylonjs';
+import BabylonScene from './BabylonScene';
+// eslint-disable-next-line
+import * as BABYLON_LOADER from 'babylonjs-loaders';
 import sadObject from '../objects/tallLightFlatSquare.glb';
 import gayObject from '../objects/tallLightHoleCylinder.glb';
-import BabylonScene from './BabylonScene';
+import slightlyHappierObject from '../objects/gameBoard.glb';
+// eslint-disable-next-line
+import { PositionGizmo, ShadowGenerator } from 'babylonjs';
 
 export default class Viewer extends Component {
     
@@ -11,7 +15,7 @@ export default class Viewer extends Component {
         const { canvas, scene, engine } = e;
 
         // This creates and positions a free camera (non-mesh)
-        const camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 16, -12), scene);
+        const camera = new BABYLON.ArcRotateCamera("camera1", 0, 0, 15, new BABYLON.Vector3(10, 0, 0), scene);
         // This targets the camera to scene origin
         camera.setTarget(BABYLON.Vector3.Zero());
         // This attaches the camera to the canvas

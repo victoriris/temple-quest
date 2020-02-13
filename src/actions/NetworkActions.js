@@ -1,5 +1,6 @@
 import { NETWORK_UPDATE_DATA, NETWORK_RECEIVE_MESSSAGE } from './types';
 import Peer from 'peerjs';
+import { selectBagPiece, selectBoardCell } from './BoardActions';
 
 
 export const updateNetworkData = (prop, value) => {
@@ -54,23 +55,18 @@ export const listenNetworkData = () => {
                 }
 
                 if (type === 'select_piece') {
-                    // dispatch({
-                    //     type: NETWORK_RECEIVE_MESSSAGE,
-                    //     payload: {
-                    //         peerId: conn.peer,
-                    //         data
-                    //     }
-                    // });
+                    console.log('receiving selection...');
+                    dispatch(
+                        selectBagPiece(data, true)
+                    );
                 }
 
                 if (type === 'place_piece') {
-                    // dispatch({
-                    //     type: NETWORK_RECEIVE_MESSSAGE,
-                    //     payload: {
-                    //         peerId: conn.peer,
-                    //         data
-                    //     }
-                    // });
+                    console.log('receving placement...');
+                    const { row, column } = data;
+                    dispatch(
+                        selectBoardCell(row, column, true)
+                    );
                 }
             });
         });

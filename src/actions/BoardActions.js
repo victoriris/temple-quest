@@ -1,4 +1,5 @@
 import { BOARD_UPDATE_DATA, BOARD_INIT, BOARD_PLACE_PIECE } from './types';
+import { sendNetworkData } from './NetworkActions';
 
 
 export const checkBoardWin = (pieceId) => {
@@ -68,15 +69,25 @@ export const initBoard = () => {
     };
 };
 
-export const selectBagPiece = (pieceId) => {
-    return (dispatch) => {
-        // send move to peer
+export const selectBagPiece = (pieceId, isRemote = false) => {
+    return (dispatch, getState) => {
+        const {isOnlineMode} = getState().board;
+
         dispatch(updateBoardData('selectedPieceId', pieceId.toString()));
+        dispatch(updateBoardData('isUserTurn', isRemote));
+
+        // Send to peer
+        if (isOnlineMode && !isRemote) {
+            dispatch(
+                sendNetworkData('select_piece', pieceId)
+            );
+        }
     };
 };
 
-export const selectBoardCell = (row, column) => {
+export const selectBoardCell = (row, column, isRemote = false) => {
     return (dispatch, getState) => {
+        const {isOnlineMode} = getState().board;
 
         // Get selected piece or exit otherwise
         const { selectedPieceId } = getState().board;
@@ -90,9 +101,17 @@ export const selectBoardCell = (row, column) => {
                 location: { row, column },
             } 
         });
+        dispatch(updateBoardData('isUserTurn', !isRemote));
         
         // Check if it is a winning move
         dispatch(checkBoardWin(selectedPieceId));
+
+        // Send to peer
+        if (isOnlineMode && !isRemote) {
+            dispatch(
+                sendNetworkData('place_piece', {row, column})
+            );
+        }
 
     }
 };

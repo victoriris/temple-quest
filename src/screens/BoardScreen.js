@@ -59,14 +59,15 @@ class BoardScreen extends Component {
     }
 
     render() {
+        const { selectedPieceId, isUserTurn } = this.props;
         return (
             <div>
                 <h1>Current turn: Player {this.props.isUserTurn ? 1 : 2}</h1>
                 <h1>Pieces bag</h1>
-                    {this.renderPiecesBag()}
+                    {isUserTurn && !selectedPieceId && this.renderPiecesBag()}
                 <h1>Board cells</h1>
                 <div>
-                    {this.renderCells()}
+                    {isUserTurn && selectedPieceId && this.renderCells()}
                 </div>
                 <ChatBox />
             </div>

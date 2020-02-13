@@ -1,7 +1,9 @@
 import { NETWORK_RECEIVE_MESSSAGE, NETWORK_UPDATE_DATA } from "../actions/types";
 import moment from "moment";
 
+
 const INITIAL_STATE = {
+    peer: null,
     messages: [],
     peerId: '',
     remotePeerId: '',

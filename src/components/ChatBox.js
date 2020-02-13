@@ -2,12 +2,13 @@ import moment from 'moment';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, FormInput } from 'semantic-ui-react';
-import { listenNetworkData, sendNetworkData, updateNetworkData } from '../actions';
+import { listenNetworkData, sendNetworkData, updateNetworkData, initPeer } from '../actions';
 
 
 class ChatBox extends Component {
 
     componentWillMount () {
+        this.props.initPeer();
         this.props.listenNetworkData({});
     }
 
@@ -54,5 +55,5 @@ const mapStateToProps = ({ network }) => {
 
 
 export default connect(mapStateToProps, {
-   updateNetworkData, sendNetworkData, listenNetworkData
+   updateNetworkData, sendNetworkData, listenNetworkData, initPeer
 })(ChatBox);

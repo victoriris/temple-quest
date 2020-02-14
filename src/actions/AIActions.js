@@ -1,7 +1,8 @@
 import { checkBoardWin } from './BoardActions';
 import deepEqual from 'deep-equal';
 import { isWinMove } from '../helpers';
-
+var min;
+var max;
 export const miniMaxStart = () =>{
 return (dispatch, getstate) => {
     const board = getstate().board;
@@ -48,27 +49,22 @@ return (dispatch, getstate) => {
 
     let start = unused.find(u => u.id === parseInt(selectedPieceId));
 
-    let startPiece = {...start};
-    let lastPiece = {...startPiece};
+    let currentPiece = {...start};
+    let lastPiece = {...currentPiece};
     console.log("empty spaces: ",emptySpaces.length, " depth: ", depth);
-
     console.time("time");
-    let trash = miniMax(newPieces, turn, startPiece, unused, emptySpaces, lastPiece, depth, 0 );
+    let trash = miniMax(newPieces, turn, currentPiece, unused, emptySpaces, depth, 0 );
     console.timeEnd("time");
 
 }
 }
 
 
-function miniMax (pieces, turn, startPiece, unused, emptySpaces, lastPiece, depth, currentDepth){
+function miniMax (pieces, turn, currentPiece, unused, emptySpaces, depth, currentDepth){
     let tempEmptySpaces = [...emptySpaces];
-    if (currentDepth === 0){
-        startPiece.location = tempEmptySpaces.pop();
-    }
-
-    let start = {...startPiece}; 
-    let last = {...lastPiece};
-    const isGameOver = isWinMove(pieces, lastPiece.id);
+    let tempUnused = [...unused];
+    let current = {...currentPiece}; 
+    const isGameOver = isWinMove(pieces, current.id);
     //base cases: win, lose, tie/run out of depth
         
     if ( isGameOver && turn) { //player
@@ -81,38 +77,60 @@ function miniMax (pieces, turn, startPiece, unused, emptySpaces, lastPiece, dept
         return 0;
     }
         
+
+
     var moves = [];
-    var subMoves = [];
-    for (let i = 0; i < emptySpaces.length; i++){
-        let tempUnused = [...unused];
         var move = {};
-        if (currentDepth > 0){
-            move.index = tempEmptySpaces.pop();
-            //console.log("index if depth > 0: " , move.index);
+        var bestValue, v;
+        if (turn){
+            bestValue = Number.NEGATIVE_INFINITY;
+            for (let p in tempUnused){
+                tempUnused.shift();
+                v = miniMax(pieces, !turn, p, tempUnused, tempEmptySpaces, depth, currentDepth+1);
+                bestValue = Math.max(v, bestValue);
+            }
+            return bestValue;
+        }else{
+            bestValue = Number.POSITIVE_INFINITY;
+            for (let p in tempUnused){
+                tempUnused.shift();
+                v = miniMax(pieces, !turn, p, tempUnused, tempEmptySpaces, depth, currentDepth+1);
+                bestValue = Math.min(v, bestValue);
+            }
+            return bestValue; 
         }
-        else if (currentDepth === 0) {
-            move.index = start.location;
-            console.log("index if depth === 0: " , move.index);
-        }
-        move.score = 0;
-        move.parent = null;
-        last = {...start};
-        last.location = move.index;
-        for (let j = 0; j < (unused.length); j++){
-          //  console.log("tempUnused.length: ", tempUnused.length);
-            move.parent = last.location;
-            start = tempUnused.pop();
-          //  console.log("start: ", start);
-            move.piece = {...start};
-            let result = miniMax(pieces, !turn, start, tempUnused, tempEmptySpaces, last, depth, (currentDepth + 1));
-             move.score += result;
-            // subMoves.push(move);
-        }
-       // console.log("score: ", move.score);
-       if (currentDepth === 0){
-         moves.push(move);
-       }
-    }
+
+
+
+
+
+    //     if (currentDepth > 0){
+    //         move.index = tempEmptySpaces.pop();
+    //         console.log("index if depth > 0: " , move.index);
+    //     }
+    //     else if (currentDepth === 0) {
+    //         move.index = start.location;
+    //         console.log("index if depth === 0: " , move.index);
+    //     }
+    //     move.score = 0;
+    //     move.parent = null;
+    //     last = {...start};
+    //     last.location = move.index;
+    //   //  for (let j = 0; j < (unused.length); j++){
+    //       //  console.log("tempUnused.length: ", tempUnused.length);
+    //         move.parent = last.location;
+    //         start = tempUnused.pop();
+    //       //  console.log("start: ", start);
+    //         move.piece = {...start};
+    //         let result = miniMax(pieces, !turn, start, tempUnused, tempEmptySpaces, last, depth, (currentDepth + 1));
+    //          move.score += result;
+    //          subMoves.push(move);
+    //   //  }
+    //    // console.log("score: ", move.score);
+    //    if (currentDepth === 0){
+    //      moves.push(move);
+    //    }
+    // //}
 
         //todo: find best move
         if (currentDepth === 0){
@@ -120,6 +138,7 @@ function miniMax (pieces, turn, startPiece, unused, emptySpaces, lastPiece, dept
         let worstScore = Infinity;
         let top;
         console.log("moves: ",moves);
+        // console.log("submoves: ",subMoves);
         moves.forEach(item =>{
             if (item.score > bestScore){
                 top = item;

@@ -5,7 +5,7 @@ import history from '../history';
 export const stopIntroLoading = () => {
 
     return (dispatch) => {
-        history.push('/mainScreen');
+        history.push('/menu');
         dispatch(updateIntroData('loading', false));
     }
 };

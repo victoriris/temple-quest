@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
-class OnlineScreen extends Component{
+
+class OnlineSetupScreen extends Component{
     render() {
         return(
             <div className="OnlineScreen">
@@ -10,3 +11,5 @@ class OnlineScreen extends Component{
         );
     }
 }
+
+export default OnlineSetupScreen;

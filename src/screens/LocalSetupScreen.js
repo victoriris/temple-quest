@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
-class LocalScreen extends Component{
+
+class LocalSetupScreen extends Component{
     render() {
         return(
             <div className="localScreen">
@@ -17,3 +18,5 @@ class LocalScreen extends Component{
         );
     }
 }
+
+export default LocalSetupScreen;

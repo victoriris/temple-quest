@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
-import { Grid, GridColumn, Button, GridRow, Segment, SegmentGroup, ButtonGroup, Container } from 'semantic-ui-react';
+import { Button, Container, Grid, GridColumn, GridRow } from 'semantic-ui-react';
+import history from '../history';
+
 
 class MainScreen extends Component {
+
+    handleClick = (route) => history.push(route);
+    handleExit = () => {};
 
     render () {
         return(
@@ -11,13 +16,15 @@ class MainScreen extends Component {
                     <GridColumn verticalAlign="middle">
                         <Container
                         className="mainScreen__option">
-                            <Button basic size="massive" inverted>
+                            <Button basic size="massive" inverted
+                            onClick={() => this.handleClick('play')}>
                                 PLAY
                             </Button>
                         </Container>
                         <Container
                         className="mainScreen__option">
-                            <Button basic size="massive" inverted>
+                            <Button basic size="massive" inverted
+                            onClick={() => this.handleClick('tutorial')}>
                                 HOW TO PLAY
                             </Button>
                         </Container>
@@ -26,14 +33,18 @@ class MainScreen extends Component {
                 <GridRow verticalAlign="bottom">
                     <GridColumn floated="left">
                         <Container>
-                            <Button basic floated="left" inverted size="large">
+                            <Button basic floated="left" 
+                            inverted size="large"
+                            onClick={() => this.handleClick('about')}>
                                 ABOUT
                             </Button>
                         </Container>
                     </GridColumn>                
                     <GridColumn floated="right">
                         <Container>
-                            <Button basic floated="right" inverted size="large">
+                            <Button basic floated="right" 
+                            inverted size="large"
+                            onClick={() => this.handleExit()}>
                                 EXIT
                             </Button>
                         </Container>

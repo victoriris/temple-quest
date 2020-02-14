@@ -1,4 +1,5 @@
 import { BOARD_UPDATE_DATA, BOARD_INIT, BOARD_PLACE_PIECE } from './types';
+import { sendNetworkData } from './NetworkActions';
 
 
 export const checkBoardWin = (pieceId) => {
@@ -11,10 +12,9 @@ export const checkBoardWin = (pieceId) => {
 
         // Check if a piece is a valid diagonal compared to a root piece
         const isDiagonal = (rootPiece, comparedPiece) => {
-            const colDiff = (comparedPiece.location.column - rootPiece.location.column);
-            const rowDif = (comparedPiece.location.row - rootPiece.location.row);
-            const result = (colDiff / rowDif) || 1;
-            return result === 1 || result === -1;
+            const colDiff = Math.abs(comparedPiece.location.column - rootPiece.location.column);
+            const rowDif = Math.abs(comparedPiece.location.row - rootPiece.location.row);
+            return colDiff === rowDif;
         };
 
         // Get located pieces with same row OR column
@@ -68,14 +68,25 @@ export const initBoard = () => {
     };
 };
 
-export const selectBagPiece = (pieceId) => {
-    return (dispatch) => {
+export const selectBagPiece = (pieceId, isRemote = false) => {
+    return (dispatch, getState) => {
+        const {isOnlineMode} = getState().board;
+
         dispatch(updateBoardData('selectedPieceId', pieceId.toString()));
+        dispatch(updateBoardData('isUserTurn', isRemote));
+
+        // Send to peer
+        if (isOnlineMode && !isRemote) {
+            dispatch(
+                sendNetworkData('select_piece', pieceId)
+            );
+        }
     };
 };
 
-export const selectBoardCell = (row, column) => {
+export const selectBoardCell = (row, column, isRemote = false) => {
     return (dispatch, getState) => {
+        const {isOnlineMode} = getState().board;
 
         // Get selected piece or exit otherwise
         const { selectedPieceId } = getState().board;
@@ -89,9 +100,17 @@ export const selectBoardCell = (row, column) => {
                 location: { row, column },
             } 
         });
+        dispatch(updateBoardData('isUserTurn', !isRemote));
         
         // Check if it is a winning move
         dispatch(checkBoardWin(selectedPieceId));
+
+        // Send to peer
+        if (isOnlineMode && !isRemote) {
+            dispatch(
+                sendNetworkData('place_piece', {row, column})
+            );
+        }
 
     }
 };

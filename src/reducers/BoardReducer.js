@@ -1,9 +1,10 @@
 import { BOARD_UPDATE_DATA, BOARD_INIT, BOARD_PLACE_PIECE } from "../actions/types";
 
 const INITIAL_STATE = {
-    isUserTurn: false,
+    isUserTurn: true,
     pieces: [],
     selectedPieceId: '',
+    isOnlineMode: true,
 }
 
 export default (state = INITIAL_STATE, { type, payload }) => {

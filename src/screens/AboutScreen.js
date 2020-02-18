@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import history from '../history';
+import { Button } from 'semantic-ui-react';
+
 
 class AboutScreen extends Component {
     render() {
@@ -17,7 +20,13 @@ class AboutScreen extends Component {
             with enough skills to challenge it and claim the treasure. This game attempts to take the player to the lost temple, in which his strategy will be 
             challenged with the simple yet powerful logic of Quarto.
             </p>
+            <Button name="backButton"
+            onClick={() => history.goBack()}>
+                BACK
+            </Button>
             </div>
         );
     }
 }
+
+export default AboutScreen;

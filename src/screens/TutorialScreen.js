@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import history from '../history';
+import { Button } from 'semantic-ui-react';
 
-class LearnToPlayScreen extends Component{
+
+class TutorialScreen extends Component{
     render() {
         return(
             <div className="learnToPlay">
@@ -26,8 +29,13 @@ class LearnToPlayScreen extends Component{
                 {/*Insert a top down graphic of the board with a win taking place diagonally, horizontally, and vertically. Preferably with the winning row highlighted*/}
                 <p></p>
                 <p></p>
-                <button name="backButton">BACK</button>
+                <Button name="backButton"
+                onClick={() => history.goBack()}>
+                    BACK
+                </Button>
             </div>
         );
     }
 }
+
+export default TutorialScreen;

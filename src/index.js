@@ -7,7 +7,8 @@ import reducers from './reducers';
 import Routes from './Routes';
 import * as serviceWorker from './serviceWorker';
 import './styles/main.scss';
-import 'semantic-ui-css/semantic.min.css'
+import 'semantic-ui-css/semantic.min.css';
+
 
 const store = createStore(
     reducers, {}, 

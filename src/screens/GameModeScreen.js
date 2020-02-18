@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
-class PlayScreen extends Component{
+
+class GameModeScreen extends Component{
     render() {
         return (
             <div className="playScreen">
@@ -13,3 +14,5 @@ class PlayScreen extends Component{
         );
     }
 }
+
+export default GameModeScreen;

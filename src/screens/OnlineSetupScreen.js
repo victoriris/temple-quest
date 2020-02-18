@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import Peer from 'peerjs';
 import { initPeer } from '../actions/NetworkActions';
 
-class OnlineScreen extends Component{
+class OnlineSetupScreen extends Component{
+    
     constructor(props) {
         super(props);
         this.createPeer = this.createPeer.bind(this);
@@ -12,6 +13,7 @@ class OnlineScreen extends Component{
         this.displayPeersList = this.displayPeersList.bind(this);
         this.connecttoPeer = this.connectToPeer.build(this);
     }
+
     render() {
         return(
             <div className="OnlineScreen">
@@ -72,3 +74,5 @@ class OnlineScreen extends Component{
         this.props.conn = conn;
     }
 }
+
+export default OnlineSetupScreen;

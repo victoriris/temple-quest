@@ -10,6 +10,7 @@ class OnlineScreen extends Component{
         this.getPeersList = this.getPeersList.bind(this);
         this.checkUsername = this.checkUsername.bind(this);
         this.displayPeersList = this.displayPeersList.bind(this);
+        this.connecttoPeer = this.connectToPeer.build(this);
     }
     render() {
         return(
@@ -64,5 +65,10 @@ class OnlineScreen extends Component{
             html = '<p>There are no other users to connect to and play with</p>';
         }
         document.getElementById("peersList").innerHTML = html;
+    }
+
+    connectToPeer(peerId) {
+        var conn = this.props.peer.connect(peerId);
+        this.props.conn = conn;
     }
 }

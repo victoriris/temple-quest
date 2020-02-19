@@ -5,15 +5,16 @@ import BabylonScene from './BabylonScene';
 import * as BABYLON_LOADER from 'babylonjs-loaders';
 import sadObject from '../objects/tallLightFlatSquare.glb';
 import gayObject from '../objects/tallLightHoleCylinder.glb';
-import slightlyHappierObject from '../objects/gameBoard.glb';
+import gameBoard from '../objects/newGameboard.glb';
+import pieceThatGoesInHole from '../objects/pieceThatGoesInHole.glb';
 // eslint-disable-next-line
 import { PositionGizmo, ShadowGenerator } from 'babylonjs';
 
 export default class Viewer extends Component {
     
     onSceneMount = (e) => {
-        const { canvas, scene, engine } = e;
-
+        const { canvas, engine } = e;
+        var scene = new BABYLON.Scene(engine);
         // This creates and positions a free camera (non-mesh)
         const camera = new BABYLON.ArcRotateCamera("camera1", 0, 0, 15, new BABYLON.Vector3(10, 0, 0), scene);
         // This targets the camera to scene origin
@@ -37,23 +38,112 @@ export default class Viewer extends Component {
         ground.material = groundMaterial;
         ground.receiveShadows = true;
 
+        //Board Pieces
+        var tallWhiteFlatSquare;
+        var board;
+        var holePiece1, holePiece2, holePiece3, holePiece4, 
+            holePiece5, holePiece6, holePiece7, holePiece8, 
+            holePiece9, holePiece10, holePiece11, holePiece12, 
+            holePiece13, holePiece14, holePiece15, holePiece16;
+        
+
 
         //Board Positions
-        var board4 = new BABYLON.Vector3(-3.69, 0.069, 1.2);
-        var board5 = new BABYLON.Vector3(-1.25, 0.069, 1.2);
-        var board15 = new BABYLON.Vector3(3.73, 0.069, -3.85);
+        var board1 = new BABYLON.Vector3(-7.5, 0.069, -7.5);
+        var board2 = new BABYLON.Vector3(-7.5, 0.069, -2.5);
+        var board3 = new BABYLON.Vector3(-7.5, 0.069, 2.5);
+        var board4 = new BABYLON.Vector3(-7.5, 0.069, 7.5);
+        var board5 = new BABYLON.Vector3(-2.5, 0.069, -7.5);
+        var board6 = new BABYLON.Vector3(-2.5, 0.069, -2.5);
+        var board7 = new BABYLON.Vector3(-2.5, 0.069, 2.5);
+        var board8 = new BABYLON.Vector3(-2.5, 0.069, 7.5);
+        var board9 = new BABYLON.Vector3(2.5, 0.069, -7.5);
+        var board10 = new BABYLON.Vector3(2.5, 0.069, -2.5);
+        var board11 = new BABYLON.Vector3(2.5, 0.069, 2.5);
+        var board12 = new BABYLON.Vector3(2.5, 0.069, 7.5);
+        var board13 = new BABYLON.Vector3(7.5, 0.069, -7.5);
+        var board14 = new BABYLON.Vector3(7.5, 0.069, -2.5);
+        var board15 = new BABYLON.Vector3(7.5, 0.069, 2.5);
+        var board16 = new BABYLON.Vector3(7.5, 0.069, 7.5);
 
         //importing the board object    empty   objectImportName  empty scene (paramsForAnimation)
-        BABYLON.SceneLoader.ImportMesh("",slightlyHappierObject, "", scene, (newMeshes, particleSystems, skeletons) =>{
-            var board = newMeshes[0];
-            board.scaling = new BABYLON.Vector3(0.5, 0.5, 0.5);
-        } )
+        BABYLON.SceneLoader.ImportMesh("",gameBoard, "", scene, (newMeshes, particleSystems, skeletons) =>{
+            board = newMeshes[0];
+        } );
+
+        BABYLON.SceneLoader.ImportMesh("",pieceThatGoesInHole, "", scene, (newMeshes, particleSystems, skeletons) =>{
+            holePiece1 = newMeshes[0];
+            holePiece1.name = "holePiece1";
+            holePiece1.position = board1;
+            holePiece1.position.y = 0.015
+
+            holePiece2 = holePiece1.clone("holePiece2");
+            holePiece2.position = board2;
+            holePiece2.position.y = 0.015;
+
+            holePiece3 = holePiece1.clone("holePiece3");
+            holePiece3.position = board3;
+            holePiece3.position.y = 0.015;
+
+            holePiece4 = holePiece1.clone("holePiece4");
+            holePiece4.position = board4;
+            holePiece4.position.y = 0.015;
+
+            holePiece5 = holePiece1.clone("holePiece5");
+            holePiece5.position = board5;
+            holePiece5.position.y = 0.015;
+
+            holePiece6 = holePiece1.clone("holePiece6");
+            holePiece6.position = board6;
+            holePiece6.position.y = 0.015;
+
+            holePiece7 = holePiece1.clone("holePiece7");
+            holePiece7.position = board7;
+            holePiece7.position.y = 0.015;
+
+            holePiece8 = holePiece1.clone("holePiece8");
+            holePiece8.position = board8;
+            holePiece8.position.y = 0.015;
+
+            holePiece9 = holePiece1.clone("holePiece9");
+            holePiece9.position = board9;
+            holePiece9.position.y = 0.015;
+
+            holePiece10 = holePiece1.clone("holePiece10");
+            holePiece10.position = board10;
+            holePiece10.position.y = 0.015;
+
+            holePiece11 = holePiece1.clone("holePiece11");
+            holePiece11.position = board11;
+            holePiece11.position.y = 0.015;
+
+            holePiece12 = holePiece1.clone("holePiece12");
+            holePiece12.position = board12;
+            holePiece12.position.y = 0.015;
+
+            holePiece13 = holePiece1.clone("holePiece13");
+            holePiece13.position = board13;
+            holePiece13.position.y = 0.015;
+
+            holePiece14 = holePiece1.clone("holePiece14");
+            holePiece14.position = board14;
+            holePiece14.position.y = 0.015;
+
+            holePiece15 = holePiece1.clone("holePiece15");
+            holePiece15.position = board15;
+            holePiece15.position.y = 0.015;
+
+            holePiece16 = holePiece1.clone("holePiece16");
+            holePiece16.position = board16;
+            holePiece16.position.y = 0.015;
+        } );
 
         //importing a piece
         BABYLON.SceneLoader.ImportMesh("",sadObject, "",  scene, (newMeshes, particleSystems, skeletons) => {
-            var tallWhiteFlatSquare = newMeshes[0];
-            tallWhiteFlatSquare.scaling = new BABYLON.Vector3(0.4, 0.4, 0.4);
-            tallWhiteFlatSquare.position = board5;
+            tallWhiteFlatSquare = newMeshes[0];
+            tallWhiteFlatSquare.name = "tallWhiteFlatSquare";
+            tallWhiteFlatSquare.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
+            tallWhiteFlatSquare.position = board16;
             var alsoTallWhiteFlatSquare = tallWhiteFlatSquare.clone("tallWhiteFlatSquare2");
             alsoTallWhiteFlatSquare.position = board4;
         });
@@ -61,9 +151,108 @@ export default class Viewer extends Component {
         //this is also importing a piece
         BABYLON.SceneLoader.ImportMesh("", gayObject, "", scene, (newMeshes, particleSystems, skeletons)=> {
             var gayLookingBoy = newMeshes[0];
-            gayLookingBoy.scaling = new BABYLON.Vector3(0.4, 0.4, 0.4);
+            gayLookingBoy.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
             gayLookingBoy.position = board15;
         });
+
+        //Point and click logic
+        var targetVec
+        var targetVecNorm;
+        var initVec;
+        var distVec;
+
+        scene.onPointerDown = function(evt, pickResult) 
+        {
+            // console.log(pickResult.hit);
+            // console.log(pickResult.pickedMesh === holePiece1);
+            // console.log(pickResult.pickedMesh);
+            // console.log(holePiece1);
+            if(pickResult.hit && pickResult.pickedMesh.name == "Cylinder.015")
+            {
+                tallWhiteFlatSquare.position = board1;
+                // targetVec = pickResult.pickedPoint;
+                // ball.position = targetVec.clone();
+
+                // initVec = board.position.clone();
+                // distVec = BABYLON.Vector3.Distance(targetVec, initVec);
+
+                // targetVec = targetVec.subtract(initVec);
+                // targetVecNorm = BABYLON.Vector3.Normalize(targetVec);
+            }
+            else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece2.Cylinder.015")
+            {
+                tallWhiteFlatSquare.position = board2;
+            }
+            else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece3.Cylinder.015")
+            {
+                tallWhiteFlatSquare.position = board3;
+            }
+            else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece4.Cylinder.015")
+            {
+                tallWhiteFlatSquare.position = board4;
+            }
+            else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece5.Cylinder.015")
+            {
+                tallWhiteFlatSquare.position = board5;
+            }
+            else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece6.Cylinder.015")
+            {
+                tallWhiteFlatSquare.position = board6;
+            }
+            else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece7.Cylinder.015")
+            {
+                tallWhiteFlatSquare.position = board7;
+            }
+            else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece8.Cylinder.015")
+            {
+                tallWhiteFlatSquare.position = board8;
+            }
+            else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece9.Cylinder.015")
+            {
+                tallWhiteFlatSquare.position = board9;
+            }
+            else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece10.Cylinder.015")
+            {
+                tallWhiteFlatSquare.position = board10;
+            }
+            else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece11.Cylinder.015")
+            {
+                tallWhiteFlatSquare.position = board11;
+            }
+            else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece12.Cylinder.015")
+            {
+                tallWhiteFlatSquare.position = board12;
+            }
+            else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece13.Cylinder.015")
+            {
+                tallWhiteFlatSquare.position = board13;
+            }
+            else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece14.Cylinder.015")
+            {
+                tallWhiteFlatSquare.position = board14;
+            }
+            else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece15.Cylinder.015")
+            {
+                tallWhiteFlatSquare.position = board15;
+            }
+            else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece16.Cylinder.015")
+            {
+                tallWhiteFlatSquare.position = board16;
+            }
+
+        };
+
+        // scene.registerBeforeRender(function() 
+        // {
+        //     if(distVec > 0)
+        //     {
+        //         distVec -= 0.4;
+        //         tallWhiteFlatSquare.translate(targetVecNorm, 0.4, BABYLON.Space.WORLD);
+        //         //console.log(tallWhiteFlatSquare.position);
+        //         console.log(distVec);
+        //     }
+        // });
+
         
         //heck if I know
        engine.runRenderLoop(() => {

@@ -5,8 +5,9 @@ import BabylonScene from './BabylonScene';
 import * as BABYLON_LOADER from 'babylonjs-loaders';
 import sadObject from '../objects/tallLightFlatSquare.glb';
 import gayObject from '../objects/tallLightHoleCylinder.glb';
-import gameBoard from '../objects/newGameboard.glb';
+import gameBoard from '../objects/newGameBoard.glb';
 import pieceThatGoesInHole from '../objects/pieceThatGoesInHole.glb';
+import floor from '../objects/floor.glb';
 // eslint-disable-next-line
 import { PositionGizmo, ShadowGenerator } from 'babylonjs';
 
@@ -16,11 +17,16 @@ export default class Viewer extends Component {
         const { canvas, engine } = e;
         var scene = new BABYLON.Scene(engine);
         // This creates and positions a free camera (non-mesh)
-        const camera = new BABYLON.ArcRotateCamera("camera1", 0, 0, 15, new BABYLON.Vector3(10, 0, 0), scene);
+        const camera = new BABYLON.ArcRotateCamera("camera1", 0, 0, 20, new BABYLON.Vector3(20, 0, 0), scene);
         // This targets the camera to scene origin
         camera.setTarget(BABYLON.Vector3.Zero());
         // This attaches the camera to the canvas
         camera.attachControl(canvas, true);
+        scene.activeCamera.panningSensibility = 0;
+        camera.lowerBetaLimit = 0.5;
+        camera.upperBetaLimit = (Math.PI / 2) * 0.99;
+        camera.upperRadiusLimit = 50;
+        camera.lowerRadiusLimit = 20;
         // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
         const light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
         // Default intensity is 1. Let's dim the light a small amount
@@ -41,6 +47,7 @@ export default class Viewer extends Component {
         //Board Pieces
         var tallWhiteFlatSquare;
         var board;
+        var room;
         var holePiece1, holePiece2, holePiece3, holePiece4, 
             holePiece5, holePiece6, holePiece7, holePiece8, 
             holePiece9, holePiece10, holePiece11, holePiece12, 
@@ -138,6 +145,11 @@ export default class Viewer extends Component {
             holePiece16.position.y = 0.015;
         } );
 
+        BABYLON.SceneLoader.ImportMesh("",floor, "", scene, (newMeshes, particleSystems, skeletons) =>{
+            room = newMeshes[0];
+            room.position = new BABYLON.Vector3(0,0,0);
+        });
+
         //importing a piece
         BABYLON.SceneLoader.ImportMesh("",sadObject, "",  scene, (newMeshes, particleSystems, skeletons) => {
             tallWhiteFlatSquare = newMeshes[0];
@@ -161,86 +173,87 @@ export default class Viewer extends Component {
         var initVec;
         var distVec;
 
-        scene.onPointerDown = function(evt, pickResult) 
-        {
-            // console.log(pickResult.hit);
-            // console.log(pickResult.pickedMesh === holePiece1);
-            // console.log(pickResult.pickedMesh);
-            // console.log(holePiece1);
-            if(pickResult.hit && pickResult.pickedMesh.name == "Cylinder.015")
+        setTimeout(function() {
+            scene.onPointerDown = function(evt, pickResult) 
             {
-                tallWhiteFlatSquare.position = board1;
-                // targetVec = pickResult.pickedPoint;
-                // ball.position = targetVec.clone();
+                // console.log(pickResult.hit);
+                // console.log(pickResult.pickedMesh === holePiece1);
+                // console.log(pickResult.pickedMesh);
+                // console.log(holePiece1);
+                if(pickResult.hit && pickResult.pickedMesh.name == "Cylinder.015")
+                {
+                    tallWhiteFlatSquare.position = board1;
+                    // targetVec = pickResult.pickedPoint;
+                    // ball.position = targetVec.clone();
 
-                // initVec = board.position.clone();
-                // distVec = BABYLON.Vector3.Distance(targetVec, initVec);
+                    // initVec = board.position.clone();
+                    // distVec = BABYLON.Vector3.Distance(targetVec, initVec);
 
-                // targetVec = targetVec.subtract(initVec);
-                // targetVecNorm = BABYLON.Vector3.Normalize(targetVec);
-            }
-            else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece2.Cylinder.015")
-            {
-                tallWhiteFlatSquare.position = board2;
-            }
-            else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece3.Cylinder.015")
-            {
-                tallWhiteFlatSquare.position = board3;
-            }
-            else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece4.Cylinder.015")
-            {
-                tallWhiteFlatSquare.position = board4;
-            }
-            else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece5.Cylinder.015")
-            {
-                tallWhiteFlatSquare.position = board5;
-            }
-            else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece6.Cylinder.015")
-            {
-                tallWhiteFlatSquare.position = board6;
-            }
-            else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece7.Cylinder.015")
-            {
-                tallWhiteFlatSquare.position = board7;
-            }
-            else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece8.Cylinder.015")
-            {
-                tallWhiteFlatSquare.position = board8;
-            }
-            else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece9.Cylinder.015")
-            {
-                tallWhiteFlatSquare.position = board9;
-            }
-            else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece10.Cylinder.015")
-            {
-                tallWhiteFlatSquare.position = board10;
-            }
-            else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece11.Cylinder.015")
-            {
-                tallWhiteFlatSquare.position = board11;
-            }
-            else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece12.Cylinder.015")
-            {
-                tallWhiteFlatSquare.position = board12;
-            }
-            else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece13.Cylinder.015")
-            {
-                tallWhiteFlatSquare.position = board13;
-            }
-            else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece14.Cylinder.015")
-            {
-                tallWhiteFlatSquare.position = board14;
-            }
-            else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece15.Cylinder.015")
-            {
-                tallWhiteFlatSquare.position = board15;
-            }
-            else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece16.Cylinder.015")
-            {
-                tallWhiteFlatSquare.position = board16;
-            }
-
-        };
+                    // targetVec = targetVec.subtract(initVec);
+                    // targetVecNorm = BABYLON.Vector3.Normalize(targetVec);
+                }
+                else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece2.Cylinder.015")
+                {
+                    tallWhiteFlatSquare.position = board2;
+                }
+                else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece3.Cylinder.015")
+                {
+                    tallWhiteFlatSquare.position = board3;
+                }
+                else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece4.Cylinder.015")
+                {
+                    tallWhiteFlatSquare.position = board4;
+                }
+                else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece5.Cylinder.015")
+                {
+                    tallWhiteFlatSquare.position = board5;
+                }
+                else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece6.Cylinder.015")
+                {
+                    tallWhiteFlatSquare.position = board6;
+                }
+                else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece7.Cylinder.015")
+                {
+                    tallWhiteFlatSquare.position = board7;
+                }
+                else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece8.Cylinder.015")
+                {
+                    tallWhiteFlatSquare.position = board8;
+                }
+                else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece9.Cylinder.015")
+                {
+                    tallWhiteFlatSquare.position = board9;
+                }
+                else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece10.Cylinder.015")
+                {
+                    tallWhiteFlatSquare.position = board10;
+                }
+                else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece11.Cylinder.015")
+                {
+                    tallWhiteFlatSquare.position = board11;
+                }
+                else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece12.Cylinder.015")
+                {
+                    tallWhiteFlatSquare.position = board12;
+                }
+                else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece13.Cylinder.015")
+                {
+                    tallWhiteFlatSquare.position = board13;
+                }
+                else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece14.Cylinder.015")
+                {
+                    tallWhiteFlatSquare.position = board14;
+                }
+                else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece15.Cylinder.015")
+                {
+                    tallWhiteFlatSquare.position = board15;
+                }
+                else if(pickResult.hit && pickResult.pickedMesh.name == "holePiece16.Cylinder.015")
+                {
+                    tallWhiteFlatSquare.position = board16;
+                }
+            };
+        }, 1000);
 
         // scene.registerBeforeRender(function() 
         // {

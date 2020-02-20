@@ -11,17 +11,16 @@ class OnlineSetupScreen extends Component{
         this.getPeersList = this.getPeersList.bind(this);
         this.checkUsername = this.checkUsername.bind(this);
         this.displayPeersList = this.displayPeersList.bind(this);
-        this.connecttoPeer = this.connectToPeer.build(this);
     }
 
     render() {
         return(
             <div className="OnlineScreen">
                 <div id="getUsernameDiv">
-                    <label for="getName">Username:</label>
+                    <label>Username: </label>
                     <input id="getName" type="text" pattern="[a-zA-Z]+" minLength="4" maxLength="10" placeholder="username" 
                         title="Username should only contain letters, between 4 and 10 characters long"></input>
-                    <button id="userNameButton" onClick="checkUsername()">Submit</button>
+                    <button id="userNameButton" onClick={() => this.checkUsername()}>Submit</button>
                 </div>
                 <div id="peersList" display="none">
                 </div>
@@ -31,10 +30,17 @@ class OnlineSetupScreen extends Component{
 
     createPeer(peerId) {
         try {
-            var peer = new Peer({key: peerId});
-            this.props.peer = peer;
+            var peer = initPeer(peerId);
+            //var peer = new Peer({ 
+                //id: peerId,
+                //host: 'temple-quest-peerjs.herokuapp.com',
+                //debug: 2
+             //});
+            console.log(peer);
+            //this.props.peer = peer;
         }
         catch (e) {
+            console.log(e);
             return false;
         }
     }
@@ -47,6 +53,7 @@ class OnlineSetupScreen extends Component{
 
     checkUsername() {
        var userId = document.getElementById("getName").value;
+       console.log(userId);
        if(this.createPeer(userId)) {
          document.getElementById("getUsernameDiv").style.display = "none";
          document.getElementById("peersList").style.display = "block";
@@ -56,7 +63,7 @@ class OnlineSetupScreen extends Component{
        }
     }
 
-    displaysPeersList() {
+    displayPeersList() {
         var html = '';
         if(this.props.peersList.array.size() > 0){
             this.props.peersList.array.forEach(element => {

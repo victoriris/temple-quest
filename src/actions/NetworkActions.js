@@ -74,14 +74,16 @@ export const listenNetworkData = () => {
 
 };
 
-export const initPeer = () => {
+export const initPeer = (peerId) => {
     return (dispatch, getState) => {
 
         const data = new Peer({
+            id: peerId,
             host: 'temple-quest-peerjs.herokuapp.com',
             port: 80,
             debug: 2,
         });
+        console.log(data);
 
         dispatch(updateNetworkData('peer', data));
     };

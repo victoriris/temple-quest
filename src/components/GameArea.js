@@ -3,11 +3,27 @@ import * as BABYLON from 'babylonjs';
 import BabylonScene from './BabylonScene';
 // eslint-disable-next-line
 import * as BABYLON_LOADER from 'babylonjs-loaders';
-import sadObject from '../objects/tallLightFlatSquare.glb';
-import gayObject from '../objects/tallLightHoleCylinder.glb';
+import tLFS from '../objects/tallLightFlatSquare.glb';
+import tLHC from '../objects/tallLightHoleCylinder.glb';
 import gameBoard from '../objects/newGameBoard.glb';
 import pieceThatGoesInHole from '../objects/pieceThatGoesInHole.glb';
 import floor from '../objects/floor.glb';
+import slab from '../objects/slabForPieces.glb';
+import sDFC from '../objects/shortDarkFlatCylinder.glb';
+import sDFS from '../objects/shortDarkFlatSquare.glb';
+import sDHC from '../objects/shortDarkHoleCylinder.glb';
+import sDHS from '../objects/shortDarkHoleSquare.glb';
+import sLFC from '../objects/shortLightFlatCylinder.glb';
+import sLFS from '../objects/shortLightFlatSquare.glb';
+import sLHC from '../objects/shortLightHoleCylinder.glb';
+import sLHS from '../objects/shortLightHoleSquare.glb';
+import tDFC from '../objects/tallDarkFlatCylinder.glb';
+import tDFS from '../objects/tallDarkFlatSquare.glb';
+import tDHC from '../objects/tallDarkHoleCylinder.glb';
+import tDHS from '../objects/tallDarkHoleSquare.glb';
+import tLFC from '../objects/tallLightFlatCylinder.glb';
+import tLHS from '../objects/tallLightHoleSquare.glb';
+
 // eslint-disable-next-line
 import { PositionGizmo, ShadowGenerator } from 'babylonjs';
 
@@ -30,7 +46,7 @@ export default class Viewer extends Component {
         // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
         const light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
         // Default intensity is 1. Let's dim the light a small amount
-        light.intensity = 2.7;
+        light.intensity = 7;
         // Our built-in 'sphere' shape. Params: name, subdivs, size, scene
         // const sphere = BABYLON.Mesh.CreateSphere("sphere1", 16, 2, scene);
         // Move the sphere upward 1/2 its height
@@ -45,8 +61,14 @@ export default class Viewer extends Component {
         ground.receiveShadows = true;
 
         //Board Pieces
-        var tallWhiteFlatSquare;
+        var shortDarkFlatCylinder, shortDarkFlatSquare, 
+        shortDarkHoleCylinder, shortDarkHoleSquare, shortLightFlatCylinder, 
+        shortLightFlatSquare, shortLightHoleSquare, shortLightHoleCylinder,
+        tallDarkFlatCylinder, tallDarkFlatSquare, tallDarkHoleCylinder, 
+        tallDarkHoleSquare, tallLightFlatCylinder, tallLightFlatSquare,
+        tallLightHoleSquare, tallLightHoleCylinder;
         var room;
+        var slabForPieces;
         var holePiece1, holePiece2, holePiece3, holePiece4, 
             holePiece5, holePiece6, holePiece7, holePiece8, 
             holePiece9, holePiece10, holePiece11, holePiece12, 
@@ -55,26 +77,127 @@ export default class Viewer extends Component {
 
 
         //Board Positions
-        var board1 = new BABYLON.Vector3(-7.5, 0.069, -7.5);
-        var board2 = new BABYLON.Vector3(-7.5, 0.069, -2.5);
-        var board3 = new BABYLON.Vector3(-7.5, 0.069, 2.5);
-        var board4 = new BABYLON.Vector3(-7.5, 0.069, 7.5);
-        var board5 = new BABYLON.Vector3(-2.5, 0.069, -7.5);
-        var board6 = new BABYLON.Vector3(-2.5, 0.069, -2.5);
-        var board7 = new BABYLON.Vector3(-2.5, 0.069, 2.5);
-        var board8 = new BABYLON.Vector3(-2.5, 0.069, 7.5);
-        var board9 = new BABYLON.Vector3(2.5, 0.069, -7.5);
-        var board10 = new BABYLON.Vector3(2.5, 0.069, -2.5);
-        var board11 = new BABYLON.Vector3(2.5, 0.069, 2.5);
-        var board12 = new BABYLON.Vector3(2.5, 0.069, 7.5);
-        var board13 = new BABYLON.Vector3(7.5, 0.069, -7.5);
-        var board14 = new BABYLON.Vector3(7.5, 0.069, -2.5);
-        var board15 = new BABYLON.Vector3(7.5, 0.069, 2.5);
-        var board16 = new BABYLON.Vector3(7.5, 0.069, 7.5);
+        var board1 = new BABYLON.Vector3(-7.5, 0.15, -7.5);
+        var board2 = new BABYLON.Vector3(-7.5, 0.15, -2.5);
+        var board3 = new BABYLON.Vector3(-7.5, 0.15, 2.5);
+        var board4 = new BABYLON.Vector3(-7.5, 0.15, 7.5);
+        var board5 = new BABYLON.Vector3(-2.5, 0.15, -7.5);
+        var board6 = new BABYLON.Vector3(-2.5, 0.15, -2.5);
+        var board7 = new BABYLON.Vector3(-2.5, 0.15, 2.5);
+        var board8 = new BABYLON.Vector3(-2.5, 0.15, 7.5);
+        var board9 = new BABYLON.Vector3(2.5, 0.15, -7.5);
+        var board10 = new BABYLON.Vector3(2.5, 0.15, -2.5);
+        var board11 = new BABYLON.Vector3(2.5, 0.15, 2.5);
+        var board12 = new BABYLON.Vector3(2.5, 0.15, 7.5);
+        var board13 = new BABYLON.Vector3(7.5, 0.15, -7.5);
+        var board14 = new BABYLON.Vector3(7.5, 0.15, -2.5);
+        var board15 = new BABYLON.Vector3(7.5, 0.15, 2.5);
+        var board16 = new BABYLON.Vector3(7.5, 0.15, 7.5);
 
         //importing the board object    empty   objectImportName  empty scene (paramsForAnimation)
         BABYLON.SceneLoader.ImportMesh("",gameBoard, "", scene, (newMeshes, particleSystems, skeletons) =>{
-            // board = newMeshes[0];
+            gameBoard = newMeshes[0];
+        } );
+
+        BABYLON.SceneLoader.ImportMesh("",slab, "", scene, (newMeshes, particleSystems, skeletons) =>{
+            slabForPieces = newMeshes[0];
+            slabForPieces.position = new BABYLON.Vector3(0, 0.069, 15);
+        } );
+
+        BABYLON.SceneLoader.ImportMesh("",sDFC, "", scene, (newMeshes, particleSystems, skeletons) =>{
+            shortDarkFlatCylinder = newMeshes[0];
+            shortDarkFlatCylinder.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
+            shortDarkFlatCylinder.position = new BABYLON.Vector3(-12.5, 0.15, 13);
+        } );
+
+        BABYLON.SceneLoader.ImportMesh("",sDFS, "", scene, (newMeshes, particleSystems, skeletons) =>{
+            shortDarkFlatSquare = newMeshes[0];
+            shortDarkFlatSquare.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
+            shortDarkFlatSquare.position = new BABYLON.Vector3(-9, 0.15, 13);
+        } );
+
+        BABYLON.SceneLoader.ImportMesh("",sDHC, "", scene, (newMeshes, particleSystems, skeletons) =>{
+            shortDarkHoleCylinder = newMeshes[0];
+            shortDarkHoleCylinder.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
+            shortDarkHoleCylinder.position = new BABYLON.Vector3(-5.5, 0.15, 13);
+        } );
+
+        BABYLON.SceneLoader.ImportMesh("",sDHS, "", scene, (newMeshes, particleSystems, skeletons) =>{
+            shortDarkHoleSquare = newMeshes[0];
+            shortDarkHoleSquare.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
+            shortDarkHoleSquare.position = new BABYLON.Vector3(-2, 0.15, 13);
+        } );
+
+        BABYLON.SceneLoader.ImportMesh("",tDFC, "", scene, (newMeshes, particleSystems, skeletons) =>{
+            tallDarkFlatCylinder = newMeshes[0];
+            tallDarkFlatCylinder.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
+            tallDarkFlatCylinder.position = new BABYLON.Vector3(2, 0.15, 13);
+        } );
+
+        BABYLON.SceneLoader.ImportMesh("",tDFS, "", scene, (newMeshes, particleSystems, skeletons) =>{
+            tallDarkFlatSquare = newMeshes[0];
+            tallDarkFlatSquare.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
+            tallDarkFlatSquare.position = new BABYLON.Vector3(5.5, 0.15, 13);
+        } );
+
+        BABYLON.SceneLoader.ImportMesh("",tDHC, "", scene, (newMeshes, particleSystems, skeletons) =>{
+            tallDarkHoleCylinder = newMeshes[0];
+            tallDarkHoleCylinder.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
+            tallDarkHoleCylinder.position = new BABYLON.Vector3(9, 0.15, 13);
+        } );
+
+        BABYLON.SceneLoader.ImportMesh("",tDHS, "", scene, (newMeshes, particleSystems, skeletons) =>{
+            tallDarkHoleSquare = newMeshes[0];
+            tallDarkHoleSquare.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
+            tallDarkHoleSquare.position = new BABYLON.Vector3(12.5, 0.15, 13);
+        } );
+
+        BABYLON.SceneLoader.ImportMesh("",sLFC, "", scene, (newMeshes, particleSystems, skeletons) =>{
+            shortLightFlatCylinder = newMeshes[0];
+            shortLightFlatCylinder.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
+            shortLightFlatCylinder.position = new BABYLON.Vector3(-12.5, 0.15, 17);
+        } );
+
+        BABYLON.SceneLoader.ImportMesh("",sLFS, "", scene, (newMeshes, particleSystems, skeletons) =>{
+            shortLightFlatSquare = newMeshes[0];
+            shortLightFlatSquare.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
+            shortLightFlatSquare.position = new BABYLON.Vector3(-9, 0.15, 17);
+        } );
+
+        BABYLON.SceneLoader.ImportMesh("",sLHC, "", scene, (newMeshes, particleSystems, skeletons) =>{
+            shortLightHoleCylinder = newMeshes[0];
+            shortLightHoleCylinder.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
+            shortLightHoleCylinder.position = new BABYLON.Vector3(-5.5, 0.15, 17);
+        } );
+
+        BABYLON.SceneLoader.ImportMesh("",sLHS, "", scene, (newMeshes, particleSystems, skeletons) =>{
+            shortLightHoleSquare = newMeshes[0];
+            shortLightHoleSquare.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
+            shortLightHoleSquare.position = new BABYLON.Vector3(-2, 0.15, 17);
+        } );
+
+        BABYLON.SceneLoader.ImportMesh("",tLFC, "", scene, (newMeshes, particleSystems, skeletons) =>{
+            tallLightFlatCylinder = newMeshes[0];
+            tallLightFlatCylinder.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
+            tallLightFlatCylinder.position = new BABYLON.Vector3(2, 0.15, 17);
+        } );
+
+        BABYLON.SceneLoader.ImportMesh("",tLFS, "", scene, (newMeshes, particleSystems, skeletons) =>{
+            tallLightFlatSquare = newMeshes[0];
+            tallLightFlatSquare.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
+            tallLightFlatSquare.position = new BABYLON.Vector3(5.5, 0.15, 17);
+        } );
+
+        BABYLON.SceneLoader.ImportMesh("",tLHC, "", scene, (newMeshes, particleSystems, skeletons) =>{
+            tallLightHoleCylinder = newMeshes[0];
+            tallLightHoleCylinder.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
+            tallLightHoleCylinder.position = new BABYLON.Vector3(9, 0.15, 17);
+        } );
+
+        BABYLON.SceneLoader.ImportMesh("",tLHS, "", scene, (newMeshes, particleSystems, skeletons) =>{
+            tallLightHoleSquare = newMeshes[0];
+            tallLightHoleSquare.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
+            tallLightHoleSquare.position = new BABYLON.Vector3(12.5, 0.15, 17);
         } );
 
         BABYLON.SceneLoader.ImportMesh("",pieceThatGoesInHole, "", scene, (newMeshes, particleSystems, skeletons) =>{
@@ -149,23 +272,6 @@ export default class Viewer extends Component {
             room.position = new BABYLON.Vector3(0,0,0);
         });
 
-        //importing a piece
-        BABYLON.SceneLoader.ImportMesh("",sadObject, "",  scene, (newMeshes, particleSystems, skeletons) => {
-            tallWhiteFlatSquare = newMeshes[0];
-            tallWhiteFlatSquare.name = "tallWhiteFlatSquare";
-            tallWhiteFlatSquare.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
-            tallWhiteFlatSquare.position = board16;
-            var alsoTallWhiteFlatSquare = tallWhiteFlatSquare.clone("tallWhiteFlatSquare2");
-            alsoTallWhiteFlatSquare.position = board4;
-        });
-
-        //this is also importing a piece
-        BABYLON.SceneLoader.ImportMesh("", gayObject, "", scene, (newMeshes, particleSystems, skeletons)=> {
-            var gayLookingBoy = newMeshes[0];
-            gayLookingBoy.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
-            gayLookingBoy.position = board15;
-        });
-
         //Point and click logic
 
         setTimeout(function() {
@@ -177,7 +283,7 @@ export default class Viewer extends Component {
                 // console.log(holePiece1);
                 if(pickResult.hit && pickResult.pickedMesh.name === "Cylinder.015")
                 {
-                    tallWhiteFlatSquare.position = board1;
+                    tallLightFlatSquare.position = board1;
                     // targetVec = pickResult.pickedPoint;
                     // ball.position = targetVec.clone();
 
@@ -189,63 +295,63 @@ export default class Viewer extends Component {
                 }
                 else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece2.Cylinder.015")
                 {
-                    tallWhiteFlatSquare.position = board2;
+                    tallLightFlatSquare.position = board2;
                 }
                 else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece3.Cylinder.015")
                 {
-                    tallWhiteFlatSquare.position = board3;
+                    tallLightFlatSquare.position = board3;
                 }
                 else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece4.Cylinder.015")
                 {
-                    tallWhiteFlatSquare.position = board4;
+                    tallLightFlatSquare.position = board4;
                 }
                 else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece5.Cylinder.015")
                 {
-                    tallWhiteFlatSquare.position = board5;
+                    tallLightFlatSquare.position = board5;
                 }
                 else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece6.Cylinder.015")
                 {
-                    tallWhiteFlatSquare.position = board6;
+                    tallLightFlatSquare.position = board6;
                 }
                 else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece7.Cylinder.015")
                 {
-                    tallWhiteFlatSquare.position = board7;
+                    tallLightFlatSquare.position = board7;
                 }
                 else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece8.Cylinder.015")
                 {
-                    tallWhiteFlatSquare.position = board8;
+                    tallLightFlatSquare.position = board8;
                 }
                 else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece9.Cylinder.015")
                 {
-                    tallWhiteFlatSquare.position = board9;
+                    tallLightFlatSquare.position = board9;
                 }
                 else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece10.Cylinder.015")
                 {
-                    tallWhiteFlatSquare.position = board10;
+                    tallLightFlatSquare.position = board10;
                 }
                 else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece11.Cylinder.015")
                 {
-                    tallWhiteFlatSquare.position = board11;
+                    tallLightFlatSquare.position = board11;
                 }
                 else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece12.Cylinder.015")
                 {
-                    tallWhiteFlatSquare.position = board12;
+                    tallLightFlatSquare.position = board12;
                 }
                 else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece13.Cylinder.015")
                 {
-                    tallWhiteFlatSquare.position = board13;
+                    tallLightFlatSquare.position = board13;
                 }
                 else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece14.Cylinder.015")
                 {
-                    tallWhiteFlatSquare.position = board14;
+                    tallLightFlatSquare.position = board14;
                 }
                 else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece15.Cylinder.015")
                 {
-                    tallWhiteFlatSquare.position = board15;
+                    tallLightFlatSquare.position = board15;
                 }
                 else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece16.Cylinder.015")
                 {
-                    tallWhiteFlatSquare.position = board16;
+                    tallLightFlatSquare.position = board16;
                 }
             };
         }, 1000);

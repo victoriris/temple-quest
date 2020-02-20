@@ -17,7 +17,7 @@ class MainScreen extends Component {
                         <Container
                         className="mainScreen__option">
                             <Button basic size="massive" inverted
-                            onClick={() => this.handleClick('play')}>
+                            onClick={() => this.handleClick('mode')}>
                                 PLAY
                             </Button>
                         </Container>

@@ -20,10 +20,11 @@ const Routes = () => {
           <Route path="/mode" component={GameModeScreen}/>
           <Route path="/local" component={LocalSetupScreen}/>
           <Route path="/online" component={OnlineSetupScreen}/>
-          <Route path="/play" component={GameScreen}/>
+          <Route path="/play" component={GameModeScreen}/>
           <Route path="/board" component={BoardScreen}/>
           <Route path="/about" component={AboutScreen}/>
           <Route path="/tutorial" component={TutorialScreen}/>
+          <Route path="/game" component={GameScreen}/>
       </Router>
     );
     

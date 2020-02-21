@@ -28,27 +28,23 @@ class MainScreen extends Component {
                                 HOW TO PLAY
                             </Button>
                         </Container>
-                    </GridColumn>
-                </GridRow>
-                <GridRow verticalAlign="bottom">
-                    <GridColumn floated="left">
-                        <Container>
+                        <Container
+                        className="mainScreen__option">
                             <Button floated="left" 
-                             color="black" size="large"
+                             color="black" size="massive"
                             onClick={() => this.handleClick('about')}>
                                 ABOUT
                             </Button>
                         </Container>
-                    </GridColumn>                
-                    <GridColumn floated="right">
-                        <Container>
+                        <Container
+                        className="mainScreen__option">
                             <Button floated="right" 
-                             color="black" size="large"
+                             color="black" size="massive"
                             onClick={() => this.handleExit()}>
                                 EXIT
                             </Button>
                         </Container>
-                    </GridColumn>           
+                    </GridColumn>
                 </GridRow>
             </Grid>
         );

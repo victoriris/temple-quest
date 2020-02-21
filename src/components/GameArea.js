@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import * as BABYLON from 'babylonjs';
 import BabylonScene from './BabylonScene';
+import LoadingScreen from './LoadingScreen';
 // eslint-disable-next-line
 import * as BABYLON_LOADER from 'babylonjs-loaders';
 import tLFS from '../objects/tallLightFlatSquare.glb';
 import tLHC from '../objects/tallLightHoleCylinder.glb';
-import gameBoard from '../objects/newGameBoard.glb';
+import gameBoard from '../objects/newGameboard.glb';
 import pieceThatGoesInHole from '../objects/pieceThatGoesInHole.glb';
 import floor from '../objects/floor.glb';
 import slab from '../objects/slabForPieces.glb';
@@ -24,11 +25,15 @@ import tDHS from '../objects/tallDarkHoleSquare.glb';
 import tLFC from '../objects/tallLightFlatCylinder.glb';
 import tLHS from '../objects/tallLightHoleSquare.glb';
 import coaster from '../objects/coaster.glb';
+import { updateBoardData } from '../actions';
+import { connect } from 'react-redux';
+
+
 
 // eslint-disable-next-line
 import { PositionGizmo, ShadowGenerator } from 'babylonjs';
 
-export default class Viewer extends Component {
+class Viewer extends Component {
     
     onSceneMount = (e) => {
         const { canvas, engine } = e;
@@ -372,9 +377,19 @@ export default class Viewer extends Component {
         });
     }
 
-    render() {               
+    render() {     
+        
         return (
+           // <LoadingScreen/>
             <BabylonScene onSceneMount={this.onSceneMount} />
         )
     }
 }
+
+const mapStateToProps = ({ board }) => {
+    const {mounted} = board;
+    return {mounted};
+};
+export default connect(mapStateToProps, {
+    updateBoardData
+})(Viewer);

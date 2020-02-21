@@ -17,7 +17,7 @@ class GameModeScreen extends Component {
                         <Container
                         className="mainScreen__option">
                             <Button size="massive" color="black"
-                            onClick={() => this.handleClick('game')}>
+                            onClick={() => this.handleClick('mode')}>
                                 SINGLEPLAYER
                             </Button>
                         </Container>

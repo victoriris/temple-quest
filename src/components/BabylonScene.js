@@ -1,8 +1,10 @@
 import * as BABYLON from 'babylonjs';
 import React, { Component } from 'react';
+import { updateBoardData } from '../actions';
+import { connect } from 'react-redux';
 
 
-export default class BabylonScene extends Component {
+class BabylonScene extends Component {
 
   onResizeWindow = () => {
     if (this.engine) {
@@ -12,6 +14,7 @@ export default class BabylonScene extends Component {
   }
 
   componentDidMount () {
+    
     this.engine = new BABYLON.Engine(
         this.canvas,
         true,
@@ -44,9 +47,22 @@ export default class BabylonScene extends Component {
     if (htmlCanvasElem !== null) {
       this.canvas = htmlCanvasElem;
     }
+
+    setTimeout(() => {
+			this.props.updateBoardData('mounted', true);
+    }, 5000);
   }
 
   render () {
+
+    if (!this.props.mounted) {
+			return (
+				<div>
+					Mounting...
+				</div>
+			);
+    }
+
     // 'rest' can contain additional properties that you can flow through to canvas:
     // (id, className, etc.)
     const { width, height } = this.props;
@@ -69,3 +85,11 @@ export default class BabylonScene extends Component {
     )
   }
 }
+
+const mapStateToProps = ({ board }) => {
+  const {mounted} = board;
+  return {mounted};
+};
+export default connect(mapStateToProps, {
+  updateBoardData
+})(BabylonScene);

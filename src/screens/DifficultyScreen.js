@@ -3,7 +3,7 @@ import { Button, Container, Grid, GridColumn, GridRow } from 'semantic-ui-react'
 import history from '../history';
 import jungleMainMenu from '../img/mainMenuBackground.mp4';
 
-class LocalSetupScreen extends Component {
+class DifficultyScreen extends Component {
 
     handleClick = (route) => history.push(route);
     handleExit = () => {};
@@ -14,15 +14,26 @@ class LocalSetupScreen extends Component {
                 <video id="jungleVideoMainMenu" src={jungleMainMenu} type="video/mp4" autoPlay muted loop />                
                 <GridRow>
                     <GridColumn verticalAlign="middle">
-                        <Container className="playerChoice">
-                            <h2>Who goes first?</h2>
+                        <Container
+                        className="mainScreen__option">
+                            <Button size="massive" color="black"
+                            onClick={() => this.handleClick('game')}>
+                                EASY
+                            </Button>
                         </Container>
-                        <Container className="mainScreen__option">
-                            <Button.Group>
-                            <Button color="red">Player 1</Button>
-                            <Button.Or />
-                            <Button color="blue">Player 2</Button>
-                            </Button.Group>
+                        <Container
+                        className="mainScreen__option">
+                            <Button size="massive" color="black"
+                            onClick={() => this.handleClick('game')}>
+                                MEDUIM
+                            </Button>
+                        </Container>
+                        <Container
+                        className="mainScreen__option">
+                            <Button size="massive" color="black"
+                            onClick={() => this.handleClick('game')}>
+                                HARD
+                            </Button>
                         </Container>
                         <Container
                         className="mainScreen__option">
@@ -38,4 +49,4 @@ class LocalSetupScreen extends Component {
     }
 }
 
-export default LocalSetupScreen;
+export default DifficultyScreen;

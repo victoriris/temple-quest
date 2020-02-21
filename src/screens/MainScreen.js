@@ -16,14 +16,14 @@ class MainScreen extends Component {
                     <GridColumn verticalAlign="middle">
                         <Container
                         className="mainScreen__option">
-                            <Button basic size="massive" inverted
+                            <Button size="massive" color="black"
                             onClick={() => this.handleClick('play')}>
                                 PLAY
                             </Button>
                         </Container>
                         <Container
                         className="mainScreen__option">
-                            <Button basic size="massive" inverted
+                            <Button size="massive" color="black"
                             onClick={() => this.handleClick('tutorial')}>
                                 HOW TO PLAY
                             </Button>
@@ -33,8 +33,8 @@ class MainScreen extends Component {
                 <GridRow verticalAlign="bottom">
                     <GridColumn floated="left">
                         <Container>
-                            <Button basic floated="left" 
-                            inverted size="large"
+                            <Button floated="left" 
+                             color="black" size="large"
                             onClick={() => this.handleClick('about')}>
                                 ABOUT
                             </Button>
@@ -42,8 +42,8 @@ class MainScreen extends Component {
                     </GridColumn>                
                     <GridColumn floated="right">
                         <Container>
-                            <Button basic floated="right" 
-                            inverted size="large"
+                            <Button floated="right" 
+                             color="black" size="large"
                             onClick={() => this.handleExit()}>
                                 EXIT
                             </Button>

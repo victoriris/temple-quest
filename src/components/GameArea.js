@@ -23,6 +23,7 @@ import tDHC from '../objects/tallDarkHoleCylinder.glb';
 import tDHS from '../objects/tallDarkHoleSquare.glb';
 import tLFC from '../objects/tallLightFlatCylinder.glb';
 import tLHS from '../objects/tallLightHoleSquare.glb';
+import coaster from '../objects/coaster.glb';
 
 // eslint-disable-next-line
 import { PositionGizmo, ShadowGenerator } from 'babylonjs';
@@ -43,39 +44,29 @@ export default class Viewer extends Component {
         camera.upperBetaLimit = (Math.PI / 2) * 0.99;
         camera.upperRadiusLimit = 50;
         camera.lowerRadiusLimit = 20;
-        // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
-        const light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
-        // Default intensity is 1. Let's dim the light a small amount
-        light.intensity = 7;
-        // Our built-in 'sphere' shape. Params: name, subdivs, size, scene
-        // const sphere = BABYLON.Mesh.CreateSphere("sphere1", 16, 2, scene);
-        // Move the sphere upward 1/2 its height
-        // sphere.position.y = 1;
-      
-        //Ground object
-        var ground = BABYLON.Mesh.CreateGround("ground", 15, 15, 1, scene, false);
-        var groundMaterial = new BABYLON.StandardMaterial("ground", scene);
-        groundMaterial.diffuseColor = new BABYLON.Color3(0.1, 0.1, 0.1);
-        groundMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
-        ground.material = groundMaterial;
-        ground.receiveShadows = true;
+        
+        var light = new BABYLON.DirectionalLight("dir01", new BABYLON.Vector3(-1, -2, -1), scene);
+	    light.position = new BABYLON.Vector3(20, 40, 20);
+        light.intensity = 5;
+        
+        //const light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
+        //light.intensity = 7;
 
-        //Board Pieces
-        var shortDarkFlatCylinder, shortDarkFlatSquare, 
-        shortDarkHoleCylinder, shortDarkHoleSquare, shortLightFlatCylinder, 
-        shortLightFlatSquare, shortLightHoleSquare, shortLightHoleCylinder,
-        tallDarkFlatCylinder, tallDarkFlatSquare, tallDarkHoleCylinder, 
-        tallDarkHoleSquare, tallLightFlatCylinder, tallLightFlatSquare,
-        tallLightHoleSquare, tallLightHoleCylinder;
+
+        //Board Pieces 
+        var shortDarkFlatCylinder, shortDarkFlatSquare, shortDarkHoleCylinder, shortDarkHoleSquare, 
+        shortLightFlatCylinder, shortLightFlatSquare, shortLightHoleSquare, shortLightHoleCylinder, 
+        tallDarkFlatCylinder, tallDarkFlatSquare, tallDarkHoleCylinder, tallDarkHoleSquare, 
+        tallLightFlatCylinder, tallLightFlatSquare, tallLightHoleSquare, tallLightHoleCylinder;
         var room;
-        var slabForPieces;
+        var slabForPieces; 
+        var pieceHolder;
         var holePiece1, holePiece2, holePiece3, holePiece4, 
             holePiece5, holePiece6, holePiece7, holePiece8, 
             holePiece9, holePiece10, holePiece11, holePiece12, 
             holePiece13, holePiece14, holePiece15, holePiece16;
+        var ourGameBoard;
         
-
-
         //Board Positions
         var board1 = new BABYLON.Vector3(-7.5, 0.15, -7.5);
         var board2 = new BABYLON.Vector3(-7.5, 0.15, -2.5);
@@ -96,7 +87,7 @@ export default class Viewer extends Component {
 
         //importing the board object    empty   objectImportName  empty scene (paramsForAnimation)
         BABYLON.SceneLoader.ImportMesh("",gameBoard, "", scene, (newMeshes, particleSystems, skeletons) =>{
-            gameBoard = newMeshes[0];
+            ourGameBoard = newMeshes[0];
         } );
 
         BABYLON.SceneLoader.ImportMesh("",slab, "", scene, (newMeshes, particleSystems, skeletons) =>{
@@ -267,14 +258,30 @@ export default class Viewer extends Component {
             holePiece16.position.y = 0.015;
         } );
 
+        BABYLON.SceneLoader.ImportMesh("", coaster, "", scene, (newMeshes, particleSystems, skeletons) => {
+            pieceHolder = newMeshes[0];
+            pieceHolder.position = new BABYLON.Vector3(0, 0.069, -13);
+        });
+
         BABYLON.SceneLoader.ImportMesh("",floor, "", scene, (newMeshes, particleSystems, skeletons) =>{
             room = newMeshes[0];
             room.position = new BABYLON.Vector3(0,0,0);
         });
 
-        //Point and click logic
+        
 
+        //Point and click logic
         setTimeout(function() {
+            //TRYING TO GET FREAKING SHADOWS TO WORK
+            // var shadowGenerator = new BABYLON.ShadowGenerator(1024, light);
+            // shadowGenerator.getShadowMap().renderList.push(shortDarkFlatCylinder);
+            // shadowGenerator.addShadowCaster(shortDarkFlatCylinder);
+            // shadowGenerator.useExponentialShadowMap = true;
+
+            // ourGameBoard.receiveShadows = true;
+            // slabForPieces.receiveShadows = true;
+            // room.receiveShadows = true;
+
             scene.onPointerDown = function(evt, pickResult) 
             {
                 // console.log(pickResult.hit);
@@ -354,7 +361,7 @@ export default class Viewer extends Component {
                     tallLightFlatSquare.position = board16;
                 }
             };
-        }, 1000);
+        }, 3000);
 
         
         //heck if I know

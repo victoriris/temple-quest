@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Peer from 'peerjs';
-import { initPeer } from '../actions/NetworkActions';
+import { connect } from 'react-redux';
+import { initPeer, listenNetworkData, updateNetworkData } from '../actions/NetworkActions';
 
 class OnlineSetupScreen extends Component{
     
@@ -11,6 +11,12 @@ class OnlineSetupScreen extends Component{
         this.getPeersList = this.getPeersList.bind(this);
         this.checkUsername = this.checkUsername.bind(this);
         this.displayPeersList = this.displayPeersList.bind(this);
+        this.changePeerId = this.changePeerId.bind(this);
+    }
+
+    componentWillMount() {
+        this.props.initPeer();
+        this.props.listenNetworkData({});
     }
 
     render() {
@@ -29,57 +35,54 @@ class OnlineSetupScreen extends Component{
     }
 
     createPeer(peerId) {
-        try {
-            var peer = initPeer(peerId);
-            //var peer = new Peer({ 
-                //id: peerId,
-                //host: 'temple-quest-peerjs.herokuapp.com',
-                //debug: 2
-             //});
-            console.log(peer);
-            //this.props.peer = peer;
-        }
-        catch (e) {
-            console.log(e);
-            return false;
-        }
+        /*var peer = initPeer;
+        peer.id = peerId;
+        console.log(peer);*/
     }
     
     getPeersList() {
         var peersList = this.props.peer.listAllPeers(function cb(list){});
         this.props.peersList = peersList;
+        console.log(this.props.peersList);
        
     }
 
     checkUsername() {
-       var userId = document.getElementById("getName").value;
-       console.log(userId);
-       if(this.createPeer(userId)) {
-         document.getElementById("getUsernameDiv").style.display = "none";
-         document.getElementById("peersList").style.display = "block";
-       }
-       else {
-           alert("This username is already taken, please choose a different one");
-       }
+        console.log('checking username');
+        var userId = document.getElementById("getName").value;
+        this.changePeerId(userId);
+        this.displayPeersList();
     }
 
-    displayPeersList() {
+    changePeerId(userId) {
+        console.log('hitting the dispatch');
+        return(dispatch, getState) => {
+            dispatch(updateNetworkData('peerId', userId));
+        }
+    }
+
+    displayPeersList(getState) {
         var html = '';
-        if(this.props.peersList.array.size() > 0){
-            this.props.peersList.array.forEach(element => {
-                html += '<button id=\'' + element.id + '\' onClick=\'connectToPeer(' + element.id + ')\'>' + element.id + '</button>';
-            });
-        }
-        else {
-            html = '<p>There are no other users to connect to and play with</p>';
-        }
+        var { peer } = getState().network;
+        var peersList = peer.listAllPeers(list => {
+            console.log(list)
+            html += '<button id=\'' + list + '\' onClick=\'connectToPeer(' + list + ')\'>' + list + '</button>';
+        });
         document.getElementById("peersList").innerHTML = html;
     }
 
     connectToPeer(peerId) {
-        var conn = this.props.peer.connect(peerId);
-        this.props.conn = conn;
+        return(dispatch, getState) => {
+            dispatch(updateNetworkData('remotePeerId', peerId));
+        }
     }
 }
 
-export default OnlineSetupScreen;
+const mapStateToProps = ({ network }) => {
+    const { remotePeerId } = network;
+    return {remotePeerId};
+};
+
+export default  connect(mapStateToProps, {
+    listenNetworkData, initPeer
+})(OnlineSetupScreen);;

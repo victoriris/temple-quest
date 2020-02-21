@@ -4,6 +4,7 @@ import { selectBagPiece, selectBoardCell } from './BoardActions';
 
 
 export const updateNetworkData = (prop, value) => {
+    console.log('updating network data at', prop, ' with value of ', value);
     return (dispatch) => {
         dispatch(updateData({ prop, value }));
     }
@@ -74,16 +75,14 @@ export const listenNetworkData = () => {
 
 };
 
-export const initPeer = (peerId) => {
+export const initPeer = () => {
     return (dispatch, getState) => {
 
         const data = new Peer({
-            id: peerId,
             host: 'temple-quest-peerjs.herokuapp.com',
             port: 80,
             debug: 2,
         });
-        console.log(data);
 
         dispatch(updateNetworkData('peer', data));
     };

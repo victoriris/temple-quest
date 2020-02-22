@@ -8,7 +8,7 @@ import { listenNetworkData, sendNetworkData, updateNetworkData } from '../action
 class ChatBox extends Component {
 
     componentWillMount () {
-        this.props.listenNetworkData({});
+        //this.props.listenNetworkData({});
     }
 
     handleIdChange (value) {

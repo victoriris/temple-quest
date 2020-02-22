@@ -1,58 +1,96 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { initPeer, listenNetworkData, updateNetworkData, getPeersList } from '../actions/NetworkActions';
+import { initPeer, listenNetworkData, updateNetworkData, getPeersList, connectToPeer } from '../actions/NetworkActions';
+import { Button, Container, Grid, GridColumn, GridRow, List, Icon, Form } from 'semantic-ui-react';
 import history from '../history';
+
 
 class OnlineSetupScreen extends Component{
     
-    constructor(props) {
-        super(props);
-        this.connectToPeer = this.connectToPeer.bind(this);
-        this.checkUsername = this.checkUsername.bind(this);
-        this.displayPeersList = this.displayPeersList.bind(this);
-        this.refreshList = this.refreshList.bind(this);
-    }
-
-    render() {
-        console.log(this.props.onlineUsers);
-        return(
-            <div className="OnlineScreen">
-                <div id="getUsernameDiv">
-                    <label>Username: </label>
-                    <input id="getName" type="text" pattern="[a-zA-Z]+" minLength="4" maxLength="10" placeholder="username" 
-                        title="Username should only contain letters, between 4 and 10 characters long"></input>
-                    <button id="userNameButton" 
-                    onClick={() => this.checkUsername()}>
-                        Submit
-                    </button>
-                </div>
-
-                    {!!this.props.peer && (
-                        <div>
-                            <button id='refreshButton' 
-                            onClick={() => this.refreshList()}> 
-                            Refresh
-                            </button>
-                            {this.displayPeersList()}
-                        </div>
-                    )}
-                
-            </div>
-        );
-    }
-
-    checkUsername() {
+    handleClick = (route) => history.push(route);
+    handleInputChange = (e) => this.props.updateNetworkData('peerId', e.target.value);
+    handleSubmit = (e) => {
+        e.preventDefault();
         console.log('checking username');
-        var userId = document.getElementById("getName").value;
-        console.log(userId);
-        if(/^[a-zA-Z][a-zA-Z][a-zA-Z][a-zA-Z][a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*/.test(userId)) {
-            this.props.initPeer(userId);
+        const { peerId } = this.props;
+        console.log(peerId);
+        if(/^[a-zA-Z][a-zA-Z][a-zA-Z][a-zA-Z][a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*/.test(peerId)) {
+            this.props.initPeer(peerId);
             this.props.listenNetworkData({});
-            document.getElementById('getUsernameDiv').style.display = 'none';
         }
         else {
             alert('Invalid username, all usernames must be between 4 and 10 characters long as well as only letters.')
         }
+    };
+    
+    constructor(props) {
+        super(props);
+        this.displayPeersList = this.displayPeersList.bind(this);
+        this.refreshList = this.refreshList.bind(this);
+        this.connectToPeer = this.connectToPeer.bind(this);
+    }
+
+    render() {
+        const {peerId, peer} = this.props;
+        const isConnected = !!peer;
+        console.log(this.props.onlineUsers);
+        return(
+            <Grid stretched className="mainScreen" padded centered columns={3}>
+            <div className="OnlineScreen">
+                    {!isConnected && (
+                    <Form id="usernameField">
+                        <Form.Field>
+                                <label >Username:</label>
+                                <input placeholder="Username" 
+                                id="username" 
+                                onChange={this.handleInputChange}
+                                value={peerId}
+                                className="usernameField"/>
+                            </Form.Field>
+                            <Button onClick={this.handleSubmit} >
+                                SUBMIT
+                            </Button>
+                        </Form>
+                    )}
+
+                    {!!this.props.peer && (
+                        <Grid verticalAlign="middle">
+                        <Container
+                        className = "refresh">
+                            <Button 
+                             color="black" size="massive"
+                            
+                            onClick={() => this.refreshList()}>
+                                REFRESH
+                            </Button>
+                        </Container>
+                        <GridRow>
+                        <GridColumn verticalAlign="middle">
+                            <Container className="onlineScreen">
+                                {this.displayPeersList()}
+                            </Container>
+                        </GridColumn>
+                    </GridRow>
+                    </Grid>
+                    )}
+                <Container
+                className="back">
+                    <Button  floated="left" 
+                    color="black" size="massive"
+                    onClick={() => history.goBack()}>
+                        BACK
+                    </Button>
+                    {!!this.props.peer && (
+                        <Button  floated="right" 
+                        color="black" size="massive"
+                        onClick={() => history.push('/board')}>
+                            CONNECT
+                        </Button>
+                    )}
+                </Container>
+            </div>
+            </Grid>
+        );
     }
 
     displayPeersList() {
@@ -60,35 +98,35 @@ class OnlineSetupScreen extends Component{
 
         return peersList.map((p, idx) => {
             return (
-                <div key={idx}>
-                    <button id={p} 
-                    onClick={()=>this.connectToPeer(p)} 
-                    key={idx}>
-                      {p}
-                    </button>
-                </div>
+                <List divided relaxed key={idx}>
+                    <List.Item onClick={() => this.connectToPeer(p)} className="onlineUser">
+                        <Icon name="users" size="large" verticalalign="middle"/>
+                        <List.Content className="onlineUser">
+                            <List.Header as="a" >{p}</List.Header>
+                        </List.Content>
+                    </List.Item>
+                </List>
             );
         });
     }
 
     refreshList() {
-        console.log("words")
         this.props.getPeersList();
     }
 
     connectToPeer(peerId) {
-        history.push('/board')
-        return(dispatch) => {
-            dispatch(updateNetworkData('remotePeerId', peerId));
-        }
+        this.props.updateNetworkData('remotePeerId', peerId);
+        this.props.connectToPeer(peerId);
     }
+    
 }
 
 const mapStateToProps = ({ network }) => {
-    const { remotePeerId, onlineUsers, peer } = network;
-    return {remotePeerId, onlineUsers, peer};
+    console.log('network debug', network);
+    const { remotePeerId, onlineUsers, peer, peerId } = network;
+    return {remotePeerId, onlineUsers, peer, peerId};
 };
 
 export default  connect(mapStateToProps, {
-    listenNetworkData, initPeer, getPeersList
+    listenNetworkData, initPeer, getPeersList, updateNetworkData, connectToPeer
 })(OnlineSetupScreen);;

@@ -1,6 +1,7 @@
 import { NETWORK_UPDATE_DATA, NETWORK_RECEIVE_MESSSAGE } from './types';
 import Peer from 'peerjs';
 import { selectBagPiece, selectBoardCell } from './BoardActions';
+import history from '../history';
 
 
 export const updateNetworkData = (prop, value) => {
@@ -10,6 +11,18 @@ export const updateNetworkData = (prop, value) => {
     }
 };
 
+export const connectToPeer = (peerId) => {
+
+    return (dispatch, getState) => {
+
+        const { peer } = getState().network;
+        console.log(`sending to ${peerId}`);
+        const conn = peer.connect(peerId);
+        dispatch(updateNetworkData('remotePeerId', peerId));
+
+    };
+
+};
 export const sendNetworkData = (type, data) => {
 
     return (dispatch, getState) => {
@@ -28,7 +41,7 @@ export const sendNetworkData = (type, data) => {
 export const listenNetworkData = () => {
 
     return (dispatch, getState) => {
-        const { peer } = getState().network;
+        const { peer, remotePeerId } = getState().network;
         
         peer.on('open', function(id) {
             console.log('My peer ID is: ' + id);
@@ -37,7 +50,7 @@ export const listenNetworkData = () => {
                     return user !== id;
                 });
                 dispatch(updateNetworkData('onlineUsers', onlineUsers));
-                for(var i = 0; i < 100; i++) {
+                for(var i = 0; i < 10; i++) {
                     console.log(list[i])
                 }
             });
@@ -47,9 +60,15 @@ export const listenNetworkData = () => {
             if (type === 'unavailable-id') {
                 console.log('Id is taken already');
                 alert('Username is already taken, please select another');
+                dispatch(updateNetworkData('peer', null));
             }
         });
         peer.on('connection', (conn) => {
+            conn.on('open', () => {
+                console.log(conn.peer);
+                updateNetworkData('remotePeerId', conn.peer);
+                history.push('/board');
+            })
             conn.on('data', ({type, data}) => {
 
                 if (type === 'message') {

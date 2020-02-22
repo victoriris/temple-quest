@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Radio } from 'semantic-ui-react';
-import { initBoard, selectBagPiece, selectBoardCell, updateBoardData } from '../actions';
+import { initBoard, selectBagPiece, selectBoardCell, updateBoardData, listenNetworkData } from '../actions';
 import ChatBox from '../components/ChatBox';
 
 
@@ -9,6 +9,7 @@ class BoardScreen extends Component {
 
     componentWillMount() {
         this.props.initBoard();
+        this.props.listenNetworkData({});
     }
 
     handleOnlineChange () {
@@ -65,6 +66,9 @@ class BoardScreen extends Component {
 
     render() {
         const { selectedPieceId, isUserTurn, isOnlineMode } = this.props;
+        
+       // console.log('me ', this.props.peer);
+        //console.log('me ' + this.props.peer + ' them ' + this.props.remotePeerId);
         return (
             <div>
                 <Radio toggle 
@@ -78,19 +82,18 @@ class BoardScreen extends Component {
                 <div>
                     {(!isOnlineMode || isUserTurn) && selectedPieceId && this.renderCells()}
                 </div>
-                <ChatBox />
             </div>
         )
     }
 }
 
 const mapStateToProps = ({ board, network }) => {
-    const { remotePeerId } = network;
+    const { remotePeerId, peer } = network;
     const { pieces, isUserTurn, selectedPieceId, isOnlineMode } = board;
-    return { pieces, isUserTurn, selectedPieceId, remotePeerId, isOnlineMode };
+    return { pieces, isUserTurn, selectedPieceId, remotePeerId, isOnlineMode, peer };
 };
 
 
 export default connect(mapStateToProps, {
-    initBoard, selectBagPiece, selectBoardCell, updateBoardData
+    initBoard, selectBagPiece, selectBoardCell, updateBoardData, listenNetworkData
 })(BoardScreen);

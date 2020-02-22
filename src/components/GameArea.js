@@ -71,6 +71,8 @@ class Viewer extends Component {
             holePiece9, holePiece10, holePiece11, holePiece12, 
             holePiece13, holePiece14, holePiece15, holePiece16;
         var ourGameBoard;
+        var piecePicked;
+        var hasPieceBeenPicked;
         
         //Board Positions
         var board1 = new BABYLON.Vector3(-7.5, 0.15, -7.5);
@@ -89,6 +91,7 @@ class Viewer extends Component {
         var board14 = new BABYLON.Vector3(7.5, 0.15, -2.5);
         var board15 = new BABYLON.Vector3(7.5, 0.15, 2.5);
         var board16 = new BABYLON.Vector3(7.5, 0.15, 7.5);
+        var coasterLocation = new BABYLON.Vector3(0, 0.069, -13);
 
         //importing the board object    empty   objectImportName  empty scene (paramsForAnimation)
         BABYLON.SceneLoader.ImportMesh("",gameBoard, "", scene, (newMeshes, particleSystems, skeletons) =>{
@@ -276,6 +279,7 @@ class Viewer extends Component {
 
         //Point and click logic
         setTimeout(function() {
+            hasPieceBeenPicked = false;
             //TRYING TO GET FREAKING SHADOWS TO WORK
             // var shadowGenerator = new BABYLON.ShadowGenerator(1024, light);
             // shadowGenerator.getShadowMap().renderList.push(shortDarkFlatCylinder);
@@ -292,77 +296,84 @@ class Viewer extends Component {
                 // console.log(pickResult.pickedMesh === holePiece1);
                 // console.log(pickResult.pickedMesh);
                 // console.log(holePiece1);
-                if(pickResult.hit && pickResult.pickedMesh.name === "Cylinder.015")
-                {
-                    tallLightFlatSquare.position = board1;
-                    // targetVec = pickResult.pickedPoint;
-                    // ball.position = targetVec.clone();
+                if(hasPieceBeenPicked) {
+                    if(pickResult.hit && pickResult.pickedMesh.name === "Cylinder.015")
+                    {
+                        tallLightFlatSquare.position = board1;
+                        // targetVec = pickResult.pickedPoint;
+                        // ball.position = targetVec.clone();
 
-                    // initVec = board.position.clone();
-                    // distVec = BABYLON.Vector3.Distance(targetVec, initVec);
+                        // initVec = board.position.clone();
+                        // distVec = BABYLON.Vector3.Distance(targetVec, initVec);
 
-                    // targetVec = targetVec.subtract(initVec);
-                    // targetVecNorm = BABYLON.Vector3.Normalize(targetVec);
+                        // targetVec = targetVec.subtract(initVec);
+                        // targetVecNorm = BABYLON.Vector3.Normalize(targetVec);
+                    }
+                    else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece2.Cylinder.015")
+                    {
+                        tallLightFlatSquare.position = board2;
+                    }
+                    else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece3.Cylinder.015")
+                    {
+                        tallLightFlatSquare.position = board3;
+                    }
+                    else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece4.Cylinder.015")
+                    {
+                        tallLightFlatSquare.position = board4;
+                    }
+                    else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece5.Cylinder.015")
+                    {
+                        tallLightFlatSquare.position = board5;
+                    }
+                    else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece6.Cylinder.015")
+                    {
+                        tallLightFlatSquare.position = board6;
+                    }
+                    else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece7.Cylinder.015")
+                    {
+                        tallLightFlatSquare.position = board7;
+                    }
+                    else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece8.Cylinder.015")
+                    {
+                        tallLightFlatSquare.position = board8;
+                    }
+                    else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece9.Cylinder.015")
+                    {
+                        tallLightFlatSquare.position = board9;
+                    }
+                    else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece10.Cylinder.015")
+                    {
+                        tallLightFlatSquare.position = board10;
+                    }
+                    else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece11.Cylinder.015")
+                    {
+                        tallLightFlatSquare.position = board11;
+                    }
+                    else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece12.Cylinder.015")
+                    {
+                        tallLightFlatSquare.position = board12;
+                    }
+                    else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece13.Cylinder.015")
+                    {
+                        tallLightFlatSquare.position = board13;
+                    }
+                    else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece14.Cylinder.015")
+                    {
+                        tallLightFlatSquare.position = board14;
+                    }
+                    else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece15.Cylinder.015")
+                    {
+                        tallLightFlatSquare.position = board15;
+                    }
+                    else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece16.Cylinder.015")
+                    {
+                        tallLightFlatSquare.position = board16;
+                    }
                 }
-                else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece2.Cylinder.015")
+                else if(!hasPieceBeenPicked && pickResult.hit && pickResult.pickedMesh.name === "Cylinder")
                 {
-                    tallLightFlatSquare.position = board2;
-                }
-                else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece3.Cylinder.015")
-                {
-                    tallLightFlatSquare.position = board3;
-                }
-                else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece4.Cylinder.015")
-                {
-                    tallLightFlatSquare.position = board4;
-                }
-                else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece5.Cylinder.015")
-                {
-                    tallLightFlatSquare.position = board5;
-                }
-                else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece6.Cylinder.015")
-                {
-                    tallLightFlatSquare.position = board6;
-                }
-                else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece7.Cylinder.015")
-                {
-                    tallLightFlatSquare.position = board7;
-                }
-                else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece8.Cylinder.015")
-                {
-                    tallLightFlatSquare.position = board8;
-                }
-                else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece9.Cylinder.015")
-                {
-                    tallLightFlatSquare.position = board9;
-                }
-                else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece10.Cylinder.015")
-                {
-                    tallLightFlatSquare.position = board10;
-                }
-                else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece11.Cylinder.015")
-                {
-                    tallLightFlatSquare.position = board11;
-                }
-                else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece12.Cylinder.015")
-                {
-                    tallLightFlatSquare.position = board12;
-                }
-                else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece13.Cylinder.015")
-                {
-                    tallLightFlatSquare.position = board13;
-                }
-                else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece14.Cylinder.015")
-                {
-                    tallLightFlatSquare.position = board14;
-                }
-                else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece15.Cylinder.015")
-                {
-                    tallLightFlatSquare.position = board15;
-                }
-                else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece16.Cylinder.015")
-                {
-                    tallLightFlatSquare.position = board16;
+                    tallLightFlatSquare.position = coasterLocation;
+                    hasPieceBeenPicked = true;
                 }
             };
             

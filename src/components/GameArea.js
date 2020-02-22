@@ -5,7 +5,7 @@ import BabylonScene from './BabylonScene';
 import * as BABYLON_LOADER from 'babylonjs-loaders';
 import tLFS from '../objects/tallLightFlatSquare.glb';
 import tLHC from '../objects/tallLightHoleCylinder.glb';
-import gameBoard from '../objects/newGameboard.glb';
+import gameBoard from '../objects/newGameBoard.glb';
 import pieceThatGoesInHole from '../objects/pieceThatGoesInHole.glb';
 import floor from '../objects/floor.glb';
 import slab from '../objects/slabForPieces.glb';

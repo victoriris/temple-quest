@@ -11,6 +11,7 @@ import GameModeScreen from './screens/GameModeScreen';
 import OnlineSetupScreen from './screens/OnlineSetupScreen';
 import LocalSetupScreen from './screens/LocalSetupScreen';
 import DifficultyScreen from './screens/DifficultyScreen';
+import ConnectionLost from './screens/ConnectionLost';
 
 const Routes = () => {
 
@@ -26,6 +27,7 @@ const Routes = () => {
           <Route path="/about" component={AboutScreen}/>
           <Route path="/tutorial" component={TutorialScreen}/>
           <Route path="/game" component={GameScreen}/>
+          <Route path="/connectionLost" component={ConnectionLost}/>
       </Router>
     );
     

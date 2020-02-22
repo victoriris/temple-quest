@@ -16,28 +16,28 @@ class GameModeScreen extends Component {
                     <GridColumn verticalAlign="middle">
                         <Container
                         className="mainScreen__option">
-                            <Button size="massive" color="black"
+                            <Button   size="massive" color="black"
                             onClick={() => this.handleClick('mode')}>
                                 SINGLEPLAYER
                             </Button>
                         </Container>
                         <Container
                         className="mainScreen__option">
-                            <Button size="massive" color="black"
+                            <Button   size="massive" color="black"
                             onClick={() => this.handleClick('online')}>
                                 ONLINE
                             </Button>
                         </Container>
                         <Container
                         className="mainScreen__option">
-                            <Button size="massive" color="black"
+                            <Button   size="massive" color="black"
                             onClick={() => this.handleClick('local')}>
                                 LOCAL MULTIPLAYER
                             </Button>
                         </Container>
                         <Container
                         className="mainScreen__option">
-                            <Button size="massive" color="black"
+                            <Button   size="massive" color="black"
                             onClick={() => history.goBack()}>
                                 BACK
                             </Button>

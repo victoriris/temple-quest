@@ -37,7 +37,7 @@ class AboutScreen extends Component {
                 <p></p>
                     </Container>
                     <Container className="mainScreen__option">
-                        <Button color="black" size="massive"
+                        <Button   color="black" size="massive"
                         onClick={() => history.goBack()}>
                             BACK
                         </Button>

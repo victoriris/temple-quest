@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Button, Container, Grid, GridColumn, GridRow } from 'semantic-ui-react';
+import { Button, Container, Grid, GridColumn, GridRow, Segment, Dimmer, Loader, Image } from 'semantic-ui-react';
 import history from '../history';
 import jungleMainMenu from '../img/mainMenuBackground.mp4';
 
-class LocalSetupScreen extends Component {
+class ConnectionLost extends Component {
 
     handleClick = (route) => history.push(route);
     handleExit = () => {};
@@ -15,20 +15,19 @@ class LocalSetupScreen extends Component {
                 <GridRow>
                     <GridColumn verticalAlign="middle">
                         <Container className="playerChoice">
-                            <h2>Who goes first?</h2>
+                            <h1>Connection Lost!</h1>
+                            <Segment>
+                            <Dimmer active>
+                                <Loader content='Trying to reconnect...' />
+                            </Dimmer>
+                            </Segment>
                         </Container>
-                        <Container className="mainScreen__option">
-                            <Button.Group>
-                            <Button size="massive" color="red">Player 1</Button>
-                            <Button.Or />
-                            <Button size="massive" color="blue">Player 2</Button>
-                            </Button.Group>
-                        </Container>
+  
                         <Container
                         className="mainScreen__option">
                             <Button   size="massive" color="black"
-                            onClick={() => history.goBack()}>
-                                BACK
+                            onClick={() => this.handleClick('menu')}>
+                                MAIN MENU
                             </Button>
                         </Container>
                     </GridColumn>
@@ -38,4 +37,4 @@ class LocalSetupScreen extends Component {
     }
 }
 
-export default LocalSetupScreen;
+export default ConnectionLost;

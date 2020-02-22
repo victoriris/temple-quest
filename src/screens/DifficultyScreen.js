@@ -16,28 +16,28 @@ class DifficultyScreen extends Component {
                     <GridColumn verticalAlign="middle">
                         <Container
                         className="mainScreen__option">
-                            <Button size="massive" color="black"
+                            <Button   size="massive" color="black"
                             onClick={() => this.handleClick('game')}>
                                 EASY
                             </Button>
                         </Container>
                         <Container
                         className="mainScreen__option">
-                            <Button size="massive" color="black"
+                            <Button   size="massive" color="black"
                             onClick={() => this.handleClick('game')}>
                                 MEDUIM
                             </Button>
                         </Container>
                         <Container
                         className="mainScreen__option">
-                            <Button size="massive" color="black"
+                            <Button   size="massive" color="black"
                             onClick={() => this.handleClick('game')}>
                                 HARD
                             </Button>
                         </Container>
                         <Container
                         className="mainScreen__option">
-                            <Button size="massive" color="black"
+                            <Button   size="massive" color="black"
                             onClick={() => history.goBack()}>
                                 BACK
                             </Button>

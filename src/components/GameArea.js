@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import * as BABYLON from 'babylonjs';
 import BabylonScene from './BabylonScene';
-import LoadingScreen from './LoadingScreen';
 // eslint-disable-next-line
 import * as BABYLON_LOADER from 'babylonjs-loaders';
 import tLFS from '../objects/tallLightFlatSquare.glb';
@@ -39,7 +38,7 @@ class Viewer extends Component {
         const { canvas, engine } = e;
         var scene = new BABYLON.Scene(engine);
         // This creates and positions a free camera (non-mesh)
-        const camera = new BABYLON.ArcRotateCamera("camera1", 0, 0, 20, new BABYLON.Vector3(20, 0, 0), scene);
+        const camera = new BABYLON.ArcRotateCamera("camera1", 0, 0, 35, new BABYLON.Vector3(30, 0, 0), scene);
         // This targets the camera to scene origin
         camera.setTarget(BABYLON.Vector3.Zero());
         // This attaches the camera to the canvas

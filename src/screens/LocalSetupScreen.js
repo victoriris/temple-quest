@@ -19,9 +19,9 @@ class LocalSetupScreen extends Component {
                         </Container>
                         <Container className="mainScreen__option">
                             <Button.Group>
-                            <Button size="massive" color="red">Player 1</Button>
+                            <Button size="massive" color="red" onClick={() => this.handleClick('game')}>Player 1</Button>
                             <Button.Or />
-                            <Button size="massive" color="blue">Player 2</Button>
+                            <Button size="massive" color="blue" onClick={() => this.handleClick('game')}>Player 2</Button>
                             </Button.Group>
                         </Container>
                         <Container

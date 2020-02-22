@@ -32,6 +32,14 @@ class MainScreen extends Component {
                         className="mainScreen__option">
                             <Button   floated="left" 
                              color="black" size="massive"
+                            onClick={() => this.handleClick('settings')}>
+                                SETTINGS
+                            </Button>
+                        </Container>
+                        <Container
+                        className="mainScreen__option">
+                            <Button   floated="left" 
+                             color="black" size="massive"
                             onClick={() => this.handleClick('about')}>
                                 ABOUT
                             </Button>

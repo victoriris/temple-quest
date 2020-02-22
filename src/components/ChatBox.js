@@ -2,18 +2,17 @@ import moment from 'moment';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, FormInput } from 'semantic-ui-react';
-import { listenNetworkData, sendNetworkData, updateNetworkData, initPeer } from '../actions';
+import { listenNetworkData, sendNetworkData, updateNetworkData } from '../actions';
 
 
 class ChatBox extends Component {
 
     componentWillMount () {
-        this.props.initPeer();
         this.props.listenNetworkData({});
     }
 
     handleIdChange (value) {
-        this.props.updateNetworkData('remotePeerId', value);
+        //this.props.updateNetworkData('remotePeerId', value);
     }
 
     handleMessageSend () {
@@ -49,11 +48,11 @@ class ChatBox extends Component {
 
 
 const mapStateToProps = ({ network }) => {
-    const { remotePeerId, messages } = network;
-    return { remotePeerId, messages };
+    const { remotePeerId, messages, peer } = network;
+    return { remotePeerId, messages, peer };
 };
 
 
 export default connect(mapStateToProps, {
-   updateNetworkData, sendNetworkData, listenNetworkData, initPeer
+   updateNetworkData, sendNetworkData, listenNetworkData, 
 })(ChatBox);

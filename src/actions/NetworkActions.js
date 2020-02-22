@@ -33,13 +33,20 @@ export const listenNetworkData = () => {
         peer.on('open', function(id) {
             console.log('My peer ID is: ' + id);
             peer.listAllPeers(list => {
-                console.log(list)
+                const onlineUsers = list.filter((user) => {
+                    return user !== id;
+                });
+                dispatch(updateNetworkData('onlineUsers', onlineUsers));
+                for(var i = 0; i < 100; i++) {
+                    console.log(list[i])
+                }
             });
         });
         
         peer.on('error', function({type}) {
             if (type === 'unavailable-id') {
                 console.log('Id is taken already');
+                alert('Username is already taken, please select another');
             }
         });
         peer.on('connection', (conn) => {
@@ -75,10 +82,9 @@ export const listenNetworkData = () => {
 
 };
 
-export const initPeer = () => {
+export const initPeer = ( userId ) => {
     return (dispatch, getState) => {
-
-        const data = new Peer({
+        const data = new Peer(userId, {
             host: 'temple-quest-peerjs.herokuapp.com',
             port: 80,
             debug: 2,
@@ -86,6 +92,23 @@ export const initPeer = () => {
 
         dispatch(updateNetworkData('peer', data));
     };
+}
+
+export const getPeersList = () => {
+    console.log('Action called!!!')
+    return (dispatch, getState) => {
+        var { peer } = getState().network;
+        console.log('refreshing peer list for ' + peer.id);
+        peer.listAllPeers(list => {
+            const onlineUsers = list.filter((user) => {
+                return user !== peer.id;
+            });
+            dispatch(updateNetworkData('onlineUsers', onlineUsers));
+            for(var i = 0; i < 100; i++) {
+                console.log(list[i])
+            }
+        });
+    }
 }
 
 

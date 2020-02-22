@@ -1,88 +1,94 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { initPeer, listenNetworkData, updateNetworkData } from '../actions/NetworkActions';
+import { initPeer, listenNetworkData, updateNetworkData, getPeersList } from '../actions/NetworkActions';
+import history from '../history';
 
 class OnlineSetupScreen extends Component{
     
     constructor(props) {
         super(props);
-        this.createPeer = this.createPeer.bind(this);
         this.connectToPeer = this.connectToPeer.bind(this);
-        this.getPeersList = this.getPeersList.bind(this);
         this.checkUsername = this.checkUsername.bind(this);
         this.displayPeersList = this.displayPeersList.bind(this);
-        this.changePeerId = this.changePeerId.bind(this);
-    }
-
-    componentWillMount() {
-        this.props.initPeer();
-        this.props.listenNetworkData({});
+        this.refreshList = this.refreshList.bind(this);
     }
 
     render() {
+        console.log(this.props.onlineUsers);
         return(
             <div className="OnlineScreen">
                 <div id="getUsernameDiv">
                     <label>Username: </label>
                     <input id="getName" type="text" pattern="[a-zA-Z]+" minLength="4" maxLength="10" placeholder="username" 
                         title="Username should only contain letters, between 4 and 10 characters long"></input>
-                    <button id="userNameButton" onClick={() => this.checkUsername()}>Submit</button>
+                    <button id="userNameButton" 
+                    onClick={() => this.checkUsername()}>
+                        Submit
+                    </button>
                 </div>
-                <div id="peersList" display="none">
-                </div>
+
+                    {!!this.props.peer && (
+                        <div>
+                            <button id='refreshButton' 
+                            onClick={() => this.refreshList()}> 
+                            Refresh
+                            </button>
+                            {this.displayPeersList()}
+                        </div>
+                    )}
+                
             </div>
         );
-    }
-
-    createPeer(peerId) {
-        /*var peer = initPeer;
-        peer.id = peerId;
-        console.log(peer);*/
-    }
-    
-    getPeersList() {
-        var peersList = this.props.peer.listAllPeers(function cb(list){});
-        this.props.peersList = peersList;
-        console.log(this.props.peersList);
-       
     }
 
     checkUsername() {
         console.log('checking username');
         var userId = document.getElementById("getName").value;
-        this.changePeerId(userId);
-        this.displayPeersList();
-    }
-
-    changePeerId(userId) {
-        console.log('hitting the dispatch');
-        return(dispatch, getState) => {
-            dispatch(updateNetworkData('peerId', userId));
+        console.log(userId);
+        if(/^[a-zA-Z][a-zA-Z][a-zA-Z][a-zA-Z][a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*/.test(userId)) {
+            this.props.initPeer(userId);
+            this.props.listenNetworkData({});
+            document.getElementById('getUsernameDiv').style.display = 'none';
+        }
+        else {
+            alert('Invalid username, all usernames must be between 4 and 10 characters long as well as only letters.')
         }
     }
 
-    displayPeersList(getState) {
-        var html = '';
-        var { peer } = getState().network;
-        var peersList = peer.listAllPeers(list => {
-            console.log(list)
-            html += '<button id=\'' + list + '\' onClick=\'connectToPeer(' + list + ')\'>' + list + '</button>';
+    displayPeersList() {
+        var peersList = this.props.onlineUsers;
+
+        return peersList.map((p, idx) => {
+            return (
+                <div key={idx}>
+                    <button id={p} 
+                    onClick={()=>this.connectToPeer(p)} 
+                    key={idx}>
+                      {p}
+                    </button>
+                </div>
+            );
         });
-        document.getElementById("peersList").innerHTML = html;
+    }
+
+    refreshList() {
+        console.log("words")
+        this.props.getPeersList();
     }
 
     connectToPeer(peerId) {
-        return(dispatch, getState) => {
+        history.push('/board')
+        return(dispatch) => {
             dispatch(updateNetworkData('remotePeerId', peerId));
         }
     }
 }
 
 const mapStateToProps = ({ network }) => {
-    const { remotePeerId } = network;
-    return {remotePeerId};
+    const { remotePeerId, onlineUsers, peer } = network;
+    return {remotePeerId, onlineUsers, peer};
 };
 
 export default  connect(mapStateToProps, {
-    listenNetworkData, initPeer
+    listenNetworkData, initPeer, getPeersList
 })(OnlineSetupScreen);;

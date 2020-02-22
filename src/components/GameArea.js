@@ -36,6 +36,7 @@ class Viewer extends Component {
     
     onSceneMount = (e) => {
         const { canvas, engine } = e;
+        engine.displayLoadingUI();
         var scene = new BABYLON.Scene(engine);
         // This creates and positions a free camera (non-mesh)
         const camera = new BABYLON.ArcRotateCamera("camera1", 0, 0, 35, new BABYLON.Vector3(30, 0, 0), scene);
@@ -272,7 +273,6 @@ class Viewer extends Component {
             room.position = new BABYLON.Vector3(0,0,0);
         });
 
-        
 
         //Point and click logic
         setTimeout(function() {
@@ -365,6 +365,8 @@ class Viewer extends Component {
                     tallLightFlatSquare.position = board16;
                 }
             };
+            
+        engine.hideLoadingUI();
         }, 3000);
 
         
@@ -383,6 +385,7 @@ class Viewer extends Component {
             <BabylonScene onSceneMount={this.onSceneMount} />
         )
     }
+    
 }
 
 const mapStateToProps = ({ board }) => {

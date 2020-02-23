@@ -5,8 +5,31 @@
     border-radius: 5px;
     max-height: 30rem;
     overflow: scroll;
+    min-width: 10rem;
+    max-width: 15rem;
+    margin-top: 5rem;
 }
 
-Icon{
-    
+.refresh{
+    padding-top: 5rem;
+    margin-top: 10rem;
 }
+
+.back{
+    padding-top: 2rem;
+    margin-top: 5rem;
+}
+
+.usernameField{
+    min-width: 10rem;
+    max-width: 15rem;
+}
+
+.onlineUser{
+    min-width: 10rem;
+    max-width: 15rem;
+    :active {
+        background-color: blue;
+    }    
+}
+

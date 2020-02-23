@@ -1,14 +1,14 @@
-import { BOARD_UPDATE_DATA, BOARD_INIT, BOARD_PLACE_PIECE } from './types';
+import { BOARD_UPDATE_DATA, BOARD_INIT, BOARD_PLACE_PIECE, BOARD_PICK_PIECE } from './types';
 import { sendNetworkData } from './NetworkActions';
 import { checkWin } from '../helpers';
 
 
 export const checkBoardWin = (pieceId) => { 
     return (dispatch, getState) => {
-        const { pieces, isUserTurn } = getState().board;
+        const { pieces, isPlayerOneTurn } = getState().board;
         let hasWon = checkWin(pieces, pieceId);
 
-        const message = 'Game over. The winner is Player ' + (!isUserTurn ? 1 : 2);
+        const message = 'Game over. The winner is Player ' + (!isPlayerOneTurn ? 1 : 2);
         if (hasWon) alert(message);
     };
 };
@@ -21,10 +21,14 @@ export const initBoard = () => {
 
 export const selectBagPiece = (pieceId, isRemote = false) => {
     return (dispatch, getState) => {
-        const {isOnlineMode} = getState().board;
+        const { isOnlineMode } = getState().board;
 
-        dispatch(updateBoardData('selectedPieceId', pieceId.toString()));
-        dispatch(updateBoardData('isUserTurn', isRemote));
+        dispatch({
+            type: BOARD_PICK_PIECE,
+            payload: {
+                selectedPieceId: pieceId.toString(),
+            }
+        })
 
         // Send to peer
         if (isOnlineMode && !isRemote) {
@@ -51,16 +55,19 @@ export const selectBoardCell = (row, column, isRemote = false) => {
                 location: { row, column },
             } 
         });
-        dispatch(updateBoardData('isUserTurn', !isRemote));
         
         // Check if it is a winning move
         dispatch(checkBoardWin(selectedPieceId));
 
-        // Send to peer
-        if (isOnlineMode && !isRemote) {
-            dispatch(
-                sendNetworkData('place_piece', {row, column})
-            );
+        if (isOnlineMode) {
+            dispatch(updateBoardData('isPlayerOneTurn', !isRemote));
+            
+            // Send to peer
+            if (!isRemote) {
+                dispatch(
+                    sendNetworkData('place_piece', {row, column})
+                );
+            }
         }
 
     }

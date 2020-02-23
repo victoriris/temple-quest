@@ -4,6 +4,7 @@
 
 // Board
 export const BOARD_INIT = 'board_init';
+export const BOARD_PICK_PIECE = 'board_pick_piece';
 export const BOARD_PLACE_PIECE = 'board_place_piece';
 export const BOARD_UPDATE_DATA = 'board_update_data';
 

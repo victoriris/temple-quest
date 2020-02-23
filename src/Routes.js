@@ -1,19 +1,18 @@
 import React from 'react';
-import { Router, Route } from 'react-router-dom';
-import IntroScreen from './screens/IntroScreen';
-import GameScreen from './screens/GameScreen';
+import { Route, Router } from 'react-router-dom';
 import history from './history';
-import BoardScreen from './screens/BoardScreen';
-import MainScreen from './screens/MainScreen';
 import AboutScreen from './screens/AboutScreen';
-import TutorialScreen from './screens/TutorialScreen';
-import GameModeScreen from './screens/GameModeScreen';
-import OnlineSetupScreen from './screens/OnlineSetupScreen';
-import LocalSetupScreen from './screens/LocalSetupScreen';
-import DifficultyScreen from './screens/DifficultyScreen';
+import BoardScreen from './screens/BoardScreen';
 import ConnectionLost from './screens/ConnectionLost';
-import Settings from './screens/SettingsScreen';
+import DifficultyScreen from './screens/DifficultyScreen';
+import GameModeScreen from './screens/GameModeScreen';
+import GameScreen from './screens/GameScreen';
+import IntroScreen from './screens/IntroScreen';
+import LocalSetupScreen from './screens/LocalSetupScreen';
+import MainScreen from './screens/MainScreen';
+import OnlineSetupScreen from './screens/OnlineSetupScreen';
 import SettingsScreen from './screens/SettingsScreen';
+import TutorialScreen from './screens/TutorialScreen';
 
 const Routes = () => {
 
@@ -21,7 +20,7 @@ const Routes = () => {
       <Router history={history}>
           <Route path="/" component={IntroScreen} exact/>
           <Route path="/menu" component={MainScreen}/>
-          <Route path="/mode" component={DifficultyScreen}/>
+          <Route path="/mode" component={GameModeScreen}/>
           <Route path="/local" component={LocalSetupScreen}/>
           <Route path="/online" component={OnlineSetupScreen}/>
           <Route path="/play" component={GameModeScreen}/>

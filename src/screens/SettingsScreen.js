@@ -20,9 +20,6 @@ class SettingsScreen extends Component{
                             <Segment compact>
                                 <Checkbox toggle label="Mute Sound" />
                             </Segment>
-                            <Segment compact>
-                                <Checkbox toggle label="Gallono"/>
-                            </Segment>
                         </Segment.Group>
                     </Container>
                     <Container

@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Radio } from 'semantic-ui-react';
-import { initBoard, selectBagPiece, selectBoardCell, updateBoardData } from '../actions';
-import ChatBox from '../components/ChatBox';
+import { initBoard, selectBagPiece, selectBoardCell, updateBoardData, listenNetworkData } from '../actions';
 
 
 class BoardScreen extends Component {
 
     componentWillMount() {
         this.props.initBoard();
+        this.props.listenNetworkData({});
     }
 
     handlePieceClick (pieceId) {
@@ -70,19 +70,18 @@ class BoardScreen extends Component {
                 <div>
                     {(!isOnlineMode || isPlayerOneTurn) && selectedPieceId && this.renderCells()}
                 </div>
-                <ChatBox />
             </div>
         )
     }
 }
 
 const mapStateToProps = ({ board, network }) => {
-    const { remotePeerId } = network;
+    const { remotePeerId, peer } = network;
     const { pieces, isPlayerOneTurn, selectedPieceId, isOnlineMode } = board;
-    return { pieces, isPlayerOneTurn, selectedPieceId, remotePeerId, isOnlineMode };
+    return { pieces, isPlayerOneTurn, selectedPieceId, remotePeerId, isOnlineMode, peer };
 };
 
 
 export default connect(mapStateToProps, {
-    initBoard, selectBagPiece, selectBoardCell, updateBoardData
+    initBoard, selectBagPiece, selectBoardCell, updateBoardData, listenNetworkData
 })(BoardScreen);

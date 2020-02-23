@@ -7,6 +7,7 @@ const INITIAL_STATE = {
     messages: [],
     peerId: '',
     remotePeerId: '',
+    onlineUsers: [],
 }
 
 export default (state = INITIAL_STATE, { type, payload }) => {

@@ -1,98 +1,84 @@
 import React, { Component } from 'react';
-import { Button, Container, Grid, GridColumn, GridRow, List, Icon} from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { Button, Container, Form, Grid, GridColumn, GridRow } from 'semantic-ui-react';
+import { getPeersList, initPeer, listenNetworkData, updateNetworkData } from '../actions/NetworkActions';
+import PeersList from '../components/PeersList';
 import history from '../history';
 import jungleMainMenu from '../img/mainMenuBackground.mp4';
 
 
 class OnlineSetupScreen extends Component{
+    
     handleClick = (route) => history.push(route);
+    handleInputChange = (e) => this.props.updateNetworkData('peerId', e.target.value);
+    handleSubmit = (e) => {
+        e.preventDefault();
+        console.log('checking username');
+        const { peerId } = this.props;
+        console.log(peerId);
+        if(/^[a-zA-Z][a-zA-Z][a-zA-Z][a-zA-Z][a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*/.test(peerId)) {
+            this.props.initPeer(peerId);
+            this.props.listenNetworkData({});
+        }
+        else {
+            alert('Invalid username, all usernames must be between 4 and 10 characters long as well as only letters.')
+        }
+    };
+
+    refreshList() {
+        this.props.getPeersList();
+    }
+    
+    constructor(props) {
+        super(props);
+        this.refreshList = this.refreshList.bind(this);
+    }
+
     render() {
+        const {peerId, peer} = this.props;
+        const isConnected = !!peer;
         return(
-            <Grid stretched className="mainScreen" padded centered columns={3}>
-            <video id="jungleVideoMainMenu" src={jungleMainMenu} type="video/mp4" autoPlay muted loop />                
+
+        <Grid stretched className="mainScreen" padded centered columns={3}>
+        <video id="jungleVideoMainMenu" src={jungleMainMenu} type="video/mp4" autoPlay muted loop />
+         {!isConnected && (
+                    <Form id="usernameField">
+                        <Form.Field>
+                                <label >Username:</label>
+                                <input placeholder="Username" 
+                                id="username" 
+                                onChange={this.handleInputChange}
+                                value={peerId}
+                                className="usernameField"/>
+                            </Form.Field>
+                            <Button onClick={this.handleSubmit} >
+                                SUBMIT
+                            </Button>
+                        </Form>
+                    )}
             <GridRow>
                 <GridColumn verticalAlign="middle">
-                    <Container className="onlineScreen">
-                    <List divided relaxed>
-                    <List.Item onClick={() => this.handleClick('board')}>
-                        <Icon name="users" size="large" verticalAlign="middle"/>
-                        <List.Content>
-                            <List.Header as="a">User1</List.Header>
-                            <List.Description as='a'>An online player</List.Description>
-                        </List.Content>
-                    </List.Item>
-                    <List.Item onClick={() => this.handleClick('board')}>
-                        <List.Icon name="users" size="large" verticalAlign="middle"/>
-                        <List.Content>
-                            <List.Header as="a">User2</List.Header>
-                            <List.Description as='a'>Another online player</List.Description>
-                        </List.Content>
-                    </List.Item>
-                    <List.Item onClick={() => this.handleClick('board')}>
-                        <List.Icon name="users" size="large" verticalAlign="middle"/>
-                        <List.Content>
-                            <List.Header as="a">User3</List.Header>
-                            <List.Description as='a'>Yet another online player</List.Description>
-                        </List.Content>
-                    </List.Item>
-                    <List.Item onClick={() => this.handleClick('board')}>
-                        <List.Icon name="users" size="large" verticalAlign="middle"/>
-                        <List.Content>
-                            <List.Header as="a">User4</List.Header>
-                            <List.Description as='a'>Yet another online player</List.Description>
-                        </List.Content>
-                    </List.Item>
-                    <List.Item onClick={() => this.handleClick('board')}>
-                        <List.Icon name="users" size="large" verticalAlign="middle"/>
-                        <List.Content>
-                            <List.Header as="a">User5</List.Header>
-                            <List.Description as='a'>Yet another online player</List.Description>
-                        </List.Content>
-                    </List.Item>
-                    <List.Item onClick={() => this.handleClick('board')}>
-                        <List.Icon name="users" size="large" verticalAlign="middle"/>
-                        <List.Content>
-                            <List.Header as="a">User6</List.Header>
-                            <List.Description as='a'>Yet another online player</List.Description>
-                        </List.Content>
-                    </List.Item>
-                    <List.Item onClick={() => this.handleClick('board')}>
-                        <List.Icon name="users" size="large" verticalAlign="middle"/>
-                        <List.Content>
-                            <List.Header as="a">User7</List.Header>
-                            <List.Description as='a'>Yet another online player</List.Description>
-                        </List.Content>
-                    </List.Item>
-                    <List.Item onClick={() => this.handleClick('board')}>
-                        <List.Icon name="users" size="large" verticalAlign="middle"/>
-                        <List.Content>
-                            <List.Header as="a">User8</List.Header>
-                            <List.Description as='a'>Yet another online player</List.Description>
-                        </List.Content>
-                    </List.Item>
-                    <List.Item onClick={() => this.handleClick('board')}>
-                        <List.Icon name="users" size="large" verticalAlign="middle"/>
-                        <List.Content>
-                            <List.Header as="a">User9</List.Header>
-                            <List.Description as='a'>Yet another online player</List.Description>
-                        </List.Content>
-                    </List.Item>
-                    <List.Item onClick={() => this.handleClick('board')}>
-                        <List.Icon name="users" size="large" verticalAlign="middle"/>
-                        <List.Content>
-                            <List.Header as="a">User10</List.Header>
-                            <List.Description as='a'>Yet another online player</List.Description>
-                        </List.Content>
-                    </List.Item>
-                    </List>
-                    </Container>
+                        <PeersList />
                     <Container
                     className="mainScreen__option">
+                        <Button 
+                            color="black" size="massive"
+                        
+                        onClick={() => this.refreshList()}>
+                            REFRESH
+                        </Button>
                         <Button  floated="right" 
                          color="black" size="massive"
                         onClick={() => history.goBack()}>
                             BACK
                         </Button>
+                        {!!this.props.peer && (
+                            <Button  floated="right" 
+                            color="black" size="massive"
+                            onClick={() => history.push('/board')}>
+                                CONNECT
+                            </Button>
+                        )}
                     </Container>
                 </GridColumn>
             </GridRow>
@@ -100,6 +86,14 @@ class OnlineSetupScreen extends Component{
 
         );
     }
+    
 }
 
-export default OnlineSetupScreen;
+const mapStateToProps = ({ network }) => {
+    const { remotePeerId, onlineUsers, peer, peerId } = network;
+    return {remotePeerId, onlineUsers, peer, peerId};
+};
+
+export default  connect(mapStateToProps, {
+    listenNetworkData, initPeer, getPeersList, updateNetworkData
+})(OnlineSetupScreen);;

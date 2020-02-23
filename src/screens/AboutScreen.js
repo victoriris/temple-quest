@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import history from '../history';
-import { Button, Container, Grid, GridColumn, GridRow, Header, Segment, } from 'semantic-ui-react';
+import { Button, Container, Grid, GridColumn } from 'semantic-ui-react';
 import jungleMainMenu from '../img/mainMenuBackground.mp4';
+
 
 class AboutScreen extends Component {
     render() {
@@ -34,10 +35,9 @@ class AboutScreen extends Component {
                     </Container>
                 <Container className="mainScreen__option">
                     <Button
+                    icon="left arrow" labelPosition="left"
                     color="black" size="massive"
-                    onClick={() => history.goBack()}>
-                        BACK
-                    </Button>
+                    onClick={() => history.goBack()} content="Back" />
                 </Container>
             </GridColumn>        
         </Grid>

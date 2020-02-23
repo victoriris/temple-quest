@@ -5,10 +5,8 @@
 
 .about{
     background-color: transparentize($brand-black, 0.2);
+    border-radius: $screen-content-radius;
     color: white;
     font-size: 1.5rem;
-    border-radius: 5px;
-    max-height: 40rem !important;
-    overflow: scroll;
     padding: 3rem;
 }

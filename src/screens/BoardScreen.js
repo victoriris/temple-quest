@@ -13,8 +13,6 @@ class BoardScreen extends Component {
 
     handlePieceClick (pieceId) {
         this.props.selectBagPiece(pieceId);
-
-        this.props.miniMaxStart();
     }
 
     handleCellClick (row, column) {

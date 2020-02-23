@@ -5,9 +5,9 @@ import { isWinMove } from '../helpers';
 export const miniMaxStart = () =>{
 return (dispatch, getstate) => {
     const board = getstate().board;
-    const {selectedPieceId} = board;
+    const {selectedPieceId} = board.selectedPieceId;
     const newPieces = [ ...board.pieces ];
-    let turn = board.isUserTurn;
+    let turn = board.bagOrBoard;
     //find pieces without locations
     const unused = newPieces.filter((item)=>{
         return !item.location;

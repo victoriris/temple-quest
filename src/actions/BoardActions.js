@@ -1,18 +1,15 @@
 import { BOARD_UPDATE_DATA, BOARD_INIT, BOARD_PLACE_PIECE } from './types';
-import { isWinMove } from '../helpers';
+import { sendNetworkData } from './NetworkActions';
+import { checkWin } from '../helpers';
 
-export const checkBoardWin = (pieceId) => {
+
+export const checkBoardWin = (pieceId) => { 
     return (dispatch, getState) => {
         const { pieces, isUserTurn } = getState().board;
+        let hasWon = checkWin(pieces, pieceId);
+
         const message = 'Game over. The winner is Player ' + (!isUserTurn ? 1 : 2);
-
-        const hasWon = isWinMove(pieces, pieceId);
-
-        if (hasWon) {
-            alert(message);
-            dispatch(updateBoardData('isGameOver', true));
-        }
-
+        if (hasWon) alert(message);
     };
 };
 
@@ -22,14 +19,25 @@ export const initBoard = () => {
     };
 };
 
-export const selectBagPiece = (pieceId) => {
-    return (dispatch) => {
+export const selectBagPiece = (pieceId, isRemote = false) => {
+    return (dispatch, getState) => {
+        const {isOnlineMode} = getState().board;
+
         dispatch(updateBoardData('selectedPieceId', pieceId.toString()));
+        dispatch(updateBoardData('isUserTurn', isRemote));
+
+        // Send to peer
+        if (isOnlineMode && !isRemote) {
+            dispatch(
+                sendNetworkData('select_piece', pieceId)
+            );
+        }
     };
 };
 
-export const selectBoardCell = (row, column) => {
+export const selectBoardCell = (row, column, isRemote = false) => {
     return (dispatch, getState) => {
+        const {isOnlineMode} = getState().board;
 
         // Get selected piece or exit otherwise
         const { selectedPieceId } = getState().board;
@@ -43,9 +51,17 @@ export const selectBoardCell = (row, column) => {
                 location: { row, column },
             } 
         });
+        dispatch(updateBoardData('isUserTurn', !isRemote));
         
         // Check if it is a winning move
         dispatch(checkBoardWin(selectedPieceId));
+
+        // Send to peer
+        if (isOnlineMode && !isRemote) {
+            dispatch(
+                sendNetworkData('place_piece', {row, column})
+            );
+        }
 
     }
 };

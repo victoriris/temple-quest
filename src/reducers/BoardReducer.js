@@ -1,9 +1,11 @@
 import { BOARD_UPDATE_DATA, BOARD_INIT, BOARD_PLACE_PIECE } from "../actions/types";
 
 const INITIAL_STATE = {
-    isUserTurn: false,
+    bagOrBoard: true,
     pieces: [],
     selectedPieceId: '',
+    isOnlineMode: true,
+    mounted: false,
 }
 
 export default (state = INITIAL_STATE, { type, payload }) => {
@@ -53,7 +55,7 @@ export default (state = INITIAL_STATE, { type, payload }) => {
             // Modify piece properties
             newPieces[pieceIdx] = {
                 ...newPieces[pieceIdx],
-                owned: state.isUserTurn,
+                owned: state.bagOrBoard,
                 location: payload.location
             };
 
@@ -61,7 +63,7 @@ export default (state = INITIAL_STATE, { type, payload }) => {
                 ...state, 
                 pieces: newPieces, 
                 selectedPieceId: '',
-                isUserTurn: !state.isUserTurn
+                bagOrBoard: !state.bagOrBoard
             };
         }
 

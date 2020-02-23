@@ -5,7 +5,6 @@ import BabylonScene from './BabylonScene';
 import * as BABYLON_LOADER from 'babylonjs-loaders';
 import tLFS from '../objects/tallLightFlatSquare.glb';
 import tLHC from '../objects/tallLightHoleCylinder.glb';
-import gameBoard from '../objects/newGameboard.glb';
 import pieceThatGoesInHole from '../objects/pieceThatGoesInHole.glb';
 import floor from '../objects/floor.glb';
 import slab from '../objects/slabForPieces.glb';
@@ -70,8 +69,7 @@ class Viewer extends Component {
             holePiece5, holePiece6, holePiece7, holePiece8, 
             holePiece9, holePiece10, holePiece11, holePiece12, 
             holePiece13, holePiece14, holePiece15, holePiece16;
-        var ourGameBoard;
-        var piecePicked;
+
         var hasPieceBeenPicked;
         
         //Board Positions
@@ -92,11 +90,6 @@ class Viewer extends Component {
         var board15 = new BABYLON.Vector3(7.5, 0.15, 2.5);
         var board16 = new BABYLON.Vector3(7.5, 0.15, 7.5);
         var coasterLocation = new BABYLON.Vector3(0, 0.069, -13);
-
-        //importing the board object    empty   objectImportName  empty scene (paramsForAnimation)
-        BABYLON.SceneLoader.ImportMesh("",gameBoard, "", scene, (newMeshes, particleSystems, skeletons) =>{
-            ourGameBoard = newMeshes[0];
-        } );
 
         BABYLON.SceneLoader.ImportMesh("",slab, "", scene, (newMeshes, particleSystems, skeletons) =>{
             slabForPieces = newMeshes[0];

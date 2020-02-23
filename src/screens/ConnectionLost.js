@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Container, Grid, GridColumn, GridRow, Segment, Dimmer, Loader, Image } from 'semantic-ui-react';
+import { Button, Container, Grid, GridColumn, GridRow, Segment, Dimmer, Loader } from 'semantic-ui-react';
 import history from '../history';
 import jungleMainMenu from '../img/mainMenuBackground.mp4';
 

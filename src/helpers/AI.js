@@ -18,15 +18,15 @@ function startMinimax(pieces){
 //returns optimal location, optimal piece to give opponent
 function getBestMove(board, emptyLocations, selectedPiece, unusedPieces, maxDepth){
     
-    /*
-    foreach location in emptyLocations{
-    set ABResult.coordinates to location
-    place selectedPiece on board in next coordinate from emptyLocations
-    ABResult.piece = getBoardScore(board, emptyLocations, selectedPiece, unusedPieces, 1, maxDepth);
-    push ABResult to array
-    }
+    
+    emptyLocations.foreach((location, index)=>{
+    // ABResult.coordinates = location;
+    // place selectedPiece on board in next coordinate from emptyLocations
+    // ABResult.piece = getBoardScore(board, emptyLocations, selectedPiece, unusedPieces, 1, maxDepth);
+    // push ABResult to array
+    });
 
-    */
+
     
     // return move
 
@@ -61,7 +61,7 @@ function getBoardScore( board, emptyLocations, selectedPiece, unusedPieces, curr
             currentPiece.location = location;
 
             //I don't know how to do this.
-            boardCopy.find(({ id }) => id === parseInt(currentPiece)).location = currentPiece.location;
+            boardCopy.find(({ id }) => id === parseInt(piece)).location = currentPiece.location;
 
 
             //deepEqual to make copies of arrays without the current elements

@@ -22,17 +22,35 @@ import tDHC from '../objects/tallDarkHoleCylinder.glb';
 import tDHS from '../objects/tallDarkHoleSquare.glb';
 import tLFC from '../objects/tallLightFlatCylinder.glb';
 import tLHS from '../objects/tallLightHoleSquare.glb';
-import gameBoard from '../objects/newGameboard.glb';
+import gameBoard from '../objects/newGameBoard.glb';
 import coaster from '../objects/coaster.glb';
-import { updateBoardData } from '../actions';
+import { initBoard, selectBagPiece, selectBoardCell, updateBoardData, listenNetworkData } from '../actions';
 import { connect } from 'react-redux';
-
-
-
 // eslint-disable-next-line
 import { PositionGizmo, ShadowGenerator } from 'babylonjs';
 
 class Viewer extends Component {
+
+    handleOnlineChange () {
+        const { isOnlineMode } = this.props;
+        this.props.updateBoardData('isOnlineMode', !isOnlineMode);
+    }
+
+    handlePieceClick (pieceId) {
+        this.props.selectBagPiece(pieceId);
+    }
+
+    handleCellClick (row, column) {
+        this.props.selectBoardCell(row, column);
+    }
+
+    isUsedLocation(row, column) {
+        return !!this.props.pieces.find((piece) => {
+            if (!piece.location) return false;
+            const { location } = piece;
+            return location.row === row && location.column === column
+        });
+    }
     
     onSceneMount = (e) => {
         const { canvas, engine } = e;
@@ -53,10 +71,6 @@ class Viewer extends Component {
         var light = new BABYLON.DirectionalLight("dir01", new BABYLON.Vector3(-1, -2, -1), scene);
 	    light.position = new BABYLON.Vector3(20, 40, 20);
         light.intensity = 5;
-        
-        //const light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
-        //light.intensity = 7;
-
 
         //Board Pieces 
         var shortDarkFlatCylinder, shortDarkFlatSquare, shortDarkHoleCylinder, shortDarkHoleSquare, 
@@ -70,8 +84,11 @@ class Viewer extends Component {
             holePiece5, holePiece6, holePiece7, holePiece8, 
             holePiece9, holePiece10, holePiece11, holePiece12, 
             holePiece13, holePiece14, holePiece15, holePiece16;
-
+        var selectedPiece;
         var hasPieceBeenPicked;
+
+        //props values
+        const { pieces, selectedPieceId, isUserTurn, isOnlineMode } = this.props;
         
         //Board Positions
         var board1 = new BABYLON.Vector3(-7.5, 0.15, -7.5);
@@ -277,100 +294,1041 @@ class Viewer extends Component {
         //Point and click logic
         setTimeout(function() {
             hasPieceBeenPicked = false;
-            //TRYING TO GET FREAKING SHADOWS TO WORK
-            // var shadowGenerator = new BABYLON.ShadowGenerator(1024, light);
-            // shadowGenerator.getShadowMap().renderList.push(shortDarkFlatCylinder);
-            // shadowGenerator.addShadowCaster(shortDarkFlatCylinder);
-            // shadowGenerator.useExponentialShadowMap = true;
-
-            // ourGameBoard.receiveShadows = true;
-            // slabForPieces.receiveShadows = true;
-            // room.receiveShadows = true;
 
             scene.onPointerDown = function(evt, pickResult) 
             {
-                // console.log(pickResult.hit);
-                // console.log(pickResult.pickedMesh === holePiece1);
-                // console.log(pickResult.pickedMesh);
-                // console.log(holePiece1);
                 if(hasPieceBeenPicked) {
                     if(pickResult.hit && pickResult.pickedMesh.name === "Cylinder.015")
                     {
-                        tallLightFlatSquare.position = board1;
-                        // targetVec = pickResult.pickedPoint;
-                        // ball.position = targetVec.clone();
-
-                        // initVec = board.position.clone();
-                        // distVec = BABYLON.Vector3.Distance(targetVec, initVec);
-
-                        // targetVec = targetVec.subtract(initVec);
-                        // targetVecNorm = BABYLON.Vector3.Normalize(targetVec);
+                        hasPieceBeenPicked = false;
+                        if(selectedPiece === "shortDarkFlatSquare")
+                        {
+                            shortDarkFlatSquare.position = board1;
+                        }
+                        else if(selectedPiece === "shortDarkHoleSquare")
+                        {
+                            shortDarkHoleSquare.position = board1;
+                        }
+                        else if(selectedPiece === "shortDarkFlatCylinder")
+                        {
+                            shortDarkFlatCylinder.position = board1;
+                        }
+                        else if(selectedPiece === "shortDarkHoleCylinder")
+                        {
+                            shortDarkHoleCylinder.position = board1;
+                        }
+                        else if(selectedPiece === "tallDarkFlatSquare")
+                        {
+                            tallDarkFlatSquare.position = board1;
+                        }
+                        else if(selectedPiece === "tallDarkHoleSquare")
+                        {
+                            tallDarkHoleSquare.position = board1;
+                        }
+                        else if(selectedPiece === "tallDarkFlatCylinder")
+                        {
+                            tallDarkFlatCylinder.position = board1;
+                        }
+                        else if(selectedPiece === "tallDarkHoleCylinder")
+                        {
+                            tallDarkHoleCylinder.position = board1;
+                        }
+                        else if(selectedPiece === "shortLightFlatSquare")
+                        {
+                            shortLightFlatSquare.position = board1;
+                        }
+                        else if(selectedPiece === "shortLightHoleSquare")
+                        {
+                            shortLightHoleSquare.position = board1;
+                        }
+                        else if(selectedPiece === "shortLightFlatCylinder")
+                        {
+                            shortLightFlatCylinder.position = board1;
+                        }
+                        else if(selectedPiece === "shortLightHoleCylinder")
+                        {
+                            shortLightHoleCylinder.position = board1;
+                        }
+                        else if(selectedPiece === "tallLightFlatSquare")
+                        {
+                            tallLightFlatSquare.position = board1;
+                        }
+                        else if(selectedPiece === "tallLightHoleSquare")
+                        {
+                            tallLightHoleSquare.position = board1;
+                        }
+                        else if(selectedPiece === "tallLightFlatCylinder")
+                        {
+                            tallLightFlatCylinder.position = board1;
+                        }
+                        else if(selectedPiece === "tallLightHoleCylinder")
+                        {
+                            tallLightHoleCylinder.position = board1;
+                        }
                     }
                     else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece2.Cylinder.015")
                     {
-                        tallLightFlatSquare.position = board2;
+                        hasPieceBeenPicked = false;
+                        if(selectedPiece === "shortDarkFlatSquare")
+                        {
+                            shortDarkFlatSquare.position = board2;
+                        }
+                        else if(selectedPiece === "shortDarkHoleSquare")
+                        {
+                            shortDarkHoleSquare.position = board2;
+                        }
+                        else if(selectedPiece === "shortDarkFlatCylinder")
+                        {
+                            shortDarkFlatCylinder.position = board2;
+                        }
+                        else if(selectedPiece === "shortDarkHoleCylinder")
+                        {
+                            shortDarkHoleCylinder.position = board2;
+                        }
+                        else if(selectedPiece === "tallDarkFlatSquare")
+                        {
+                            tallDarkFlatSquare.position = board2;
+                        }
+                        else if(selectedPiece === "tallDarkHoleSquare")
+                        {
+                            tallDarkHoleSquare.position = board2;
+                        }
+                        else if(selectedPiece === "tallDarkFlatCylinder")
+                        {
+                            tallDarkFlatCylinder.position = board2;
+                        }
+                        else if(selectedPiece === "tallDarkHoleCylinder")
+                        {
+                            tallDarkHoleCylinder.position = board2;
+                        }
+                        else if(selectedPiece === "shortLightFlatSquare")
+                        {
+                            shortLightFlatSquare.position = board2;
+                        }
+                        else if(selectedPiece === "shortLightHoleSquare")
+                        {
+                            shortLightHoleSquare.position = board2;
+                        }
+                        else if(selectedPiece === "shortLightFlatCylinder")
+                        {
+                            shortLightFlatCylinder.position = board2;
+                        }
+                        else if(selectedPiece === "shortLightHoleCylinder")
+                        {
+                            shortLightHoleCylinder.position = board2;
+                        }
+                        else if(selectedPiece === "tallLightFlatSquare")
+                        {
+                            tallLightFlatSquare.position = board2;
+                        }
+                        else if(selectedPiece === "tallLightHoleSquare")
+                        {
+                            tallLightHoleSquare.position = board2;
+                        }
+                        else if(selectedPiece === "tallLightFlatCylinder")
+                        {
+                            tallLightFlatCylinder.position = board2;
+                        }
+                        else if(selectedPiece === "tallLightHoleCylinder")
+                        {
+                            tallLightHoleCylinder.position = board2;
+                        }
                     }
                     else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece3.Cylinder.015")
                     {
-                        tallLightFlatSquare.position = board3;
+                        hasPieceBeenPicked = false;
+                        if(selectedPiece === "shortDarkFlatSquare")
+                        {
+                            shortDarkFlatSquare.position = board3;
+                        }
+                        else if(selectedPiece === "shortDarkHoleSquare")
+                        {
+                            shortDarkHoleSquare.position = board3;
+                        }
+                        else if(selectedPiece === "shortDarkFlatCylinder")
+                        {
+                            shortDarkFlatCylinder.position = board3;
+                        }
+                        else if(selectedPiece === "shortDarkHoleCylinder")
+                        {
+                            shortDarkHoleCylinder.position = board3;
+                        }
+                        else if(selectedPiece === "tallDarkFlatSquare")
+                        {
+                            tallDarkFlatSquare.position = board3;
+                        }
+                        else if(selectedPiece === "tallDarkHoleSquare")
+                        {
+                            tallDarkHoleSquare.position = board3;
+                        }
+                        else if(selectedPiece === "tallDarkFlatCylinder")
+                        {
+                            tallDarkFlatCylinder.position = board3;
+                        }
+                        else if(selectedPiece === "tallDarkHoleCylinder")
+                        {
+                            tallDarkHoleCylinder.position = board3;
+                        }
+                        else if(selectedPiece === "shortLightFlatSquare")
+                        {
+                            shortLightFlatSquare.position = board3;
+                        }
+                        else if(selectedPiece === "shortLightHoleSquare")
+                        {
+                            shortLightHoleSquare.position = board3;
+                        }
+                        else if(selectedPiece === "shortLightFlatCylinder")
+                        {
+                            shortLightFlatCylinder.position = board3;
+                        }
+                        else if(selectedPiece === "shortLightHoleCylinder")
+                        {
+                            shortLightHoleCylinder.position = board3;
+                        }
+                        else if(selectedPiece === "tallLightFlatSquare")
+                        {
+                            tallLightFlatSquare.position = board3;
+                        }
+                        else if(selectedPiece === "tallLightHoleSquare")
+                        {
+                            tallLightHoleSquare.position = board3;
+                        }
+                        else if(selectedPiece === "tallLightFlatCylinder")
+                        {
+                            tallLightFlatCylinder.position = board3;
+                        }
+                        else if(selectedPiece === "tallLightHoleCylinder")
+                        {
+                            tallLightHoleCylinder.position = board3;
+                        }
                     }
                     else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece4.Cylinder.015")
                     {
-                        tallLightFlatSquare.position = board4;
+                        hasPieceBeenPicked = false;
+                        if(selectedPiece === "shortDarkFlatSquare")
+                        {
+                            shortDarkFlatSquare.position = board4;
+                        }
+                        else if(selectedPiece === "shortDarkHoleSquare")
+                        {
+                            shortDarkHoleSquare.position = board4;
+                        }
+                        else if(selectedPiece === "shortDarkFlatCylinder")
+                        {
+                            shortDarkFlatCylinder.position = board4;
+                        }
+                        else if(selectedPiece === "shortDarkHoleCylinder")
+                        {
+                            shortDarkHoleCylinder.position = board4;
+                        }
+                        else if(selectedPiece === "tallDarkFlatSquare")
+                        {
+                            tallDarkFlatSquare.position = board4;
+                        }
+                        else if(selectedPiece === "tallDarkHoleSquare")
+                        {
+                            tallDarkHoleSquare.position = board4;
+                        }
+                        else if(selectedPiece === "tallDarkFlatCylinder")
+                        {
+                            tallDarkFlatCylinder.position = board4;
+                        }
+                        else if(selectedPiece === "tallDarkHoleCylinder")
+                        {
+                            tallDarkHoleCylinder.position = board4;
+                        }
+                        else if(selectedPiece === "shortLightFlatSquare")
+                        {
+                            shortLightFlatSquare.position = board4;
+                        }
+                        else if(selectedPiece === "shortLightHoleSquare")
+                        {
+                            shortLightHoleSquare.position = board4;
+                        }
+                        else if(selectedPiece === "shortLightFlatCylinder")
+                        {
+                            shortLightFlatCylinder.position = board4;
+                        }
+                        else if(selectedPiece === "shortLightHoleCylinder")
+                        {
+                            shortLightHoleCylinder.position = board4;
+                        }
+                        else if(selectedPiece === "tallLightFlatSquare")
+                        {
+                            tallLightFlatSquare.position = board4;
+                        }
+                        else if(selectedPiece === "tallLightHoleSquare")
+                        {
+                            tallLightHoleSquare.position = board4;
+                        }
+                        else if(selectedPiece === "tallLightFlatCylinder")
+                        {
+                            tallLightFlatCylinder.position = board4;
+                        }
+                        else if(selectedPiece === "tallLightHoleCylinder")
+                        {
+                            tallLightHoleCylinder.position = board4;
+                        }
                     }
                     else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece5.Cylinder.015")
                     {
-                        tallLightFlatSquare.position = board5;
+                        hasPieceBeenPicked = false;
+                        if(selectedPiece === "shortDarkFlatSquare")
+                        {
+                            shortDarkFlatSquare.position = board5;
+                        }
+                        else if(selectedPiece === "shortDarkHoleSquare")
+                        {
+                            shortDarkHoleSquare.position = board5;
+                        }
+                        else if(selectedPiece === "shortDarkFlatCylinder")
+                        {
+                            shortDarkFlatCylinder.position = board5;
+                        }
+                        else if(selectedPiece === "shortDarkHoleCylinder")
+                        {
+                            shortDarkHoleCylinder.position = board5;
+                        }
+                        else if(selectedPiece === "tallDarkFlatSquare")
+                        {
+                            tallDarkFlatSquare.position = board5;
+                        }
+                        else if(selectedPiece === "tallDarkHoleSquare")
+                        {
+                            tallDarkHoleSquare.position = board5;
+                        }
+                        else if(selectedPiece === "tallDarkFlatCylinder")
+                        {
+                            tallDarkFlatCylinder.position = board5;
+                        }
+                        else if(selectedPiece === "tallDarkHoleCylinder")
+                        {
+                            tallDarkHoleCylinder.position = board5;
+                        }
+                        else if(selectedPiece === "shortLightFlatSquare")
+                        {
+                            shortLightFlatSquare.position = board5;
+                        }
+                        else if(selectedPiece === "shortLightHoleSquare")
+                        {
+                            shortLightHoleSquare.position = board5;
+                        }
+                        else if(selectedPiece === "shortLightFlatCylinder")
+                        {
+                            shortLightFlatCylinder.position = board5;
+                        }
+                        else if(selectedPiece === "shortLightHoleCylinder")
+                        {
+                            shortLightHoleCylinder.position = board5;
+                        }
+                        else if(selectedPiece === "tallLightFlatSquare")
+                        {
+                            tallLightFlatSquare.position = board5;
+                        }
+                        else if(selectedPiece === "tallLightHoleSquare")
+                        {
+                            tallLightHoleSquare.position = board5;
+                        }
+                        else if(selectedPiece === "tallLightFlatCylinder")
+                        {
+                            tallLightFlatCylinder.position = board5;
+                        }
+                        else if(selectedPiece === "tallLightHoleCylinder")
+                        {
+                            tallLightHoleCylinder.position = board5;
+                        }
                     }
                     else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece6.Cylinder.015")
                     {
-                        tallLightFlatSquare.position = board6;
+                        hasPieceBeenPicked = false;
+                        if(selectedPiece === "shortDarkFlatSquare")
+                        {
+                            shortDarkFlatSquare.position = board6;
+                        }
+                        else if(selectedPiece === "shortDarkHoleSquare")
+                        {
+                            shortDarkHoleSquare.position = board6;
+                        }
+                        else if(selectedPiece === "shortDarkFlatCylinder")
+                        {
+                            shortDarkFlatCylinder.position = board6;
+                        }
+                        else if(selectedPiece === "shortDarkHoleCylinder")
+                        {
+                            shortDarkHoleCylinder.position = board6;
+                        }
+                        else if(selectedPiece === "tallDarkFlatSquare")
+                        {
+                            tallDarkFlatSquare.position = board6;
+                        }
+                        else if(selectedPiece === "tallDarkHoleSquare")
+                        {
+                            tallDarkHoleSquare.position = board6;
+                        }
+                        else if(selectedPiece === "tallDarkFlatCylinder")
+                        {
+                            tallDarkFlatCylinder.position = board6;
+                        }
+                        else if(selectedPiece === "tallDarkHoleCylinder")
+                        {
+                            tallDarkHoleCylinder.position = board6;
+                        }
+                        else if(selectedPiece === "shortLightFlatSquare")
+                        {
+                            shortLightFlatSquare.position = board6;
+                        }
+                        else if(selectedPiece === "shortLightHoleSquare")
+                        {
+                            shortLightHoleSquare.position = board6;
+                        }
+                        else if(selectedPiece === "shortLightFlatCylinder")
+                        {
+                            shortLightFlatCylinder.position = board6;
+                        }
+                        else if(selectedPiece === "shortLightHoleCylinder")
+                        {
+                            shortLightHoleCylinder.position = board6;
+                        }
+                        else if(selectedPiece === "tallLightFlatSquare")
+                        {
+                            tallLightFlatSquare.position = board6;
+                        }
+                        else if(selectedPiece === "tallLightHoleSquare")
+                        {
+                            tallLightHoleSquare.position = board6;
+                        }
+                        else if(selectedPiece === "tallLightFlatCylinder")
+                        {
+                            tallLightFlatCylinder.position = board6;
+                        }
+                        else if(selectedPiece === "tallLightHoleCylinder")
+                        {
+                            tallLightHoleCylinder.position = board6;
+                        }
                     }
                     else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece7.Cylinder.015")
                     {
-                        tallLightFlatSquare.position = board7;
+                        hasPieceBeenPicked = false;
+                        if(selectedPiece === "shortDarkFlatSquare")
+                        {
+                            shortDarkFlatSquare.position = board7;
+                        }
+                        else if(selectedPiece === "shortDarkHoleSquare")
+                        {
+                            shortDarkHoleSquare.position = board7;
+                        }
+                        else if(selectedPiece === "shortDarkFlatCylinder")
+                        {
+                            shortDarkFlatCylinder.position = board7;
+                        }
+                        else if(selectedPiece === "shortDarkHoleCylinder")
+                        {
+                            shortDarkHoleCylinder.position = board7;
+                        }
+                        else if(selectedPiece === "tallDarkFlatSquare")
+                        {
+                            tallDarkFlatSquare.position = board7;
+                        }
+                        else if(selectedPiece === "tallDarkHoleSquare")
+                        {
+                            tallDarkHoleSquare.position = board7;
+                        }
+                        else if(selectedPiece === "tallDarkFlatCylinder")
+                        {
+                            tallDarkFlatCylinder.position = board7;
+                        }
+                        else if(selectedPiece === "tallDarkHoleCylinder")
+                        {
+                            tallDarkHoleCylinder.position = board7;
+                        }
+                        else if(selectedPiece === "shortLightFlatSquare")
+                        {
+                            shortLightFlatSquare.position = board7;
+                        }
+                        else if(selectedPiece === "shortLightHoleSquare")
+                        {
+                            shortLightHoleSquare.position = board7;
+                        }
+                        else if(selectedPiece === "shortLightFlatCylinder")
+                        {
+                            shortLightFlatCylinder.position = board7;
+                        }
+                        else if(selectedPiece === "shortLightHoleCylinder")
+                        {
+                            shortLightHoleCylinder.position = board7;
+                        }
+                        else if(selectedPiece === "tallLightFlatSquare")
+                        {
+                            tallLightFlatSquare.position = board7;
+                        }
+                        else if(selectedPiece === "tallLightHoleSquare")
+                        {
+                            tallLightHoleSquare.position = board7;
+                        }
+                        else if(selectedPiece === "tallLightFlatCylinder")
+                        {
+                            tallLightFlatCylinder.position = board7;
+                        }
+                        else if(selectedPiece === "tallLightHoleCylinder")
+                        {
+                            tallLightHoleCylinder.position = board7;
+                        }
                     }
                     else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece8.Cylinder.015")
                     {
-                        tallLightFlatSquare.position = board8;
+                        hasPieceBeenPicked = false;
+                        if(selectedPiece === "shortDarkFlatSquare")
+                        {
+                            shortDarkFlatSquare.position = board8;
+                        }
+                        else if(selectedPiece === "shortDarkHoleSquare")
+                        {
+                            shortDarkHoleSquare.position = board8;
+                        }
+                        else if(selectedPiece === "shortDarkFlatCylinder")
+                        {
+                            shortDarkFlatCylinder.position = board8;
+                        }
+                        else if(selectedPiece === "shortDarkHoleCylinder")
+                        {
+                            shortDarkHoleCylinder.position = board8;
+                        }
+                        else if(selectedPiece === "tallDarkFlatSquare")
+                        {
+                            tallDarkFlatSquare.position = board8;
+                        }
+                        else if(selectedPiece === "tallDarkHoleSquare")
+                        {
+                            tallDarkHoleSquare.position = board8;
+                        }
+                        else if(selectedPiece === "tallDarkFlatCylinder")
+                        {
+                            tallDarkFlatCylinder.position = board8;
+                        }
+                        else if(selectedPiece === "tallDarkHoleCylinder")
+                        {
+                            tallDarkHoleCylinder.position = board8;
+                        }
+                        else if(selectedPiece === "shortLightFlatSquare")
+                        {
+                            shortLightFlatSquare.position = board8;
+                        }
+                        else if(selectedPiece === "shortLightHoleSquare")
+                        {
+                            shortLightHoleSquare.position = board8;
+                        }
+                        else if(selectedPiece === "shortLightFlatCylinder")
+                        {
+                            shortLightFlatCylinder.position = board8;
+                        }
+                        else if(selectedPiece === "shortLightHoleCylinder")
+                        {
+                            shortLightHoleCylinder.position = board8;
+                        }
+                        else if(selectedPiece === "tallLightFlatSquare")
+                        {
+                            tallLightFlatSquare.position = board8;
+                        }
+                        else if(selectedPiece === "tallLightHoleSquare")
+                        {
+                            tallLightHoleSquare.position = board8;
+                        }
+                        else if(selectedPiece === "tallLightFlatCylinder")
+                        {
+                            tallLightFlatCylinder.position = board8;
+                        }
+                        else if(selectedPiece === "tallLightHoleCylinder")
+                        {
+                            tallLightHoleCylinder.position = board8;
+                        }
                     }
                     else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece9.Cylinder.015")
                     {
-                        tallLightFlatSquare.position = board9;
+                        hasPieceBeenPicked = false;
+                        if(selectedPiece === "shortDarkFlatSquare")
+                        {
+                            shortDarkFlatSquare.position = board9;
+                        }
+                        else if(selectedPiece === "shortDarkHoleSquare")
+                        {
+                            shortDarkHoleSquare.position = board9;
+                        }
+                        else if(selectedPiece === "shortDarkFlatCylinder")
+                        {
+                            shortDarkFlatCylinder.position = board9;
+                        }
+                        else if(selectedPiece === "shortDarkHoleCylinder")
+                        {
+                            shortDarkHoleCylinder.position = board9;
+                        }
+                        else if(selectedPiece === "tallDarkFlatSquare")
+                        {
+                            tallDarkFlatSquare.position = board9;
+                        }
+                        else if(selectedPiece === "tallDarkHoleSquare")
+                        {
+                            tallDarkHoleSquare.position = board9;
+                        }
+                        else if(selectedPiece === "tallDarkFlatCylinder")
+                        {
+                            tallDarkFlatCylinder.position = board9;
+                        }
+                        else if(selectedPiece === "tallDarkHoleCylinder")
+                        {
+                            tallDarkHoleCylinder.position = board9;
+                        }
+                        else if(selectedPiece === "shortLightFlatSquare")
+                        {
+                            shortLightFlatSquare.position = board9;
+                        }
+                        else if(selectedPiece === "shortLightHoleSquare")
+                        {
+                            shortLightHoleSquare.position = board9;
+                        }
+                        else if(selectedPiece === "shortLightFlatCylinder")
+                        {
+                            shortLightFlatCylinder.position = board9;
+                        }
+                        else if(selectedPiece === "shortLightHoleCylinder")
+                        {
+                            shortLightHoleCylinder.position = board9;
+                        }
+                        else if(selectedPiece === "tallLightFlatSquare")
+                        {
+                            tallLightFlatSquare.position = board9;
+                        }
+                        else if(selectedPiece === "tallLightHoleSquare")
+                        {
+                            tallLightHoleSquare.position = board9;
+                        }
+                        else if(selectedPiece === "tallLightFlatCylinder")
+                        {
+                            tallLightFlatCylinder.position = board9;
+                        }
+                        else if(selectedPiece === "tallLightHoleCylinder")
+                        {
+                            tallLightHoleCylinder.position = board9;
+                        }
                     }
                     else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece10.Cylinder.015")
                     {
-                        tallLightFlatSquare.position = board10;
+                        hasPieceBeenPicked = false;
+                        if(selectedPiece === "shortDarkFlatSquare")
+                        {
+                            shortDarkFlatSquare.position = board10;
+                        }
+                        else if(selectedPiece === "shortDarkHoleSquare")
+                        {
+                            shortDarkHoleSquare.position = board10;
+                        }
+                        else if(selectedPiece === "shortDarkFlatCylinder")
+                        {
+                            shortDarkFlatCylinder.position = board10;
+                        }
+                        else if(selectedPiece === "shortDarkHoleCylinder")
+                        {
+                            shortDarkHoleCylinder.position = board10;
+                        }
+                        else if(selectedPiece === "tallDarkFlatSquare")
+                        {
+                            tallDarkFlatSquare.position = board10;
+                        }
+                        else if(selectedPiece === "tallDarkHoleSquare")
+                        {
+                            tallDarkHoleSquare.position = board10;
+                        }
+                        else if(selectedPiece === "tallDarkFlatCylinder")
+                        {
+                            tallDarkFlatCylinder.position = board10;
+                        }
+                        else if(selectedPiece === "tallDarkHoleCylinder")
+                        {
+                            tallDarkHoleCylinder.position = board10;
+                        }
+                        else if(selectedPiece === "shortLightFlatSquare")
+                        {
+                            shortLightFlatSquare.position = board10;
+                        }
+                        else if(selectedPiece === "shortLightHoleSquare")
+                        {
+                            shortLightHoleSquare.position = board10;
+                        }
+                        else if(selectedPiece === "shortLightFlatCylinder")
+                        {
+                            shortLightFlatCylinder.position = board10;
+                        }
+                        else if(selectedPiece === "shortLightHoleCylinder")
+                        {
+                            shortLightHoleCylinder.position = board10;
+                        }
+                        else if(selectedPiece === "tallLightFlatSquare")
+                        {
+                            tallLightFlatSquare.position = board10;
+                        }
+                        else if(selectedPiece === "tallLightHoleSquare")
+                        {
+                            tallLightHoleSquare.position = board10;
+                        }
+                        else if(selectedPiece === "tallLightFlatCylinder")
+                        {
+                            tallLightFlatCylinder.position = board10;
+                        }
+                        else if(selectedPiece === "tallLightHoleCylinder")
+                        {
+                            tallLightHoleCylinder.position = board10;
+                        }
                     }
                     else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece11.Cylinder.015")
                     {
-                        tallLightFlatSquare.position = board11;
+                        hasPieceBeenPicked = false;
+                        if(selectedPiece === "shortDarkFlatSquare")
+                        {
+                            shortDarkFlatSquare.position = board11;
+                        }
+                        else if(selectedPiece === "shortDarkHoleSquare")
+                        {
+                            shortDarkHoleSquare.position = board11;
+                        }
+                        else if(selectedPiece === "shortDarkFlatCylinder")
+                        {
+                            shortDarkFlatCylinder.position = board11;
+                        }
+                        else if(selectedPiece === "shortDarkHoleCylinder")
+                        {
+                            shortDarkHoleCylinder.position = board11;
+                        }
+                        else if(selectedPiece === "tallDarkFlatSquare")
+                        {
+                            tallDarkFlatSquare.position = board11;
+                        }
+                        else if(selectedPiece === "tallDarkHoleSquare")
+                        {
+                            tallDarkHoleSquare.position = board11;
+                        }
+                        else if(selectedPiece === "tallDarkFlatCylinder")
+                        {
+                            tallDarkFlatCylinder.position = board11;
+                        }
+                        else if(selectedPiece === "tallDarkHoleCylinder")
+                        {
+                            tallDarkHoleCylinder.position = board11;
+                        }
+                        else if(selectedPiece === "shortLightFlatSquare")
+                        {
+                            shortLightFlatSquare.position = board11;
+                        }
+                        else if(selectedPiece === "shortLightHoleSquare")
+                        {
+                            shortLightHoleSquare.position = board11;
+                        }
+                        else if(selectedPiece === "shortLightFlatCylinder")
+                        {
+                            shortLightFlatCylinder.position = board11;
+                        }
+                        else if(selectedPiece === "shortLightHoleCylinder")
+                        {
+                            shortLightHoleCylinder.position = board11;
+                        }
+                        else if(selectedPiece === "tallLightFlatSquare")
+                        {
+                            tallLightFlatSquare.position = board11;
+                        }
+                        else if(selectedPiece === "tallLightHoleSquare")
+                        {
+                            tallLightHoleSquare.position = board11;
+                        }
+                        else if(selectedPiece === "tallLightFlatCylinder")
+                        {
+                            tallLightFlatCylinder.position = board11;
+                        }
+                        else if(selectedPiece === "tallLightHoleCylinder")
+                        {
+                            tallLightHoleCylinder.position = board11;
+                        }
                     }
                     else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece12.Cylinder.015")
                     {
-                        tallLightFlatSquare.position = board12;
+                        hasPieceBeenPicked = false;
+                        if(selectedPiece === "shortDarkFlatSquare")
+                            shortDarkFlatSquare.position = board12;
+                        else if(selectedPiece === "shortDarkHoleSquare")
+                            shortDarkHoleSquare.position = board12;
+                        else if(selectedPiece === "shortDarkFlatCylinder")
+                            shortDarkFlatCylinder.position = board12;
+                        else if(selectedPiece === "shortDarkHoleCylinder")
+                            shortDarkHoleCylinder.position = board12;
+                        else if(selectedPiece === "tallDarkFlatSquare")
+                            tallDarkFlatSquare.position = board12;
+                        else if(selectedPiece === "tallDarkHoleSquare")
+                            tallDarkHoleSquare.position = board12;
+                        else if(selectedPiece === "tallDarkFlatCylinder")
+                            tallDarkFlatCylinder.position = board12;
+                        else if(selectedPiece === "tallDarkHoleCylinder")
+                            tallDarkHoleCylinder.position = board12;
+                        else if(selectedPiece === "shortLightFlatSquare")
+                            shortLightFlatSquare.position = board12;
+                        else if(selectedPiece === "shortLightHoleSquare")
+                            shortLightHoleSquare.position = board12;
+                        else if(selectedPiece === "shortLightFlatCylinder")
+                            shortLightFlatCylinder.position = board12;
+                        else if(selectedPiece === "shortLightHoleCylinder")
+                            shortLightHoleCylinder.position = board12;
+                        else if(selectedPiece === "tallLightFlatSquare")
+                            tallLightFlatSquare.position = board12;
+                        else if(selectedPiece === "tallLightHoleSquare")
+                            tallLightHoleSquare.position = board12;
+                        else if(selectedPiece === "tallLightFlatCylinder")
+                            tallLightFlatCylinder.position = board12;
+                        else if(selectedPiece === "tallLightHoleCylinder")
+                            tallLightHoleCylinder.position = board12;
                     }
                     else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece13.Cylinder.015")
                     {
-                        tallLightFlatSquare.position = board13;
+                        hasPieceBeenPicked = false;
+                        if(selectedPiece === "shortDarkFlatSquare")
+                            shortDarkFlatSquare.position = board13;
+                        else if(selectedPiece === "shortDarkHoleSquare")
+                            shortDarkHoleSquare.position = board13;
+                        else if(selectedPiece === "shortDarkFlatCylinder")
+                            shortDarkFlatCylinder.position = board13;
+                        else if(selectedPiece === "shortDarkHoleCylinder")
+                            shortDarkHoleCylinder.position = board13;
+                        else if(selectedPiece === "tallDarkFlatSquare")
+                            tallDarkFlatSquare.position = board13;
+                        else if(selectedPiece === "tallDarkHoleSquare")
+                            tallDarkHoleSquare.position = board13;
+                        else if(selectedPiece === "tallDarkFlatCylinder")
+                            tallDarkFlatCylinder.position = board13;
+                        else if(selectedPiece === "tallDarkHoleCylinder")
+                            tallDarkHoleCylinder.position = board13;
+                        else if(selectedPiece === "shortLightFlatSquare")
+                            shortLightFlatSquare.position = board13;
+                        else if(selectedPiece === "shortLightHoleSquare")
+                            shortLightHoleSquare.position = board13;
+                        else if(selectedPiece === "shortLightFlatCylinder")
+                            shortLightFlatCylinder.position = board13;
+                        else if(selectedPiece === "shortLightHoleCylinder")
+                            shortLightHoleCylinder.position = board13;
+                        else if(selectedPiece === "tallLightFlatSquare")
+                            tallLightFlatSquare.position = board13;
+                        else if(selectedPiece === "tallLightHoleSquare")
+                            tallLightHoleSquare.position = board13;
+                        else if(selectedPiece === "tallLightFlatCylinder")
+                            tallLightFlatCylinder.position = board13;
+                        else if(selectedPiece === "tallLightHoleCylinder")
+                            tallLightHoleCylinder.position = board13;
                     }
                     else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece14.Cylinder.015")
                     {
-                        tallLightFlatSquare.position = board14;
+                        hasPieceBeenPicked = false;
+                        if(selectedPiece === "shortDarkFlatSquare")
+                            shortDarkFlatSquare.position = board14;
+                        else if(selectedPiece === "shortDarkHoleSquare")
+                            shortDarkHoleSquare.position = board14;
+                        else if(selectedPiece === "shortDarkFlatCylinder")
+                            shortDarkFlatCylinder.position = board14;
+                        else if(selectedPiece === "shortDarkHoleCylinder")
+                            shortDarkHoleCylinder.position = board14;
+                        else if(selectedPiece === "tallDarkFlatSquare")
+                            tallDarkFlatSquare.position = board14;
+                        else if(selectedPiece === "tallDarkHoleSquare")
+                            tallDarkHoleSquare.position = board14;
+                        else if(selectedPiece === "tallDarkFlatCylinder")
+                            tallDarkFlatCylinder.position = board14;
+                        else if(selectedPiece === "tallDarkHoleCylinder")
+                            tallDarkHoleCylinder.position = board14;
+                        else if(selectedPiece === "shortLightFlatSquare")
+                            shortLightFlatSquare.position = board14;
+                        else if(selectedPiece === "shortLightHoleSquare")
+                            shortLightHoleSquare.position = board14;
+                        else if(selectedPiece === "shortLightFlatCylinder")
+                            shortLightFlatCylinder.position = board14;
+                        else if(selectedPiece === "shortLightHoleCylinder")
+                            shortLightHoleCylinder.position = board14;
+                        else if(selectedPiece === "tallLightFlatSquare")
+                            tallLightFlatSquare.position = board14;
+                        else if(selectedPiece === "tallLightHoleSquare")
+                            tallLightHoleSquare.position = board14;
+                        else if(selectedPiece === "tallLightFlatCylinder")
+                            tallLightFlatCylinder.position = board14;
+                        else if(selectedPiece === "tallLightHoleCylinder")
+                            tallLightHoleCylinder.position = board14;
                     }
                     else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece15.Cylinder.015")
                     {
-                        tallLightFlatSquare.position = board15;
+                        hasPieceBeenPicked = false;
+                        if(selectedPiece === "shortDarkFlatSquare")
+                            shortDarkFlatSquare.position = board15;
+                        else if(selectedPiece === "shortDarkHoleSquare")
+                            shortDarkHoleSquare.position = board15;
+                        else if(selectedPiece === "shortDarkFlatCylinder")
+                            shortDarkFlatCylinder.position = board15;
+                        else if(selectedPiece === "shortDarkHoleCylinder")
+                            shortDarkHoleCylinder.position = board15;
+                        else if(selectedPiece === "tallDarkFlatSquare")
+                            tallDarkFlatSquare.position = board15;
+                        else if(selectedPiece === "tallDarkHoleSquare")
+                            tallDarkHoleSquare.position = board15;
+                        else if(selectedPiece === "tallDarkFlatCylinder")
+                            tallDarkFlatCylinder.position = board15;
+                        else if(selectedPiece === "tallDarkHoleCylinder")
+                            tallDarkHoleCylinder.position = board15;
+                        else if(selectedPiece === "shortLightFlatSquare")
+                            shortLightFlatSquare.position = board15;
+                        else if(selectedPiece === "shortLightHoleSquare")
+                            shortLightHoleSquare.position = board15;
+                        else if(selectedPiece === "shortLightFlatCylinder")
+                            shortLightFlatCylinder.position = board15;
+                        else if(selectedPiece === "shortLightHoleCylinder")
+                            shortLightHoleCylinder.position = board15;
+                        else if(selectedPiece === "tallLightFlatSquare")
+                            tallLightFlatSquare.position = board15;
+                        else if(selectedPiece === "tallLightHoleSquare")
+                            tallLightHoleSquare.position = board15;
+                        else if(selectedPiece === "tallLightFlatCylinder")
+                            tallLightFlatCylinder.position = board15;
+                        else if(selectedPiece === "tallLightHoleCylinder")
+                            tallLightHoleCylinder.position = board15;
                     }
                     else if(pickResult.hit && pickResult.pickedMesh.name === "holePiece16.Cylinder.015")
                     {
-                        tallLightFlatSquare.position = board16;
+                        hasPieceBeenPicked = false;
+                        if(selectedPiece === "shortDarkFlatSquare")
+                            shortDarkFlatSquare.position = board16;
+                        else if(selectedPiece === "shortDarkHoleSquare")
+                            shortDarkHoleSquare.position = board16;
+                        else if(selectedPiece === "shortDarkFlatCylinder")
+                            shortDarkFlatCylinder.position = board16;
+                        else if(selectedPiece === "shortDarkHoleCylinder")
+                            shortDarkHoleCylinder.position = board16;
+                        else if(selectedPiece === "tallDarkFlatSquare")
+                            tallDarkFlatSquare.position = board16;
+                        else if(selectedPiece === "tallDarkHoleSquare")
+                            tallDarkHoleSquare.position = board16;
+                        else if(selectedPiece === "tallDarkFlatCylinder")
+                            tallDarkFlatCylinder.position = board16;
+                        else if(selectedPiece === "tallDarkHoleCylinder")
+                            tallDarkHoleCylinder.position = board16;
+                        else if(selectedPiece === "shortLightFlatSquare")
+                            shortLightFlatSquare.position = board16;
+                        else if(selectedPiece === "shortLightHoleSquare")
+                            shortLightHoleSquare.position = board16;
+                        else if(selectedPiece === "shortLightFlatCylinder")
+                            shortLightFlatCylinder.position = board16;
+                        else if(selectedPiece === "shortLightHoleCylinder")
+                            shortLightHoleCylinder.position = board16;
+                        else if(selectedPiece === "tallLightFlatSquare")
+                            tallLightFlatSquare.position = board16;
+                        else if(selectedPiece === "tallLightHoleSquare")
+                            tallLightHoleSquare.position = board16;
+                        else if(selectedPiece === "tallLightFlatCylinder")
+                            tallLightFlatCylinder.position = board16;
+                        else if(selectedPiece === "tallLightHoleCylinder")
+                            tallLightHoleCylinder.position = board16;
                     }
                 }
-                else if(!hasPieceBeenPicked && pickResult.hit && pickResult.pickedMesh.name === "Cylinder")
+                else
                 {
-                    tallLightFlatSquare.position = coasterLocation;
-                    hasPieceBeenPicked = true;
+                    if(pickResult.hit && pickResult.pickedMesh.name.includes("shortDarkFlatSquare"))
+                    {
+                        selectedPiece = "shortDarkFlatSquare";
+                        shortDarkFlatSquare.position = coasterLocation;
+                        hasPieceBeenPicked = true;
+                        
+                        //pickResult.handleCellClick(0,0);
+                        //this.props.handlePieceClick(this.props.selectedPieceId);
+                        
+                    }
+                    else if(pickResult.hit && pickResult.pickedMesh.name.includes("shortDarkHoleSquare"))
+                    {
+                        selectedPiece = "shortDarkHoleSquare";
+                        shortDarkHoleSquare.position = coasterLocation;
+                        hasPieceBeenPicked = true;
+                    }
+                    else if(pickResult.hit && pickResult.pickedMesh.name.includes("shortDarkFlatCylinder"))
+                    {
+                        selectedPiece = "shortDarkFlatCylinder";
+                        shortDarkFlatCylinder.position = coasterLocation;
+                        hasPieceBeenPicked = true;
+                    }
+                    else if(pickResult.hit && pickResult.pickedMesh.name.includes("shortDarkHoleCylinder"))
+                    {
+                        selectedPiece = "shortDarkHoleCylinder";
+                        shortDarkHoleCylinder.position = coasterLocation;
+                        hasPieceBeenPicked = true;
+                    }
+                    else if(pickResult.hit && pickResult.pickedMesh.name.includes("tallDarkFlatSquare"))
+                    {
+                        selectedPiece = "tallDarkFlatSquare";
+                        tallDarkFlatSquare.position = coasterLocation;
+                        hasPieceBeenPicked = true;
+                    }
+                    else if(pickResult.hit && pickResult.pickedMesh.name.includes("tallDarkHoleSquare"))
+                    {
+                        selectedPiece = "tallDarkHoleSquare";
+                        tallDarkHoleSquare.position = coasterLocation;
+                        hasPieceBeenPicked = true;
+                    }
+                    else if(pickResult.hit && pickResult.pickedMesh.name.includes("tallDarkFlatCylinder"))
+                    {
+                        selectedPiece = "tallDarkFlatCylinder";
+                        tallDarkFlatCylinder.position = coasterLocation;
+                        hasPieceBeenPicked = true;
+                    }
+                    else if(pickResult.hit && pickResult.pickedMesh.name.includes("tallDarkHoleCylinder"))
+                    {
+                        selectedPiece = "tallDarkHoleCylinder";
+                        tallDarkHoleCylinder.position = coasterLocation;
+                        hasPieceBeenPicked = true;
+                    }
+                    else if(pickResult.hit && pickResult.pickedMesh.name.includes("shortLightFlatSquare"))
+                    {
+                        selectedPiece = "shortLightFlatSquare";
+                        shortLightFlatSquare.position = coasterLocation;
+                        hasPieceBeenPicked = true;
+                    }
+                    else if(pickResult.hit && pickResult.pickedMesh.name.includes("shortLightHoleSquare"))
+                    {
+                        selectedPiece = "shortLightHoleSquare";
+                        shortLightHoleSquare.position = coasterLocation;
+                        hasPieceBeenPicked = true;
+                    }
+                    else if(pickResult.hit && pickResult.pickedMesh.name.includes("shortLightFlatCylinder"))
+                    {
+                        selectedPiece = "shortLightFlatCylinder";
+                        shortLightFlatCylinder.position = coasterLocation;
+                        hasPieceBeenPicked = true;
+                    }
+                    else if(pickResult.hit && pickResult.pickedMesh.name.includes("shortLightHoleCylinder"))
+                    {
+                        selectedPiece = "shortLightHoleCylinder";
+                        shortLightHoleCylinder.position = coasterLocation;
+                        hasPieceBeenPicked = true;
+                    }
+                    else if(pickResult.hit && pickResult.pickedMesh.name.includes("tallLightFlatSquare"))
+                    {
+                        selectedPiece = "tallLightFlatSquare";
+                        tallLightFlatSquare.position = coasterLocation;
+                        hasPieceBeenPicked = true;
+                    }
+                    else if(pickResult.hit && pickResult.pickedMesh.name.includes("tallLightHoleSquare"))
+                    {
+                        selectedPiece = "tallLightHoleSquare";
+                        tallLightHoleSquare.position = coasterLocation;
+                        hasPieceBeenPicked = true;
+                    }
+                    else if(pickResult.hit && pickResult.pickedMesh.name.includes("tallLightFlatCylinder"))
+                    {
+                        selectedPiece = "tallLightFlatCylinder";
+                        tallLightFlatCylinder.position = coasterLocation;
+                        hasPieceBeenPicked = true;
+                    }
+                    else if(pickResult.hit && pickResult.pickedMesh.name.includes("tallLightHoleCylinder"))
+                    {
+                        selectedPiece = "tallLightHoleCylinder";
+                        tallLightHoleCylinder.position = coasterLocation;
+                        hasPieceBeenPicked = true;
+                    }
                 }
             };
             
@@ -396,10 +1354,12 @@ class Viewer extends Component {
     
 }
 
-const mapStateToProps = ({ board }) => {
-    const {mounted} = board;
-    return {mounted};
+const mapStateToProps = ({ board, network }) => {
+    //const { remotePeerId, peer } = network;
+    const { pieces, isUserTurn, selectedPieceId, isOnlineMode } = board;
+    return { pieces, isUserTurn, selectedPieceId, isOnlineMode  };
 };
+
 export default connect(mapStateToProps, {
-    updateBoardData
+    initBoard, selectBagPiece, selectBoardCell, updateBoardData, 
 })(Viewer);

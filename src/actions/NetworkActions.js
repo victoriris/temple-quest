@@ -65,8 +65,8 @@ export const listenNetworkData = () => {
         });
         peer.on('connection', (conn) => {
             conn.on('open', () => {
-                console.log(conn.peer);
-                updateNetworkData('remotePeerId', conn.peer);
+                console.log('RECEIVED CONNECTION FROM', conn.peer);
+                dispatch(updateNetworkData('remotePeerId', conn.peer));
                 history.push('/board');
             })
             conn.on('data', ({type, data}) => {

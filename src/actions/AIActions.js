@@ -7,7 +7,7 @@ return (dispatch, getstate) => {
     const board = getstate().board;
     const {selectedPieceId} = board.selectedPieceId;
     const newPieces = [ ...board.pieces ];
-    let turn = board.bagOrBoard;
+    let turn = board.isUserTurn;
     //find pieces without locations
     const unused = newPieces.filter((item)=>{
         return !item.location;

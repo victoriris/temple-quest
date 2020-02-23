@@ -64,19 +64,19 @@ class AIBoardScreen extends Component {
     }
 
     render() {
-        const { selectedPieceId, bagOrBoard, isOnlineMode } = this.props;
+        const { selectedPieceId, isUserTurn, isOnlineMode } = this.props;
         return (
             <div>
                 <Radio toggle 
                 onChange={this.handleOnlineChange.bind(this)}
                 label={`Online mode is ${isOnlineMode ? 'on' : 'off'}`} 
                 checked={isOnlineMode}/>
-                <h1>Current turn: Player {this.props.bagOrBoard ? 1 : 2}</h1>
+                <h1>Current turn: Player {this.props.isUserTurn ? 1 : 2}</h1>
                 <h1>Pieces bag</h1>
-                    {(!isOnlineMode || bagOrBoard) && !selectedPieceId && this.renderPiecesBag()}
+                    {(!isOnlineMode || isUserTurn) && !selectedPieceId && this.renderPiecesBag()}
                 <h1>Board cells</h1>
                 <div>
-                    {(!isOnlineMode || bagOrBoard) && selectedPieceId && this.renderCells()}
+                    {(!isOnlineMode || isUserTurn) && selectedPieceId && this.renderCells()}
                 </div>
                 <ChatBox />
             </div>
@@ -86,8 +86,8 @@ class AIBoardScreen extends Component {
 
 const mapStateToProps = ({ board, network }) => {
     const { remotePeerId } = network;
-    const { pieces, bagOrBoard, selectedPieceId, isOnlineMode } = board;
-    return { pieces, bagOrBoard, selectedPieceId, remotePeerId, isOnlineMode };
+    const { pieces, isUserTurn, selectedPieceId, isOnlineMode } = board;
+    return { pieces, isUserTurn, selectedPieceId, remotePeerId, isOnlineMode };
 };
 
 

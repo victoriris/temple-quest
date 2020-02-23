@@ -41,7 +41,10 @@ export default (state = INITIAL_STATE, { type, payload }) => {
                 pieces.push(piece);
             }
 
-            return { ...INITIAL_STATE, pieces };
+
+            console.log('isUserTurn', state.isUserTurn);
+
+            return { ...state, pieces };
         }
 
         case BOARD_PICK_PIECE: {

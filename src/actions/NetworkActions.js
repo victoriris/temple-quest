@@ -1,6 +1,6 @@
 import { NETWORK_UPDATE_DATA, NETWORK_RECEIVE_MESSSAGE } from './types';
 import Peer from 'peerjs';
-import { selectBagPiece, selectBoardCell } from './BoardActions';
+import { selectBagPiece, selectBoardCell, updateBoardData } from './BoardActions';
 import history from '../history';
 
 
@@ -62,7 +62,7 @@ export const listenNetworkData = () => {
             // Connection was made by remote peer
             conn.on('open', () => {
                 dispatch(updateNetworkData('remotePeerId', conn.peer));
-                dispatch(updateNetworkData('isUserTurn', false));
+                dispatch(updateBoardData('isUserTurn', false));
                 history.push('/board');
             })
             // Data was received from remote peer

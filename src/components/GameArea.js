@@ -22,6 +22,7 @@ import tDHC from '../objects/tallDarkHoleCylinder.glb';
 import tDHS from '../objects/tallDarkHoleSquare.glb';
 import tLFC from '../objects/tallLightFlatCylinder.glb';
 import tLHS from '../objects/tallLightHoleSquare.glb';
+import gameBoard from '../objects/newGameboard.glb';
 import coaster from '../objects/coaster.glb';
 import { updateBoardData } from '../actions';
 import { connect } from 'react-redux';
@@ -90,6 +91,9 @@ class Viewer extends Component {
         var board15 = new BABYLON.Vector3(7.5, 0.15, 2.5);
         var board16 = new BABYLON.Vector3(7.5, 0.15, 7.5);
         var coasterLocation = new BABYLON.Vector3(0, 0.069, -13);
+
+         //importing the board object    empty   objectImportName  empty scene (paramsForAnimation)
+        BABYLON.SceneLoader.ImportMesh("",gameBoard, "", scene);
 
         BABYLON.SceneLoader.ImportMesh("",slab, "", scene, (newMeshes, particleSystems, skeletons) =>{
             slabForPieces = newMeshes[0];

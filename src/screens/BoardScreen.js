@@ -59,16 +59,16 @@ class BoardScreen extends Component {
     }
 
     render() {
-        const { selectedPieceId, isPlayerOneTurn, isOnlineMode } = this.props;
+        const { selectedPieceId, isUserTurn, isOnlineMode } = this.props;
         return (
             <div>
                 <h1>{`Online mode is ${isOnlineMode ? 'on' : 'off'}`}</h1>
-                <h1>Current turn: Player {this.props.isPlayerOneTurn ? 1 : 2}</h1>
+                <h1>Current turn: Player {this.props.isUserTurn ? 1 : 2}</h1>
                 <h1>Pieces bag</h1>
-                    {(!isOnlineMode || isPlayerOneTurn) && !selectedPieceId && this.renderPiecesBag()}
+                    {isUserTurn && !selectedPieceId && this.renderPiecesBag()}
                 <h1>Board cells</h1>
                 <div>
-                    {(!isOnlineMode || isPlayerOneTurn) && selectedPieceId && this.renderCells()}
+                    {isUserTurn && selectedPieceId && this.renderCells()}
                 </div>
             </div>
         )
@@ -77,8 +77,8 @@ class BoardScreen extends Component {
 
 const mapStateToProps = ({ board, network }) => {
     const { remotePeerId, peer } = network;
-    const { pieces, isPlayerOneTurn, selectedPieceId, isOnlineMode } = board;
-    return { pieces, isPlayerOneTurn, selectedPieceId, remotePeerId, isOnlineMode, peer };
+    const { pieces, isUserTurn, selectedPieceId, isOnlineMode } = board;
+    return { pieces, isUserTurn, selectedPieceId, remotePeerId, isOnlineMode, peer };
 };
 
 

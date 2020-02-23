@@ -5,10 +5,10 @@ import { checkWin } from '../helpers';
 
 export const checkBoardWin = (pieceId) => { 
     return (dispatch, getState) => {
-        const { pieces, isPlayerOneTurn } = getState().board;
+        const { pieces, isUserTurn } = getState().board;
         let hasWon = checkWin(pieces, pieceId);
 
-        const message = 'Game over. The winner is Player ' + (!isPlayerOneTurn ? 1 : 2);
+        const message = 'Game over. The winner is Player ' + (!isUserTurn ? 1 : 2);
         if (hasWon) alert(message);
     };
 };
@@ -60,7 +60,7 @@ export const selectBoardCell = (row, column, isRemote = false) => {
         dispatch(checkBoardWin(selectedPieceId));
 
         if (isOnlineMode) {
-            dispatch(updateBoardData('isPlayerOneTurn', !isRemote));
+            dispatch(updateBoardData('isUserTurn', !isRemote));
             
             // Send to peer
             if (!isRemote) {

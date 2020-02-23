@@ -1,7 +1,7 @@
 import { BOARD_UPDATE_DATA, BOARD_INIT, BOARD_PLACE_PIECE, BOARD_PICK_PIECE } from "../actions/types";
 
 const INITIAL_STATE = {
-    isPlayerOneTurn: true,
+    isUserTurn: true,
     pieces: [],
     selectedPieceId: '',
     isOnlineMode: true,
@@ -49,7 +49,7 @@ export default (state = INITIAL_STATE, { type, payload }) => {
             return {
                 ...state,
                 selectedPieceId: payload.selectedPieceId,
-                isPlayerOneTurn: !state.isPlayerOneTurn
+                isUserTurn: !state.isUserTurn
             };
 
         }
@@ -65,7 +65,7 @@ export default (state = INITIAL_STATE, { type, payload }) => {
             // Modify piece properties
             newPieces[pieceIdx] = {
                 ...newPieces[pieceIdx],
-                owned: state.isPlayerOneTurn,
+                owned: state.isUserTurn,
                 location: payload.location
             };
 

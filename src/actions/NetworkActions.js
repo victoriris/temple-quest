@@ -62,6 +62,7 @@ export const listenNetworkData = () => {
             // Connection was made by remote peer
             conn.on('open', () => {
                 dispatch(updateNetworkData('remotePeerId', conn.peer));
+                dispatch(updateNetworkData('isUserTurn', false));
                 history.push('/board');
             })
             // Data was received from remote peer

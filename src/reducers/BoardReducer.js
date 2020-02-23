@@ -4,7 +4,7 @@ const INITIAL_STATE = {
     isUserTurn: true,
     pieces: [],
     selectedPieceId: '',
-    isOnlineMode: true,
+    isOnlineMode: false,
     mounted: false,
 }
 

@@ -32,6 +32,7 @@ class ChatBox extends Component {
 
     
     render() {
+        if (!this.props.isOnlineMode) return null;
 
         return (
             <div>
@@ -48,9 +49,10 @@ class ChatBox extends Component {
 }
 
 
-const mapStateToProps = ({ network }) => {
+const mapStateToProps = ({ network, board }) => {
+    const { isOnlineMode } = board;
     const { remotePeerId, messages } = network;
-    return { remotePeerId, messages };
+    return { remotePeerId, messages, isOnlineMode };
 };
 
 

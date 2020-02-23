@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Radio } from 'semantic-ui-react';
 import { initBoard, selectBagPiece, selectBoardCell, updateBoardData, listenNetworkData } from '../actions';
-import ChatBox from '../components/ChatBox';
 
 
 class BoardScreen extends Component {
@@ -67,8 +66,6 @@ class BoardScreen extends Component {
     render() {
         const { selectedPieceId, isUserTurn, isOnlineMode } = this.props;
         
-       // console.log('me ', this.props.peer);
-        //console.log('me ' + this.props.peer + ' them ' + this.props.remotePeerId);
         return (
             <div>
                 <Radio toggle 

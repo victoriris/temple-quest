@@ -5,7 +5,6 @@ import history from '../history';
 
 
 export const updateNetworkData = (prop, value) => {
-    console.log('updating network data at', prop, ' with value of ', value);
     return (dispatch) => {
         dispatch(updateData({ prop, value }));
     }
@@ -14,15 +13,16 @@ export const updateNetworkData = (prop, value) => {
 export const connectToPeer = (peerId) => {
 
     return (dispatch, getState) => {
-
+        
+        // Make connection to remote peer
         const { peer } = getState().network;
-        console.log(`sending to ${peerId}`);
-        const conn = peer.connect(peerId);
+        peer.connect(peerId);
         dispatch(updateNetworkData('remotePeerId', peerId));
 
     };
 
 };
+
 export const sendNetworkData = (type, data) => {
 
     return (dispatch, getState) => {
@@ -41,19 +41,13 @@ export const sendNetworkData = (type, data) => {
 export const listenNetworkData = () => {
 
     return (dispatch, getState) => {
-        const { peer, remotePeerId } = getState().network;
+        const { peer } = getState().network;
         
+        // Listen for own connection
         peer.on('open', function(id) {
-            console.log('My peer ID is: ' + id);
-            peer.listAllPeers(list => {
-                const onlineUsers = list.filter((user) => {
-                    return user !== id;
-                });
-                dispatch(updateNetworkData('onlineUsers', onlineUsers));
-                for(var i = 0; i < 10; i++) {
-                    console.log(list[i])
-                }
-            });
+
+            dispatch(getPeersList());
+
         });
         
         peer.on('error', function({type}) {
@@ -64,11 +58,13 @@ export const listenNetworkData = () => {
             }
         });
         peer.on('connection', (conn) => {
+
+            // Connection was made by remote peer
             conn.on('open', () => {
-                console.log('RECEIVED CONNECTION FROM', conn.peer);
                 dispatch(updateNetworkData('remotePeerId', conn.peer));
                 history.push('/board');
             })
+            // Data was received from remote peer
             conn.on('data', ({type, data}) => {
 
                 if (type === 'message') {
@@ -114,20 +110,18 @@ export const initPeer = ( userId ) => {
 }
 
 export const getPeersList = () => {
-    console.log('Action called!!!')
+
     return (dispatch, getState) => {
+        // Refresh connected users list
         var { peer } = getState().network;
-        console.log('refreshing peer list for ' + peer.id);
         peer.listAllPeers(list => {
             const onlineUsers = list.filter((user) => {
                 return user !== peer.id;
             });
             dispatch(updateNetworkData('onlineUsers', onlineUsers));
-            for(var i = 0; i < 100; i++) {
-                console.log(list[i])
-            }
         });
     }
+
 }
 
 

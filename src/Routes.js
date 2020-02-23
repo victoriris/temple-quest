@@ -20,7 +20,7 @@ const Routes = () => {
       <Router history={history}>
           <Route path="/" component={IntroScreen} exact/>
           <Route path="/menu" component={MainScreen}/>
-          <Route path="/mode" component={DifficultyScreen}/>
+          <Route path="/mode" component={GameModeScreen}/>
           <Route path="/local" component={LocalSetupScreen}/>
           <Route path="/online" component={OnlineSetupScreen}/>
           <Route path="/play" component={GameModeScreen}/>

@@ -5,6 +5,7 @@ const INITIAL_STATE = {
     pieces: [],
     selectedPieceId: '',
     isOnlineMode: true,
+    mounted: false,
 }
 
 export default (state = INITIAL_STATE, { type, payload }) => {

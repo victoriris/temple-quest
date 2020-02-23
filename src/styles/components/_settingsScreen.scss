@@ -1,0 +1,20 @@
+.settings{
+    background-color: $brand-black;
+    height: auto;
+    opacity: 0.8;
+    border-radius: 5px;
+}
+
+.segments{
+    background-color: $brand-black;
+    border-radius: 5px;
+}
+
+.segment{
+    border: 1px solid lightgray !important ;
+    background-color: black ;
+}
+
+label{
+    font-size: 2rem !important;
+}

@@ -1,44 +1,48 @@
 import React, { Component } from 'react';
 import { Button, Container, Grid, GridColumn, GridRow } from 'semantic-ui-react';
 import history from '../history';
+import jungleMainMenu from '../img/mainMenuBackground.mp4';
 
-
-class GameModeScreen extends Component{
+class GameModeScreen extends Component {
 
     handleClick = (route) => history.push(route);
+    handleExit = () => {};
 
-    render() {
-        return (
-            <Grid stretched className="gameModeScreen" padded
-            centered columns={3}>
+    render () {
+        return(
+            <Grid stretched className="choiceScreen" padded centered columns={3}>
+                <video id="jungleVideoMainMenu" src={jungleMainMenu} type="video/mp4" autoPlay muted loop />                
                 <GridRow>
                     <GridColumn verticalAlign="middle">
                         <Container
-                        className="gamemodescreen__option">
-                            <Button basic size="massive" inverted
+                        className="mainScreen__option">
+                            <Button   size="massive" color="black"
                             onClick={() => this.handleClick('local')}>
-                                LOCAL
+                                SINGLEPLAYER
                             </Button>
                         </Container>
                         <Container
-                        className="gamemodescreen__option">
-                            <Button basic size="massive" inverted
+                        className="mainScreen__option">
+                            <Button   size="massive" color="black"
                             onClick={() => this.handleClick('online')}>
                                 ONLINE
                             </Button>
                         </Container>
-                    </GridColumn>
-                </GridRow>
-                <GridRow verticalAlign="bottom">         
-                    <GridColumn floated="right">
-                        <Container>
-                            <Button basic floated="right" 
-                            inverted size="large"
-                            onClick={() => this.handleExit()}>
+                        <Container
+                        className="mainScreen__option">
+                            <Button   size="massive" color="black"
+                            onClick={() => this.handleClick('local')}>
+                                LOCAL MULTIPLAYER
+                            </Button>
+                        </Container>
+                        <Container
+                        className="mainScreen__option">
+                            <Button   size="massive" color="black"
+                            onClick={() => history.goBack()}>
                                 BACK
                             </Button>
                         </Container>
-                    </GridColumn>           
+                    </GridColumn>
                 </GridRow>
             </Grid>
         );

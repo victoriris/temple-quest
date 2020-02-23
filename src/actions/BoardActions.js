@@ -8,7 +8,7 @@ export const checkBoardWin = (pieceId) => {
         const { pieces, isUserTurn } = getState().board;
         let hasWon = checkWin(pieces, pieceId);
 
-        const message = 'Game over. The winner is Player ' + (!isUserTurn ? 1 : 2);
+        const message = 'Game over. The winner is Player ' + (isUserTurn ? 1 : 2);
         if (hasWon) alert(message);
     };
 };

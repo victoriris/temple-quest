@@ -41,7 +41,7 @@ export const sendNetworkData = (type, data) => {
 export const listenNetworkData = () => {
 
     return (dispatch, getState) => {
-        const { peer } = getState().network;
+        const { peer, remotePeerId } = getState().network;
         
         // Listen for own connection
         peer.on('open', function(id) {
@@ -61,9 +61,12 @@ export const listenNetworkData = () => {
 
             // Connection was made by remote peer
             conn.on('open', () => {
-                dispatch(updateNetworkData('remotePeerId', conn.peer));
-                dispatch(updateBoardData('isUserTurn', false));
-                history.push('/board');
+                if (!remotePeerId.length) {
+                    console.log('Game was started', remotePeerId);
+                    dispatch(updateNetworkData('remotePeerId', conn.peer));
+                    dispatch(updateBoardData('isUserTurn', false));
+                    history.push('/board');
+                }
             })
             // Data was received from remote peer
             conn.on('data', ({type, data}) => {

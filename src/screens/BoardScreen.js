@@ -8,7 +8,6 @@ class BoardScreen extends Component {
 
     componentWillMount() {
         this.props.initBoard();
-        this.props.listenNetworkData({});
     }
 
     handlePieceClick (pieceId) {
@@ -63,7 +62,7 @@ class BoardScreen extends Component {
         return (
             <div>
                 <h1>{`Online mode is ${isOnlineMode ? 'on' : 'off'}`}</h1>
-                <h1>Current turn: Player {this.props.isUserTurn ? 1 : 2}</h1>
+                <h1>It is {this.props.isUserTurn ? '' : 'NOT'} your turn</h1>
                 <h1>Pieces bag</h1>
                     {isUserTurn && !selectedPieceId && this.renderPiecesBag()}
                 <h1>Board cells</h1>

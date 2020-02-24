@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Container, Grid, GridColumn, GridRow } from 'semantic-ui-react';
 import history from '../history';
+import GameLogo from '../img/gameLogo.svg';
 
 
 class MainScreen extends Component {
@@ -13,6 +14,9 @@ class MainScreen extends Component {
             <Grid stretched className="mainScreen" padded centered columns={3}>
                 <GridRow>
                     <GridColumn verticalAlign="middle">
+                        <div className="mainScreen__logo" >
+                            <img src={GameLogo} alt=""/>
+                        </div>
                         <Container
                         className="mainScreen__option">
                             <Button   size="massive" color="black"

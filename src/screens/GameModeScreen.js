@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Container, Grid, GridColumn, GridRow } from 'semantic-ui-react';
 import history from '../history';
-import jungleMainMenu from '../img/mainMenuBackground.mp4';
+
 
 class GameModeScreen extends Component {
 
@@ -10,14 +10,13 @@ class GameModeScreen extends Component {
 
     render () {
         return(
-            <Grid stretched className="choiceScreen" padded centered columns={3}>
-                <video id="jungleVideoMainMenu" src={jungleMainMenu} type="video/mp4" autoPlay muted loop />                
+            <Grid stretched className="screen" padded centered columns={3}>
                 <GridRow>
                     <GridColumn verticalAlign="middle">
                         <Container
                         className="mainScreen__option">
                             <Button   size="massive" color="black"
-                            onClick={() => this.handleClick('local')}>
+                            onClick={() => this.handleClick('difficulty')}>
                                 SINGLEPLAYER
                             </Button>
                         </Container>
@@ -37,10 +36,10 @@ class GameModeScreen extends Component {
                         </Container>
                         <Container
                         className="mainScreen__option">
-                            <Button   size="massive" color="black"
-                            onClick={() => history.goBack()}>
-                                BACK
-                            </Button>
+                            <Button
+                            icon="left arrow" labelPosition="left"
+                            color="black" size="massive"
+                            onClick={() => history.goBack()} content="Back" />
                         </Container>
                     </GridColumn>
                 </GridRow>

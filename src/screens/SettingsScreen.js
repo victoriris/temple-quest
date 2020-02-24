@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
 import { Button, Container, Grid, GridColumn, GridRow, Checkbox, Segment} from 'semantic-ui-react';
 import history from '../history';
-import jungleMainMenu from '../img/mainMenuBackground.mp4';
 
 
 class SettingsScreen extends Component{
     handleClick = (route) => history.push(route);
     render() {
         return(
-            <Grid stretched className="mainScreen" padded centered columns={3}>
-            <video id="jungleVideoMainMenu" src={jungleMainMenu} type="video/mp4" autoPlay muted loop />                
+            <Grid stretched className="screen" padded centered columns={3}>
             <GridRow>
                 <GridColumn verticalAlign="middle">
-                    <Container className="settings">
+                    <Container className="screen__box">
                         <Segment.Group class="settingsGroup">
                             <Segment compact>
                                 <Checkbox toggle label="Mute Music" />
@@ -23,12 +21,11 @@ class SettingsScreen extends Component{
                         </Segment.Group>
                     </Container>
                     <Container
-                    className="mainScreen__option">
-                        <Button  floated="right" 
-                         color="black" size="massive"
-                        onClick={() => history.goBack()}>
-                            BACK
-                        </Button>
+                    className="screen__btn">
+                        <Button
+                        icon="left arrow" labelPosition="left"
+                        color="black" size="massive"
+                        onClick={() => history.goBack()} content="Back" />
                     </Container>
                 </GridColumn>
             </GridRow>

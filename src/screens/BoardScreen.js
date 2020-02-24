@@ -8,16 +8,11 @@ class BoardScreen extends Component {
 
     componentWillMount() {
         this.props.initBoard();
-        this.props.listenNetworkData({});
-    }
-
-    handleOnlineChange () {
-        const { isOnlineMode } = this.props;
-        this.props.updateBoardData('isOnlineMode', !isOnlineMode);
     }
 
     handlePieceClick (pieceId) {
         this.props.selectBagPiece(pieceId);
+
     }
 
     handleCellClick (row, column) {
@@ -65,19 +60,15 @@ class BoardScreen extends Component {
 
     render() {
         const { selectedPieceId, isUserTurn, isOnlineMode } = this.props;
-        
         return (
             <div>
-                <Radio toggle 
-                onChange={this.handleOnlineChange.bind(this)}
-                label={`Online mode is ${isOnlineMode ? 'on' : 'off'}`} 
-                checked={isOnlineMode}/>
-                <h1>Current turn: Player {this.props.isUserTurn ? 1 : 2}</h1>
+                <h1>{`Online mode is ${isOnlineMode ? 'on' : 'off'}`}</h1>
+                <h1>It is {this.props.isUserTurn ? '' : 'NOT'} your turn</h1>
                 <h1>Pieces bag</h1>
-                    {(!isOnlineMode || isUserTurn) && !selectedPieceId && this.renderPiecesBag()}
+                    {isUserTurn && !selectedPieceId && this.renderPiecesBag()}
                 <h1>Board cells</h1>
                 <div>
-                    {(!isOnlineMode || isUserTurn) && selectedPieceId && this.renderCells()}
+                    {isUserTurn && selectedPieceId && this.renderCells()}
                 </div>
             </div>
         )

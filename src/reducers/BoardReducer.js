@@ -1,10 +1,11 @@
-import { BOARD_UPDATE_DATA, BOARD_INIT, BOARD_PLACE_PIECE } from "../actions/types";
+import { BOARD_UPDATE_DATA, BOARD_INIT, BOARD_PLACE_PIECE, BOARD_PICK_PIECE } from "../actions/types";
 
 const INITIAL_STATE = {
     isUserTurn: true,
     pieces: [],
     selectedPieceId: '',
-    isOnlineMode: true,
+    isOnlineMode: false,
+    isSingleMode: true,
     mounted: false,
 }
 
@@ -41,7 +42,20 @@ export default (state = INITIAL_STATE, { type, payload }) => {
                 pieces.push(piece);
             }
 
-            return { ...INITIAL_STATE, pieces };
+
+            console.log('isUserTurn', state.isUserTurn);
+
+            return { ...state, pieces };
+        }
+
+        case BOARD_PICK_PIECE: {
+                console.log("userTurn: ", !state.isUserTurn);
+            return {
+                ...state,
+                selectedPieceId: payload.selectedPieceId,
+                isUserTurn: !state.isUserTurn
+            };
+
         }
         
         case BOARD_PLACE_PIECE: {
@@ -63,7 +77,6 @@ export default (state = INITIAL_STATE, { type, payload }) => {
                 ...state, 
                 pieces: newPieces, 
                 selectedPieceId: '',
-                isUserTurn: !state.isUserTurn
             };
         }
 

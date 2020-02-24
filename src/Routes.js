@@ -13,11 +13,13 @@ import MainScreen from './screens/MainScreen';
 import OnlineSetupScreen from './screens/OnlineSetupScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import TutorialScreen from './screens/TutorialScreen';
+import BackgroundVideo from './components/BackgroundVideo';
 
 const Routes = () => {
 
     return (
       <Router history={history}>
+          <BackgroundVideo />
           <Route path="/" component={IntroScreen} exact/>
           <Route path="/menu" component={MainScreen}/>
           <Route path="/mode" component={GameModeScreen}/>
@@ -30,6 +32,7 @@ const Routes = () => {
           <Route path="/game" component={GameScreen}/>
           <Route path="/connectionLost" component={ConnectionLost}/>
           <Route path="/settings" component={SettingsScreen}/>
+          <Route path="/difficulty" component={DifficultyScreen}/>
       </Router>
     );
     

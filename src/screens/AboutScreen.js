@@ -6,11 +6,11 @@ import { Button, Container, Grid, GridColumn } from 'semantic-ui-react';
 class AboutScreen extends Component {
     render() {
         return (
-           <Grid className="aboutScreen"
+           <Grid className="screen"
             stretched padded centered>
                 <GridColumn verticalAlign="middle" mobile={16} tablet={8} computer={10}>
                 <Container
-                className="about"
+                className="screen__box"
                 textAlign="center">
                     <h1>About</h1>
                 <p>
@@ -31,7 +31,7 @@ class AboutScreen extends Component {
                 <h2>QUARTO.</h2>
                 <p></p>
                     </Container>
-                <Container className="mainScreen__option">
+                <Container className="screen__btn">
                     <Button
                     icon="left arrow" labelPosition="left"
                     color="black" size="massive"

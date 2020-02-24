@@ -10,7 +10,7 @@ class GameModeScreen extends Component {
 
     render () {
         return(
-            <Grid stretched className="choiceScreen" padded centered columns={3}>
+            <Grid stretched className="screen" padded centered columns={3}>
                 <GridRow>
                     <GridColumn verticalAlign="middle">
                         <Container
@@ -36,10 +36,10 @@ class GameModeScreen extends Component {
                         </Container>
                         <Container
                         className="mainScreen__option">
-                            <Button   size="massive" color="black"
-                            onClick={() => history.goBack()}>
-                                BACK
-                            </Button>
+                            <Button
+                            icon="left arrow" labelPosition="left"
+                            color="black" size="massive"
+                            onClick={() => history.goBack()} content="Back" />
                         </Container>
                     </GridColumn>
                 </GridRow>

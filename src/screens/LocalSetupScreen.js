@@ -9,28 +9,23 @@ class LocalSetupScreen extends Component {
 
     render () {
         return(
-            <Grid stretched className="choiceScreen" padded centered columns={3}>
-                <GridRow>
-                    <GridColumn verticalAlign="middle">
-                        <Container className="playerChoice">
+            <Grid stretched className="screen" padded centered columns={3}>
+                    <GridColumn verticalAlign="middle"
+                    mobile={16} tablet={8} computer={10}>
+                        <Container className="screen__box">
                             <h2>Who goes first?</h2>
-                        </Container>
-                        <Container className="mainScreen__option">
-                            <Button.Group>
                             <Button size="massive" color="red" onClick={() => this.handleClick('game')}>Player 1</Button>
                             <Button.Or />
                             <Button size="massive" color="blue" onClick={() => this.handleClick('game')}>Player 2</Button>
-                            </Button.Group>
                         </Container>
                         <Container
-                        className="mainScreen__option">
-                            <Button   size="massive" color="black"
-                            onClick={() => history.goBack()}>
-                                BACK
-                            </Button>
+                        className="screen__btn">
+                            <Button
+                            icon="left arrow" labelPosition="left"
+                            color="black" size="massive"
+                            onClick={() => history.goBack()} content="Back" />
                         </Container>
                     </GridColumn>
-                </GridRow>
             </Grid>
         );
     }

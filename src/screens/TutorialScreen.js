@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import history from '../history';
-import { Button, Container, Grid, GridColumn, GridRow } from 'semantic-ui-react';
+import { Button, Container, Grid, GridColumn } from 'semantic-ui-react';
 
 
 class TutorialScreen extends Component{
     render() {
         return(
-            <Grid className="tutorialScreen" 
+            <Grid className="screen" 
             stretched padded centered>
                 <GridColumn verticalAlign="middle"
                 mobile={16} tablet={8} computer={10}>
                     <Container
                     textAlign="center"
-                    className="howToPlay">
+                    className="screen__box">
                     <h1>How To Play</h1>
                     <p>Quarto is an abstract strategy game with 16 different pieces, each with
                         a different set of four characteristics:
@@ -34,7 +34,7 @@ class TutorialScreen extends Component{
                                 Pay close attention to that last spot and what could win there.</li>                    
                     </ul>
                     </Container>
-                    <Container className="mainScreen__option">
+                    <Container className="screen__btn">
                     <Button
                     icon="left arrow" labelPosition="left"
                     color="black" size="massive"

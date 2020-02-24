@@ -51,6 +51,12 @@ class Viewer extends Component {
             return location.row === row && location.column === column
         });
     }
+
+    renderPiecesBag() {
+        const {pieces} = this.props;
+
+
+    }
     
     onSceneMount = (e) => {
         const { canvas, engine } = e;
@@ -68,9 +74,58 @@ class Viewer extends Component {
         camera.upperRadiusLimit = 50;
         camera.lowerRadiusLimit = 20;
         
-        var light = new BABYLON.DirectionalLight("dir01", new BABYLON.Vector3(-1, -2, -1), scene);
-	    light.position = new BABYLON.Vector3(20, 40, 20);
-        light.intensity = 5;
+        //near left
+        var light = new BABYLON.DirectionalLight("dir01", new BABYLON.Vector3(-1, -.35, 1), scene);
+	    light.position = new BABYLON.Vector3(20, 20, -20);
+        light.intensity = 1.7;
+
+        //near right
+        var light2 = new BABYLON.DirectionalLight("dir03", new BABYLON.Vector3(-1, -.35, -1), scene);
+	    light2.position = new BABYLON.Vector3(20, 20, 20);
+        light2.intensity = 1.7;
+
+        //back left
+        var light3 = new BABYLON.DirectionalLight("dir04", new BABYLON.Vector3(1, -.35, 1), scene);
+	    light3.position = new BABYLON.Vector3(-20, 20, -20);
+        light3.intensity = 1.7;
+        
+        //back right
+        var light4 = new BABYLON.DirectionalLight("dir02", new BABYLON.Vector3(1, -.35, -1), scene);
+	    light4.position = new BABYLON.Vector3(-20, 20, 20);
+        light4.intensity = 1.7;
+
+        // //near center
+        // var light5 = new BABYLON.DirectionalLight("dir05", new BABYLON.Vector3(0, -1, 0), scene);
+	    // light5.position = new BABYLON.Vector3(0, 0, 0);
+        // light5.intensity = 1.7;
+
+        // //back center
+        // var light6 = new BABYLON.DirectionalLight("dir02", new BABYLON.Vector3(1, -.5, 0), scene);
+	    // light6.position = new BABYLON.Vector3(20, 20, -20);
+        // light6.intensity = 1.7;
+
+        // //left
+        // var light7 = new BABYLON.DirectionalLight("dir05", new BABYLON.Vector3(0, -.35, 1), scene);
+	    // light7.position = new BABYLON.Vector3(20, 20, -20);
+        // light7.intensity = 1;
+
+        // //far center
+        // var light7 = new BABYLON.DirectionalLight("dir06", new BABYLON.Vector3(1, -.35, 0), scene);
+	    // light7.position = new BABYLON.Vector3(20, 20, -20);
+        // light7.intensity = 1;
+
+        // //near center
+        // var light8 = new BABYLON.DirectionalLight("dir07", new BABYLON.Vector3(-1, -.35, 0), scene);
+	    // light8.position = new BABYLON.Vector3(20, 20, -20);
+        // light8.intensity = 1;
+
+        // //right
+        // var light9 = new BABYLON.DirectionalLight("dir08", new BABYLON.Vector3(0, -.35, -1), scene);
+	    // light9.position = new BABYLON.Vector3(20, 20, -20);
+        // light9.intensity = 1;
+
+        var ground = BABYLON.Mesh.CreateGround("ground", 17, 17, 2, scene);
+        ground.position.y = 0.17;
 
         //Board Pieces 
         var shortDarkFlatCylinder, shortDarkFlatSquare, shortDarkHoleCylinder, shortDarkHoleSquare, 
@@ -1234,7 +1289,7 @@ class Viewer extends Component {
                         selectedPiece = "shortDarkFlatSquare";
                         shortDarkFlatSquare.position = coasterLocation;
                         hasPieceBeenPicked = true;
-                        
+                        //this.props.selectBagPiece(0);
                         //pickResult.handleCellClick(0,0);
                         //this.props.handlePieceClick(this.props.selectedPieceId);
                         
@@ -1355,7 +1410,7 @@ class Viewer extends Component {
 }
 
 const mapStateToProps = ({ board, network }) => {
-    //const { remotePeerId, peer } = network;
+    const { remotePeerId, peer } = network;
     const { pieces, isUserTurn, selectedPieceId, isOnlineMode } = board;
     return { pieces, isUserTurn, selectedPieceId, isOnlineMode  };
 };

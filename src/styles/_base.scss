@@ -13,3 +13,20 @@ body {
     overflow: hidden;
     padding: 0;
 }
+
+
+.screen {
+    height: 100vh;
+}
+
+.screen__box {
+    background-color: transparentize($brand-black, 0.2);
+    border-radius: $screen-content-radius;
+    color: white;
+    font-size: 1.5rem;
+    padding: 3rem;
+}
+
+.screen__btn {
+    margin-top: 1rem;
+}

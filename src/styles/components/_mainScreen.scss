@@ -1,5 +1,4 @@
 .mainScreen {
-    background-color: $brand-black;
     height: 100vh;
 }
 
@@ -13,7 +12,7 @@
     bottom: 0;
     min-width: 100%;
     min-height: 100%;
-    z-index: 0;
+    z-index: -100;
 }
 
 .massive{

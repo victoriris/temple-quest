@@ -4,6 +4,7 @@ import { Button, Container, Form, Grid, GridColumn, GridRow } from 'semantic-ui-
 import { getPeersList, initPeer, listenNetworkData, updateNetworkData } from '../actions/NetworkActions';
 import PeersList from '../components/PeersList';
 import history from '../history';
+import BackButton from '../components/BackButton';
 
 
 class OnlineSetupScreen extends Component{
@@ -59,17 +60,13 @@ class OnlineSetupScreen extends Component{
                         <PeersList />
                     <Container
                     className="mainScreen__option">
-                        <Button 
+                         {!!this.props.peer && (<Button 
                             color="black" size="massive"
-                        
-                        onClick={() => this.refreshList()}>
-                            REFRESH
-                        </Button>
-                        <Button  floated="right" 
-                         color="black" size="massive"
-                        onClick={() => history.goBack()}>
-                            BACK
-                        </Button>
+                            onClick={() => this.refreshList()}>
+                                REFRESH
+                            </Button>
+                        )}
+                        <BackButton />
                         {!!this.props.peer && (
                             <Button  floated="right" 
                             color="black" size="massive"

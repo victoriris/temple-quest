@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Container, Grid, GridColumn, GridRow } from 'semantic-ui-react';
 import history from '../history';
+import BackButton from '../components/BackButton';
 
 class LocalSetupScreen extends Component {
 
@@ -18,13 +19,7 @@ class LocalSetupScreen extends Component {
                             <Button.Or />
                             <Button size="massive" color="blue" onClick={() => this.handleClick('game')}>Player 2</Button>
                         </Container>
-                        <Container
-                        className="screen__btn">
-                            <Button
-                            icon="left arrow" labelPosition="left"
-                            color="black" size="massive"
-                            onClick={() => history.goBack()} content="Back" />
-                        </Container>
+                       <BackButton />
                     </GridColumn>
             </Grid>
         );

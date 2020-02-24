@@ -4,7 +4,8 @@ const INITIAL_STATE = {
     isUserTurn: true,
     pieces: [],
     selectedPieceId: '',
-    isOnlineMode: true,
+    isOnlineMode: false,
+    isSingleMode: true,
     mounted: false,
 }
 
@@ -48,7 +49,7 @@ export default (state = INITIAL_STATE, { type, payload }) => {
         }
 
         case BOARD_PICK_PIECE: {
-
+                console.log("userTurn: ", !state.isUserTurn);
             return {
                 ...state,
                 selectedPieceId: payload.selectedPieceId,

@@ -12,6 +12,7 @@ class BoardScreen extends Component {
 
     handlePieceClick (pieceId) {
         this.props.selectBagPiece(pieceId);
+
     }
 
     handleCellClick (row, column) {

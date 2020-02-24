@@ -1,12 +1,13 @@
 import { BOARD_UPDATE_DATA, BOARD_INIT, BOARD_PLACE_PIECE, BOARD_PICK_PIECE } from './types';
 import { sendNetworkData } from './NetworkActions';
-import { checkWin } from '../helpers';
+import { CheckWin } from '../helpers';
+import {startMinimax}  from '../helpers';
 
 
 export const checkBoardWin = (pieceId) => { 
     return (dispatch, getState) => {
         const { pieces, isUserTurn } = getState().board;
-        let hasWon = checkWin(pieces, pieceId);
+        let hasWon = CheckWin(pieces, pieceId);
 
         const message = 'Game over. The winner is Player ' + (isUserTurn ? 1 : 2);
         if (hasWon) alert(message);
@@ -21,8 +22,8 @@ export const initBoard = () => {
 
 export const selectBagPiece = (pieceId, isRemote = false) => {
     return (dispatch, getState) => {
-        const { isOnlineMode } = getState().board;
-
+        const { isOnlineMode, isSingleMode, pieces } = getState().board;
+        console.log("Selecting Piece: ", pieceId);
         dispatch({
             type: BOARD_PICK_PIECE,
             payload: {
@@ -35,6 +36,20 @@ export const selectBagPiece = (pieceId, isRemote = false) => {
             dispatch(
                 sendNetworkData('select_piece', pieceId)
             );
+        }
+
+        // AI
+        else if (isSingleMode && !isRemote){
+            
+            startMinimax(pieces, pieceId)
+                .then(({ location, pieceId }) => {
+                    dispatch(selectBoardCell(location.row, location.column));
+                    dispatch(selectBagPiece(pieceId, true));
+                })
+                .catch(err => {
+                    alert('The AI failed');
+                })
+
         }
     };
 };

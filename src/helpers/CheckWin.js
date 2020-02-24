@@ -1,4 +1,4 @@
-function checkWin (pieces, pieceId) {
+function CheckWin (pieces, pieceId) {
 
     // Find piece, exit otherwise
     const piece = pieces.find(({ id }) => id === parseInt(pieceId));
@@ -56,5 +56,5 @@ function isDiagonal (rootPiece, comparedPiece) {
 
 
 export {
-    checkWin
+    CheckWin
 };

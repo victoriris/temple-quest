@@ -17,21 +17,21 @@ class DifficultyScreen extends Component {
                         <Container
                         className="mainScreen__option">
                             <Button   size="massive" color="black"
-                            onClick={() => this.handleClick('game')}>
+                            onClick={() => this.handleClick('board')}>
                                 EASY
                             </Button>
                         </Container>
                         <Container
                         className="mainScreen__option">
                             <Button   size="massive" color="black"
-                            onClick={() => this.handleClick('game')}>
+                            onClick={() => this.handleClick('board')}>
                                 MEDUIM
                             </Button>
                         </Container>
                         <Container
                         className="mainScreen__option">
                             <Button   size="massive" color="black"
-                            onClick={() => this.handleClick('game')}>
+                            onClick={() => this.handleClick('board')}>
                                 HARD
                             </Button>
                         </Container>

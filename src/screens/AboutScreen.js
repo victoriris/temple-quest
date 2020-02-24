@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import history from '../history';
 import { Button, Container, Grid, GridColumn } from 'semantic-ui-react';
-import jungleMainMenu from '../img/mainMenuBackground.mp4';
 
 
 class AboutScreen extends Component {
@@ -9,7 +8,6 @@ class AboutScreen extends Component {
         return (
            <Grid className="aboutScreen"
             stretched padded centered>
-                <video id="jungleVideoMainMenu" src={jungleMainMenu} type="video/mp4" autoPlay muted loop />        
                 <GridColumn verticalAlign="middle" mobile={16} tablet={8} computer={10}>
                 <Container
                 className="about"

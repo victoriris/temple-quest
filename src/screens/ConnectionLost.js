@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Container, Grid, GridColumn, GridRow, Segment, Dimmer, Loader } from 'semantic-ui-react';
 import history from '../history';
-import jungleMainMenu from '../img/mainMenuBackground.mp4';
+
 
 class ConnectionLost extends Component {
 
@@ -11,7 +11,6 @@ class ConnectionLost extends Component {
     render () {
         return(
             <Grid stretched className="choiceScreen" padded centered columns={3}>
-                <video id="jungleVideoMainMenu" src={jungleMainMenu} type="video/mp4" autoPlay muted loop />                
                 <GridRow>
                     <GridColumn verticalAlign="middle">
                         <Container className="playerChoice">

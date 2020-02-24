@@ -4,7 +4,6 @@ import { Button, Container, Form, Grid, GridColumn, GridRow } from 'semantic-ui-
 import { getPeersList, initPeer, listenNetworkData, updateNetworkData } from '../actions/NetworkActions';
 import PeersList from '../components/PeersList';
 import history from '../history';
-import jungleMainMenu from '../img/mainMenuBackground.mp4';
 
 
 class OnlineSetupScreen extends Component{
@@ -40,7 +39,6 @@ class OnlineSetupScreen extends Component{
         return(
 
         <Grid stretched className="mainScreen" padded centered columns={3}>
-        <video id="jungleVideoMainMenu" src={jungleMainMenu} type="video/mp4" autoPlay muted loop />
          {!isConnected && (
                     <Form id="usernameField">
                         <Form.Field>

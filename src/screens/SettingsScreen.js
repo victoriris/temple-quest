@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Container, Grid, GridColumn, GridRow, Checkbox, Segment} from 'semantic-ui-react';
 import history from '../history';
-import jungleMainMenu from '../img/mainMenuBackground.mp4';
 
 
 class SettingsScreen extends Component{
@@ -9,7 +8,6 @@ class SettingsScreen extends Component{
     render() {
         return(
             <Grid stretched className="mainScreen" padded centered columns={3}>
-            <video id="jungleVideoMainMenu" src={jungleMainMenu} type="video/mp4" autoPlay muted loop />                
             <GridRow>
                 <GridColumn verticalAlign="middle">
                     <Container className="settings">

@@ -1,6 +1,6 @@
 import { NETWORK_UPDATE_DATA, NETWORK_RECEIVE_MESSSAGE } from './types';
 import Peer from 'peerjs';
-import { selectBagPiece, selectBoardCell, updateBoardData } from './BoardActions';
+import { selectBagPiece, selectBoardCell, updateBoardData, launchMultiplayer } from './BoardActions';
 import history from '../history';
 
 
@@ -65,7 +65,7 @@ export const listenNetworkData = () => {
                     console.log('Game was started', remotePeerId);
                     dispatch(updateNetworkData('remotePeerId', conn.peer));
                     dispatch(updateBoardData('isUserTurn', false));
-                    history.push('/board');
+                    dispatch(launchMultiplayer(true));
                 }
             })
             // Data was received from remote peer

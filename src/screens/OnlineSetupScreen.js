@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Container, Form, Grid, GridColumn, GridRow } from 'semantic-ui-react';
 import { getPeersList, initPeer, listenNetworkData, updateNetworkData } from '../actions/NetworkActions';
+import { launchMultiplayer } from '../actions';
 import PeersList from '../components/PeersList';
 import history from '../history';
+import BackButton from '../components/BackButton';
 
 
 class OnlineSetupScreen extends Component{
     
-    handleClick = (route) => history.push(route);
+    handleClick = () => this.props.launchMultiplayer(true);
     handleInputChange = (e) => this.props.updateNetworkData('peerId', e.target.value);
     handleSubmit = (e) => {
         e.preventDefault();
@@ -59,21 +61,17 @@ class OnlineSetupScreen extends Component{
                         <PeersList />
                     <Container
                     className="mainScreen__option">
-                        <Button 
+                         {!!this.props.peer && (<Button 
                             color="black" size="massive"
-                        
-                        onClick={() => this.refreshList()}>
-                            REFRESH
-                        </Button>
-                        <Button  floated="right" 
-                         color="black" size="massive"
-                        onClick={() => history.goBack()}>
-                            BACK
-                        </Button>
+                            onClick={() => this.refreshList()}>
+                                REFRESH
+                            </Button>
+                        )}
+                        <BackButton />
                         {!!this.props.peer && (
                             <Button  floated="right" 
                             color="black" size="massive"
-                            onClick={() => history.push('/board')}>
+                            onClick={this.handleClick}>
                                 CONNECT
                             </Button>
                         )}
@@ -93,5 +91,5 @@ const mapStateToProps = ({ network }) => {
 };
 
 export default  connect(mapStateToProps, {
-    listenNetworkData, initPeer, getPeersList, updateNetworkData
+    listenNetworkData, initPeer, getPeersList, updateNetworkData, launchMultiplayer
 })(OnlineSetupScreen);;

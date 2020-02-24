@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Container, Grid, GridColumn, GridRow, Checkbox, Segment} from 'semantic-ui-react';
 import history from '../history';
+import BackButton from '../components/BackButton';
 
 
 class SettingsScreen extends Component{
@@ -20,13 +21,7 @@ class SettingsScreen extends Component{
                             </Segment>
                         </Segment.Group>
                     </Container>
-                    <Container
-                    className="screen__btn">
-                        <Button
-                        icon="left arrow" labelPosition="left"
-                        color="black" size="massive"
-                        onClick={() => history.goBack()} content="Back" />
-                    </Container>
+                   <BackButton />
                 </GridColumn>
             </GridRow>
         </Grid>

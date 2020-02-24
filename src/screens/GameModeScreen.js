@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Container, Grid, GridColumn, GridRow } from 'semantic-ui-react';
 import history from '../history';
+import BackButton from '../components/BackButton';
 
 
 class GameModeScreen extends Component {
@@ -36,11 +37,12 @@ class GameModeScreen extends Component {
                         </Container>
                         <Container
                         className="mainScreen__option">
-                            <Button
-                            icon="left arrow" labelPosition="left"
-                            color="black" size="massive"
-                            onClick={() => history.goBack()} content="Back" />
+                            <Button   size="massive" color="black"
+                            onClick={() => history.push('/game')}>
+                                3D VERSION (TEST)
+                            </Button>
                         </Container>
+                        <BackButton />
                     </GridColumn>
                 </GridRow>
             </Grid>

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Button, Container, Grid, GridColumn, GridRow } from 'semantic-ui-react';
-import history from '../history';
+import { Button, Container, Grid, GridColumn } from 'semantic-ui-react';
+import BackButton from '../components/BackButton';
+import { connect } from 'react-redux';
+import { launchMultiplayer } from '../actions';
 
 class LocalSetupScreen extends Component {
 
-    handleClick = (route) => history.push(route);
+    handleClick = () => this.props.launchMultiplayer();
     handleExit = () => {};
 
     render () {
@@ -18,17 +20,13 @@ class LocalSetupScreen extends Component {
                             <Button.Or />
                             <Button size="massive" color="blue" onClick={() => this.handleClick('game')}>Player 2</Button>
                         </Container>
-                        <Container
-                        className="screen__btn">
-                            <Button
-                            icon="left arrow" labelPosition="left"
-                            color="black" size="massive"
-                            onClick={() => history.goBack()} content="Back" />
-                        </Container>
+                       <BackButton />
                     </GridColumn>
             </Grid>
         );
     }
 }
 
-export default LocalSetupScreen;
+export default connect (null, {
+    launchMultiplayer
+})(LocalSetupScreen);

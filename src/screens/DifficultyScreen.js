@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Button, Container, Grid, GridColumn, GridRow } from 'semantic-ui-react';
+import { Button, Container, Grid, GridColumn, GridRow, Icon } from 'semantic-ui-react';
 import history from '../history';
+import BackButton from '../components/BackButton';
 
 
 class DifficultyScreen extends Component {
@@ -10,8 +11,7 @@ class DifficultyScreen extends Component {
 
     render () {
         return(
-            <Grid stretched className="choiceScreen" padded centered columns={3}>
-                <GridRow>
+            <Grid stretched className="screen" padded centered columns={3}>
                     <GridColumn verticalAlign="middle">
                         <Container
                         className="mainScreen__option">
@@ -34,15 +34,8 @@ class DifficultyScreen extends Component {
                                 HARD
                             </Button>
                         </Container>
-                        <Container
-                        className="mainScreen__option">
-                            <Button   size="massive" color="black"
-                            onClick={() => history.goBack()}>
-                                BACK
-                            </Button>
-                        </Container>
+                       <BackButton />
                     </GridColumn>
-                </GridRow>
             </Grid>
         );
     }

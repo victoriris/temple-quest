@@ -2,14 +2,23 @@ import { BOARD_UPDATE_DATA, BOARD_INIT, BOARD_PLACE_PIECE, BOARD_PICK_PIECE } fr
 import { sendNetworkData } from './NetworkActions';
 import { CheckWin } from '../helpers';
 import {startMinimax}  from '../helpers';
+import history from '../history';
 
+
+export const launchMultiplayer = (isOnlineMode = false) => {
+    return (dispatch, getState) => {
+        dispatch(updateBoardData('isSingleMode', false));
+        if (isOnlineMode) dispatch(updateBoardData('isOnlineMode', true));
+        history.push('board');
+    };
+};
 
 export const checkBoardWin = (pieceId) => { 
     return (dispatch, getState) => {
         const { pieces, isUserTurn } = getState().board;
         let hasWon = CheckWin(pieces, pieceId);
 
-        const message = 'Game over. The winner is Player ' + (isUserTurn ? 1 : 2);
+        const message = isUserTurn ? "You've won!!!!!!" : "Game Over, you lost";
         if (hasWon) alert(message);
     };
 };
@@ -40,7 +49,7 @@ export const selectBagPiece = (pieceId, isRemote = false) => {
 
         // AI
         else if (isSingleMode && !isRemote){
-            
+
             startMinimax(pieces, pieceId)
                 .then(({ location, pieceId }) => {
                     dispatch(selectBoardCell(location.row, location.column));

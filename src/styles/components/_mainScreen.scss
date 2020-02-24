@@ -2,6 +2,16 @@
     height: 100vh;
 }
 
+.mainScreen__logo {
+    width: 30em;
+    align-self: center;
+
+    & img {
+        align-self: center;
+        margin: -5rem;
+    }
+}
+
 .mainScreen__option {
     margin-top: 1rem;
 }

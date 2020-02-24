@@ -54,7 +54,8 @@
     "copyright": "MIT",
     "productName": "temple-quest",
     "mac": {
-      "target": "pkg"
+      "target": "pkg",
+      "icon": "public/icon.png"
     },
     "win": {
       "icon": "public/icon.png",

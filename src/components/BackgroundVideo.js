@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import jungleMainMenu from '../img/mainMenuBackground.mp4';
+import jungleMainMenu from '../img/bgvideo.mp4';
 import { connect } from 'react-redux';
 
 class BackgroundVideo extends Component {

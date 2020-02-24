@@ -30,6 +30,7 @@ const Routes = () => {
           <Route path="/game" component={GameScreen}/>
           <Route path="/connectionLost" component={ConnectionLost}/>
           <Route path="/settings" component={SettingsScreen}/>
+          <Route path="/difficulty" component={DifficultyScreen}/>
       </Router>
     );
     

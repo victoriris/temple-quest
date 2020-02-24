@@ -4,16 +4,23 @@ function CheckWin (pieces, pieceId) {
     const piece = pieces.find(({ id }) => id === parseInt(pieceId));
     if (!piece) return;
 
-  
-
     // Get located pieces with same row OR column
-    const neighbors = pieces.filter((p) => {
+    var neighbors = [];
+    pieces.forEach((p) => {
         if (!p.location) return false;
-        return (
-            p.location.row === piece.location.row 
-            || p.location.column === piece.location.column
-            || isDiagonal(piece, p)
-        );
+        if(p.location.row === piece.location.row) {
+            neighbors.push({...p, match: 'row'});
+        }
+        if (p.location.column === piece.location.column) {
+            neighbors.push({...p, match: 'column'});
+        }
+        const diagonalValue = getDiagonalValue(piece, p);
+        if(diagonalValue === 1) {
+            neighbors.push({...p, match: 'diagonal_up'});
+        }
+        else if(diagonalValue === -1) {
+            neighbors.push({...p, match: 'diagonal_down'});
+        }
     });
 
     // Accumulate similarities per direction
@@ -24,20 +31,12 @@ function CheckWin (pieces, pieceId) {
 
             // Sum its boolean value to the matched row or column
             const matches = item.details[key] === piece.details[key];
-            if (item.location.row === piece.location.row) {
-                acc['row'][key] = (acc['row'][key] || 0) + matches;
-            }
-            if (item.location.column === piece.location.column) {
-                acc['column'][key] = (acc['column'][key] || 0) + matches;
-            }
-            if(isDiagonal(piece, item)) {
-                acc['diagonal'][key] = (acc['diagonal'][key] || 0) + matches;
-            }
+            acc[item.match][key] = (acc[item.match][key] || 0) + matches;
             
         });
 
         return acc;
-    }, {row: {}, column: {}, diagonal: {}});
+    }, {row: {}, column: {}, diagonal_up: {}, diagonal_down: {}});
 
     // Check if some value in some direction totally matched
     const hasWon = Object.values(directions).some(direction => {
@@ -47,11 +46,13 @@ function CheckWin (pieces, pieceId) {
     return hasWon;
 }
 
-  // Check if a piece is a valid diagonal compared to a root piece
-function isDiagonal (rootPiece, comparedPiece) {
-    const colDiff = Math.abs(comparedPiece.location.column - rootPiece.location.column);
-    const rowDif = Math.abs(comparedPiece.location.row - rootPiece.location.row);
-    return colDiff === rowDif;
+// Gets the diagonal type (+, -)
+function getDiagonalValue (rootPiece, comparedPiece) {
+    const colDiff = comparedPiece.location.column - rootPiece.location.column;
+    const rowDif = comparedPiece.location.row - rootPiece.location.row;
+    const diff = Math.abs(colDiff) !== Math.abs(rowDif);
+    if (rowDif === 0 || diff ) return 0;
+    return colDiff/rowDif;
 };
 
 

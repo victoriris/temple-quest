@@ -1,8 +1,13 @@
-import { NETWORK_UPDATE_DATA, NETWORK_RECEIVE_MESSSAGE } from './types';
+import { NETWORK_UPDATE_DATA, NETWORK_RECEIVE_MESSSAGE, NETWORK_RESET_DATA } from './types';
 import Peer from 'peerjs';
 import { selectBagPiece, selectBoardCell, updateBoardData, launchMultiplayer } from './BoardActions';
-import history from '../history';
 
+
+export const resetNetwork = (prop, value) => {
+    return (dispatch) => {
+        dispatch({ type: NETWORK_RESET_DATA });
+    };
+};
 
 export const updateNetworkData = (prop, value) => {
     return (dispatch) => {

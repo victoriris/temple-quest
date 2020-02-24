@@ -1,9 +1,16 @@
-import { BOARD_UPDATE_DATA, BOARD_INIT, BOARD_PLACE_PIECE, BOARD_PICK_PIECE } from './types';
+import { BOARD_UPDATE_DATA, BOARD_INIT, BOARD_PLACE_PIECE, BOARD_PICK_PIECE, BOARD_RESET_GAME, NETWORK_RESET_DATA } from './types';
 import { sendNetworkData } from './NetworkActions';
 import { CheckWin } from '../helpers';
 import {startMinimax}  from '../helpers';
 import history from '../history';
 
+
+export const endGame = () => {
+    return (dispatch, getState) => {
+        dispatch({ type: BOARD_RESET_GAME });
+        history.push('/menu');
+    };
+};
 
 export const launchMultiplayer = (isOnlineMode = false) => {
     return (dispatch, getState) => {
@@ -18,8 +25,11 @@ export const checkBoardWin = (pieceId) => {
         const { pieces, isUserTurn } = getState().board;
         let hasWon = CheckWin(pieces, pieceId);
 
-        const message = isUserTurn ? "You've won!!!!!!" : "Game Over, you lost";
-        if (hasWon) alert(message);
+        if (hasWon) {
+            const message = isUserTurn ? "You've won!!!!!!" : "Game Over, you lost";
+            alert(message);
+            dispatch(endGame());
+        }
     };
 };
 

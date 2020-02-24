@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Container, Form, Grid, GridColumn, GridRow } from 'semantic-ui-react';
 import { getPeersList, initPeer, listenNetworkData, updateNetworkData } from '../actions/NetworkActions';
-import { launchMultiplayer } from '../actions';
+import { launchMultiplayer, resetNetwork } from '../actions';
 import PeersList from '../components/PeersList';
 import history from '../history';
 import BackButton from '../components/BackButton';
@@ -33,6 +33,10 @@ class OnlineSetupScreen extends Component{
     constructor(props) {
         super(props);
         this.refreshList = this.refreshList.bind(this);
+    }
+
+    componentDidMount() {
+        this.props.resetNetwork();
     }
 
     render() {
@@ -91,5 +95,5 @@ const mapStateToProps = ({ network }) => {
 };
 
 export default  connect(mapStateToProps, {
-    listenNetworkData, initPeer, getPeersList, updateNetworkData, launchMultiplayer
+    listenNetworkData, initPeer, getPeersList, updateNetworkData, launchMultiplayer, resetNetwork
 })(OnlineSetupScreen);;

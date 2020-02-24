@@ -1,4 +1,4 @@
-import { BOARD_UPDATE_DATA, BOARD_INIT, BOARD_PLACE_PIECE, BOARD_PICK_PIECE } from "../actions/types";
+import { BOARD_UPDATE_DATA, BOARD_INIT, BOARD_PLACE_PIECE, BOARD_PICK_PIECE, BOARD_RESET_GAME } from "../actions/types";
 
 const INITIAL_STATE = {
     isUserTurn: true,
@@ -77,6 +77,12 @@ export default (state = INITIAL_STATE, { type, payload }) => {
                 ...state, 
                 pieces: newPieces, 
                 selectedPieceId: '',
+            };
+        }
+
+        case BOARD_RESET_GAME: {
+            return {
+                ...INITIAL_STATE
             };
         }
 

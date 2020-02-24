@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Radio } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 import { initBoard, selectBagPiece, selectBoardCell, updateBoardData, listenNetworkData } from '../actions';
 
 
@@ -60,15 +60,16 @@ class BoardScreen extends Component {
 
     render() {
         const { selectedPieceId, isUserTurn, isOnlineMode } = this.props;
+
         return (
             <div>
                 <h1>{`Online mode is ${isOnlineMode ? 'on' : 'off'}`}</h1>
                 <h1>It is {this.props.isUserTurn ? '' : 'NOT'} your turn</h1>
                 <h1>Pieces bag</h1>
-                    {isUserTurn && !selectedPieceId && this.renderPiecesBag()}
+                    {(!isOnlineMode || isUserTurn) && !selectedPieceId && this.renderPiecesBag()}
                 <h1>Board cells</h1>
                 <div>
-                    {isUserTurn && selectedPieceId && this.renderCells()}
+                    {(!isOnlineMode || isUserTurn) && selectedPieceId && this.renderCells()}
                 </div>
             </div>
         )
@@ -77,8 +78,8 @@ class BoardScreen extends Component {
 
 const mapStateToProps = ({ board, network }) => {
     const { remotePeerId, peer } = network;
-    const { pieces, isUserTurn, selectedPieceId, isOnlineMode } = board;
-    return { pieces, isUserTurn, selectedPieceId, remotePeerId, isOnlineMode, peer };
+    const { pieces, isUserTurn, selectedPieceId, isOnlineMode, isSingleMode } = board;
+    return { pieces, isUserTurn, selectedPieceId, remotePeerId, isOnlineMode, peer, isSingleMode };
 };
 
 

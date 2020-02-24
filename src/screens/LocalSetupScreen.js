@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Button, Container, Grid, GridColumn, GridRow } from 'semantic-ui-react';
-import history from '../history';
+import { Button, Container, Grid, GridColumn } from 'semantic-ui-react';
 import BackButton from '../components/BackButton';
+import { connect } from 'react-redux';
+import { launchMultiplayer } from '../actions';
 
 class LocalSetupScreen extends Component {
 
-    handleClick = (route) => history.push(route);
+    handleClick = () => this.props.launchMultiplayer();
     handleExit = () => {};
 
     render () {
@@ -26,4 +27,6 @@ class LocalSetupScreen extends Component {
     }
 }
 
-export default LocalSetupScreen;
+export default connect (null, {
+    launchMultiplayer
+})(LocalSetupScreen);

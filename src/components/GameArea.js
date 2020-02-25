@@ -22,7 +22,7 @@ import tDHC from '../objects/tallDarkHoleCylinder.glb';
 import tDHS from '../objects/tallDarkHoleSquare.glb';
 import tLFC from '../objects/tallLightFlatCylinder.glb';
 import tLHS from '../objects/tallLightHoleSquare.glb';
-import gameBoard from '../objects/newGameboard.glb';
+import gameBoard from '../objects/gameBoard.glb';
 import coaster from '../objects/coaster.glb';
 import { initBoard, selectBagPiece, selectBoardCell, updateBoardData, listenNetworkData } from '../actions';
 import { connect } from 'react-redux';

@@ -1,33 +1,12 @@
 import React, { Component } from 'react';
-import * as BABYLON from 'babylonjs';
+import { Scene, SceneLoader, Vector3, ArcRotateCamera, DirectionalLight, Mesh } from 'babylonjs';
 import BabylonScene from './BabylonScene';
-// eslint-disable-next-line
-import * as BABYLON_LOADER from 'babylonjs-loaders';
-import tLFS from '../objects/tallLightFlatSquare.glb';
-import tLHC from '../objects/tallLightHoleCylinder.glb';
-import pieceThatGoesInHole from '../objects/pieceThatGoesInHole.glb';
-import floor from '../objects/floor.glb';
-import slab from '../objects/slabForPieces.glb';
-import sDFC from '../objects/shortDarkFlatCylinder.glb';
-import sDFS from '../objects/shortDarkFlatSquare.glb';
-import sDHC from '../objects/shortDarkHoleCylinder.glb';
-import sDHS from '../objects/shortDarkHoleSquare.glb';
-import sLFC from '../objects/shortLightFlatCylinder.glb';
-import sLFS from '../objects/shortLightFlatSquare.glb';
-import sLHC from '../objects/shortLightHoleCylinder.glb';
-import sLHS from '../objects/shortLightHoleSquare.glb';
-import tDFC from '../objects/tallDarkFlatCylinder.glb';
-import tDFS from '../objects/tallDarkFlatSquare.glb';
-import tDHC from '../objects/tallDarkHoleCylinder.glb';
-import tDHS from '../objects/tallDarkHoleSquare.glb';
-import tLFC from '../objects/tallLightFlatCylinder.glb';
-import tLHS from '../objects/tallLightHoleSquare.glb';
-import gameBoard from '../objects/gameBoard.glb';
-import coaster from '../objects/coaster.glb';
-import { initBoard, selectBagPiece, selectBoardCell, updateBoardData, listenNetworkData } from '../actions';
+import 'babylonjs-loaders';
+import { tLFS, tLHC, pieceThatGoesInHole, floor, slab, sDFC, sDFS } from '../objects';
+import { sDHC, sDHS, sLFC, sLFS, sLHC, sLHS, tDFC, tDFS, tDHC, tDHS, tLFC, tLHS, gameBoard, coaster  } from '../objects';
+import { initBoard, selectBagPiece, selectBoardCell, updateBoardData } from '../actions';
 import { connect } from 'react-redux';
-// eslint-disable-next-line
-import { PositionGizmo, ShadowGenerator } from 'babylonjs';
+
 
 class Viewer extends Component {
 
@@ -51,21 +30,15 @@ class Viewer extends Component {
             return location.row === row && location.column === column
         });
     }
-
-    renderPiecesBag() {
-        const {pieces} = this.props;
-
-
-    }
     
     onSceneMount = (e) => {
         const { canvas, engine } = e;
         engine.displayLoadingUI();
-        var scene = new BABYLON.Scene(engine);
+        var scene = new Scene(engine);
         // This creates and positions a free camera (non-mesh)
-        const camera = new BABYLON.ArcRotateCamera("camera1", 0, 0, 35, new BABYLON.Vector3(30, 0, 0), scene);
+        const camera = new ArcRotateCamera("camera1", 0, 0, 35, new Vector3(30, 0, 0), scene);
         // This targets the camera to scene origin
-        camera.setTarget(BABYLON.Vector3.Zero());
+        camera.setTarget(Vector3.Zero());
         // This attaches the camera to the canvas
         camera.attachControl(canvas, true);
         scene.activeCamera.panningSensibility = 0;
@@ -75,56 +48,26 @@ class Viewer extends Component {
         camera.lowerRadiusLimit = 20;
         
         //near left
-        var light = new BABYLON.DirectionalLight("dir01", new BABYLON.Vector3(-1, -.35, 1), scene);
-	    light.position = new BABYLON.Vector3(20, 20, -20);
+        var light = new DirectionalLight("dir01", new Vector3(-1, -.35, 1), scene);
+	    light.position = new Vector3(20, 20, -20);
         light.intensity = 1.7;
 
         //near right
-        var light2 = new BABYLON.DirectionalLight("dir03", new BABYLON.Vector3(-1, -.35, -1), scene);
-	    light2.position = new BABYLON.Vector3(20, 20, 20);
+        var light2 = new DirectionalLight("dir03", new Vector3(-1, -.35, -1), scene);
+	    light2.position = new Vector3(20, 20, 20);
         light2.intensity = 1.7;
 
         //back left
-        var light3 = new BABYLON.DirectionalLight("dir04", new BABYLON.Vector3(1, -.35, 1), scene);
-	    light3.position = new BABYLON.Vector3(-20, 20, -20);
+        var light3 = new DirectionalLight("dir04", new Vector3(1, -.35, 1), scene);
+	    light3.position = new Vector3(-20, 20, -20);
         light3.intensity = 1.7;
         
         //back right
-        var light4 = new BABYLON.DirectionalLight("dir02", new BABYLON.Vector3(1, -.35, -1), scene);
-	    light4.position = new BABYLON.Vector3(-20, 20, 20);
+        var light4 = new DirectionalLight("dir02", new Vector3(1, -.35, -1), scene);
+	    light4.position = new Vector3(-20, 20, 20);
         light4.intensity = 1.7;
 
-        // //near center
-        // var light5 = new BABYLON.DirectionalLight("dir05", new BABYLON.Vector3(0, -1, 0), scene);
-	    // light5.position = new BABYLON.Vector3(0, 0, 0);
-        // light5.intensity = 1.7;
-
-        // //back center
-        // var light6 = new BABYLON.DirectionalLight("dir02", new BABYLON.Vector3(1, -.5, 0), scene);
-	    // light6.position = new BABYLON.Vector3(20, 20, -20);
-        // light6.intensity = 1.7;
-
-        // //left
-        // var light7 = new BABYLON.DirectionalLight("dir05", new BABYLON.Vector3(0, -.35, 1), scene);
-	    // light7.position = new BABYLON.Vector3(20, 20, -20);
-        // light7.intensity = 1;
-
-        // //far center
-        // var light7 = new BABYLON.DirectionalLight("dir06", new BABYLON.Vector3(1, -.35, 0), scene);
-	    // light7.position = new BABYLON.Vector3(20, 20, -20);
-        // light7.intensity = 1;
-
-        // //near center
-        // var light8 = new BABYLON.DirectionalLight("dir07", new BABYLON.Vector3(-1, -.35, 0), scene);
-	    // light8.position = new BABYLON.Vector3(20, 20, -20);
-        // light8.intensity = 1;
-
-        // //right
-        // var light9 = new BABYLON.DirectionalLight("dir08", new BABYLON.Vector3(0, -.35, -1), scene);
-	    // light9.position = new BABYLON.Vector3(20, 20, -20);
-        // light9.intensity = 1;
-
-        var ground = BABYLON.Mesh.CreateGround("ground", 17, 17, 2, scene);
+        var ground = Mesh.CreateGround("ground", 17, 17, 2, scene);
         ground.position.y = 0.17;
 
         //Board Pieces 
@@ -146,129 +89,129 @@ class Viewer extends Component {
         const { pieces, selectedPieceId, isUserTurn, isOnlineMode } = this.props;
         
         //Board Positions
-        var board1 = new BABYLON.Vector3(-7.5, 0.15, -7.5);
-        var board2 = new BABYLON.Vector3(-7.5, 0.15, -2.5);
-        var board3 = new BABYLON.Vector3(-7.5, 0.15, 2.5);
-        var board4 = new BABYLON.Vector3(-7.5, 0.15, 7.5);
-        var board5 = new BABYLON.Vector3(-2.5, 0.15, -7.5);
-        var board6 = new BABYLON.Vector3(-2.5, 0.15, -2.5);
-        var board7 = new BABYLON.Vector3(-2.5, 0.15, 2.5);
-        var board8 = new BABYLON.Vector3(-2.5, 0.15, 7.5);
-        var board9 = new BABYLON.Vector3(2.5, 0.15, -7.5);
-        var board10 = new BABYLON.Vector3(2.5, 0.15, -2.5);
-        var board11 = new BABYLON.Vector3(2.5, 0.15, 2.5);
-        var board12 = new BABYLON.Vector3(2.5, 0.15, 7.5);
-        var board13 = new BABYLON.Vector3(7.5, 0.15, -7.5);
-        var board14 = new BABYLON.Vector3(7.5, 0.15, -2.5);
-        var board15 = new BABYLON.Vector3(7.5, 0.15, 2.5);
-        var board16 = new BABYLON.Vector3(7.5, 0.15, 7.5);
-        var coasterLocation = new BABYLON.Vector3(0, 0.069, -13);
+        var board1 = new Vector3(-7.5, 0.15, -7.5);
+        var board2 = new Vector3(-7.5, 0.15, -2.5);
+        var board3 = new Vector3(-7.5, 0.15, 2.5);
+        var board4 = new Vector3(-7.5, 0.15, 7.5);
+        var board5 = new Vector3(-2.5, 0.15, -7.5);
+        var board6 = new Vector3(-2.5, 0.15, -2.5);
+        var board7 = new Vector3(-2.5, 0.15, 2.5);
+        var board8 = new Vector3(-2.5, 0.15, 7.5);
+        var board9 = new Vector3(2.5, 0.15, -7.5);
+        var board10 = new Vector3(2.5, 0.15, -2.5);
+        var board11 = new Vector3(2.5, 0.15, 2.5);
+        var board12 = new Vector3(2.5, 0.15, 7.5);
+        var board13 = new Vector3(7.5, 0.15, -7.5);
+        var board14 = new Vector3(7.5, 0.15, -2.5);
+        var board15 = new Vector3(7.5, 0.15, 2.5);
+        var board16 = new Vector3(7.5, 0.15, 7.5);
+        var coasterLocation = new Vector3(0, 0.069, -13);
 
          //importing the board object    empty   objectImportName  empty scene (paramsForAnimation)
-        BABYLON.SceneLoader.ImportMesh("",gameBoard, "", scene);
+        SceneLoader.ImportMesh("",gameBoard, "", scene);
 
-        BABYLON.SceneLoader.ImportMesh("",slab, "", scene, (newMeshes, particleSystems, skeletons) =>{
+        SceneLoader.ImportMesh("",slab, "", scene, (newMeshes, particleSystems, skeletons) =>{
             slabForPieces = newMeshes[0];
-            slabForPieces.position = new BABYLON.Vector3(0, 0.069, 15);
+            slabForPieces.position = new Vector3(0, 0.069, 15);
         } );
 
-        BABYLON.SceneLoader.ImportMesh("",sDFC, "", scene, (newMeshes, particleSystems, skeletons) =>{
+        SceneLoader.ImportMesh("",sDFC, "", scene, (newMeshes, particleSystems, skeletons) =>{
             shortDarkFlatCylinder = newMeshes[0];
-            shortDarkFlatCylinder.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
-            shortDarkFlatCylinder.position = new BABYLON.Vector3(-12.5, 0.15, 13);
+            shortDarkFlatCylinder.scaling = new Vector3(0.6, 0.6, 0.6);
+            shortDarkFlatCylinder.position = new Vector3(-12.5, 0.15, 13);
         } );
 
-        BABYLON.SceneLoader.ImportMesh("",sDFS, "", scene, (newMeshes, particleSystems, skeletons) =>{
+        SceneLoader.ImportMesh("",sDFS, "", scene, (newMeshes, particleSystems, skeletons) =>{
             shortDarkFlatSquare = newMeshes[0];
-            shortDarkFlatSquare.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
-            shortDarkFlatSquare.position = new BABYLON.Vector3(-9, 0.15, 13);
+            shortDarkFlatSquare.scaling = new Vector3(0.6, 0.6, 0.6);
+            shortDarkFlatSquare.position = new Vector3(-9, 0.15, 13);
         } );
 
-        BABYLON.SceneLoader.ImportMesh("",sDHC, "", scene, (newMeshes, particleSystems, skeletons) =>{
+        SceneLoader.ImportMesh("",sDHC, "", scene, (newMeshes, particleSystems, skeletons) =>{
             shortDarkHoleCylinder = newMeshes[0];
-            shortDarkHoleCylinder.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
-            shortDarkHoleCylinder.position = new BABYLON.Vector3(-5.5, 0.15, 13);
+            shortDarkHoleCylinder.scaling = new Vector3(0.6, 0.6, 0.6);
+            shortDarkHoleCylinder.position = new Vector3(-5.5, 0.15, 13);
         } );
 
-        BABYLON.SceneLoader.ImportMesh("",sDHS, "", scene, (newMeshes, particleSystems, skeletons) =>{
+        SceneLoader.ImportMesh("",sDHS, "", scene, (newMeshes, particleSystems, skeletons) =>{
             shortDarkHoleSquare = newMeshes[0];
-            shortDarkHoleSquare.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
-            shortDarkHoleSquare.position = new BABYLON.Vector3(-2, 0.15, 13);
+            shortDarkHoleSquare.scaling = new Vector3(0.6, 0.6, 0.6);
+            shortDarkHoleSquare.position = new Vector3(-2, 0.15, 13);
         } );
 
-        BABYLON.SceneLoader.ImportMesh("",tDFC, "", scene, (newMeshes, particleSystems, skeletons) =>{
+        SceneLoader.ImportMesh("",tDFC, "", scene, (newMeshes, particleSystems, skeletons) =>{
             tallDarkFlatCylinder = newMeshes[0];
-            tallDarkFlatCylinder.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
-            tallDarkFlatCylinder.position = new BABYLON.Vector3(2, 0.15, 13);
+            tallDarkFlatCylinder.scaling = new Vector3(0.6, 0.6, 0.6);
+            tallDarkFlatCylinder.position = new Vector3(2, 0.15, 13);
         } );
 
-        BABYLON.SceneLoader.ImportMesh("",tDFS, "", scene, (newMeshes, particleSystems, skeletons) =>{
+        SceneLoader.ImportMesh("",tDFS, "", scene, (newMeshes, particleSystems, skeletons) =>{
             tallDarkFlatSquare = newMeshes[0];
-            tallDarkFlatSquare.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
-            tallDarkFlatSquare.position = new BABYLON.Vector3(5.5, 0.15, 13);
+            tallDarkFlatSquare.scaling = new Vector3(0.6, 0.6, 0.6);
+            tallDarkFlatSquare.position = new Vector3(5.5, 0.15, 13);
         } );
 
-        BABYLON.SceneLoader.ImportMesh("",tDHC, "", scene, (newMeshes, particleSystems, skeletons) =>{
+        SceneLoader.ImportMesh("",tDHC, "", scene, (newMeshes, particleSystems, skeletons) =>{
             tallDarkHoleCylinder = newMeshes[0];
-            tallDarkHoleCylinder.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
-            tallDarkHoleCylinder.position = new BABYLON.Vector3(9, 0.15, 13);
+            tallDarkHoleCylinder.scaling = new Vector3(0.6, 0.6, 0.6);
+            tallDarkHoleCylinder.position = new Vector3(9, 0.15, 13);
         } );
 
-        BABYLON.SceneLoader.ImportMesh("",tDHS, "", scene, (newMeshes, particleSystems, skeletons) =>{
+        SceneLoader.ImportMesh("",tDHS, "", scene, (newMeshes, particleSystems, skeletons) =>{
             tallDarkHoleSquare = newMeshes[0];
-            tallDarkHoleSquare.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
-            tallDarkHoleSquare.position = new BABYLON.Vector3(12.5, 0.15, 13);
+            tallDarkHoleSquare.scaling = new Vector3(0.6, 0.6, 0.6);
+            tallDarkHoleSquare.position = new Vector3(12.5, 0.15, 13);
         } );
 
-        BABYLON.SceneLoader.ImportMesh("",sLFC, "", scene, (newMeshes, particleSystems, skeletons) =>{
+        SceneLoader.ImportMesh("",sLFC, "", scene, (newMeshes, particleSystems, skeletons) =>{
             shortLightFlatCylinder = newMeshes[0];
-            shortLightFlatCylinder.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
-            shortLightFlatCylinder.position = new BABYLON.Vector3(-12.5, 0.15, 17);
+            shortLightFlatCylinder.scaling = new Vector3(0.6, 0.6, 0.6);
+            shortLightFlatCylinder.position = new Vector3(-12.5, 0.15, 17);
         } );
 
-        BABYLON.SceneLoader.ImportMesh("",sLFS, "", scene, (newMeshes, particleSystems, skeletons) =>{
+        SceneLoader.ImportMesh("",sLFS, "", scene, (newMeshes, particleSystems, skeletons) =>{
             shortLightFlatSquare = newMeshes[0];
-            shortLightFlatSquare.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
-            shortLightFlatSquare.position = new BABYLON.Vector3(-9, 0.15, 17);
+            shortLightFlatSquare.scaling = new Vector3(0.6, 0.6, 0.6);
+            shortLightFlatSquare.position = new Vector3(-9, 0.15, 17);
         } );
 
-        BABYLON.SceneLoader.ImportMesh("",sLHC, "", scene, (newMeshes, particleSystems, skeletons) =>{
+        SceneLoader.ImportMesh("",sLHC, "", scene, (newMeshes, particleSystems, skeletons) =>{
             shortLightHoleCylinder = newMeshes[0];
-            shortLightHoleCylinder.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
-            shortLightHoleCylinder.position = new BABYLON.Vector3(-5.5, 0.15, 17);
+            shortLightHoleCylinder.scaling = new Vector3(0.6, 0.6, 0.6);
+            shortLightHoleCylinder.position = new Vector3(-5.5, 0.15, 17);
         } );
 
-        BABYLON.SceneLoader.ImportMesh("",sLHS, "", scene, (newMeshes, particleSystems, skeletons) =>{
+        SceneLoader.ImportMesh("",sLHS, "", scene, (newMeshes, particleSystems, skeletons) =>{
             shortLightHoleSquare = newMeshes[0];
-            shortLightHoleSquare.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
-            shortLightHoleSquare.position = new BABYLON.Vector3(-2, 0.15, 17);
+            shortLightHoleSquare.scaling = new Vector3(0.6, 0.6, 0.6);
+            shortLightHoleSquare.position = new Vector3(-2, 0.15, 17);
         } );
 
-        BABYLON.SceneLoader.ImportMesh("",tLFC, "", scene, (newMeshes, particleSystems, skeletons) =>{
+        SceneLoader.ImportMesh("",tLFC, "", scene, (newMeshes, particleSystems, skeletons) =>{
             tallLightFlatCylinder = newMeshes[0];
-            tallLightFlatCylinder.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
-            tallLightFlatCylinder.position = new BABYLON.Vector3(2, 0.15, 17);
+            tallLightFlatCylinder.scaling = new Vector3(0.6, 0.6, 0.6);
+            tallLightFlatCylinder.position = new Vector3(2, 0.15, 17);
         } );
 
-        BABYLON.SceneLoader.ImportMesh("",tLFS, "", scene, (newMeshes, particleSystems, skeletons) =>{
+        SceneLoader.ImportMesh("",tLFS, "", scene, (newMeshes, particleSystems, skeletons) =>{
             tallLightFlatSquare = newMeshes[0];
-            tallLightFlatSquare.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
-            tallLightFlatSquare.position = new BABYLON.Vector3(5.5, 0.15, 17);
+            tallLightFlatSquare.scaling = new Vector3(0.6, 0.6, 0.6);
+            tallLightFlatSquare.position = new Vector3(5.5, 0.15, 17);
         } );
 
-        BABYLON.SceneLoader.ImportMesh("",tLHC, "", scene, (newMeshes, particleSystems, skeletons) =>{
+        SceneLoader.ImportMesh("",tLHC, "", scene, (newMeshes, particleSystems, skeletons) =>{
             tallLightHoleCylinder = newMeshes[0];
-            tallLightHoleCylinder.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
-            tallLightHoleCylinder.position = new BABYLON.Vector3(9, 0.15, 17);
+            tallLightHoleCylinder.scaling = new Vector3(0.6, 0.6, 0.6);
+            tallLightHoleCylinder.position = new Vector3(9, 0.15, 17);
         } );
 
-        BABYLON.SceneLoader.ImportMesh("",tLHS, "", scene, (newMeshes, particleSystems, skeletons) =>{
+        SceneLoader.ImportMesh("",tLHS, "", scene, (newMeshes, particleSystems, skeletons) =>{
             tallLightHoleSquare = newMeshes[0];
-            tallLightHoleSquare.scaling = new BABYLON.Vector3(0.6, 0.6, 0.6);
-            tallLightHoleSquare.position = new BABYLON.Vector3(12.5, 0.15, 17);
+            tallLightHoleSquare.scaling = new Vector3(0.6, 0.6, 0.6);
+            tallLightHoleSquare.position = new Vector3(12.5, 0.15, 17);
         } );
 
-        BABYLON.SceneLoader.ImportMesh("",pieceThatGoesInHole, "", scene, (newMeshes, particleSystems, skeletons) =>{
+        SceneLoader.ImportMesh("",pieceThatGoesInHole, "", scene, (newMeshes, particleSystems, skeletons) =>{
             holePiece1 = newMeshes[0];
             holePiece1.name = "holePiece1";
             holePiece1.position = board1;
@@ -335,14 +278,14 @@ class Viewer extends Component {
             holePiece16.position.y = 0.015;
         } );
 
-        BABYLON.SceneLoader.ImportMesh("", coaster, "", scene, (newMeshes, particleSystems, skeletons) => {
+        SceneLoader.ImportMesh("", coaster, "", scene, (newMeshes, particleSystems, skeletons) => {
             pieceHolder = newMeshes[0];
-            pieceHolder.position = new BABYLON.Vector3(0, 0.069, -13);
+            pieceHolder.position = new Vector3(0, 0.069, -13);
         });
 
-        BABYLON.SceneLoader.ImportMesh("",floor, "", scene, (newMeshes, particleSystems, skeletons) =>{
+        SceneLoader.ImportMesh("",floor, "", scene, (newMeshes, particleSystems, skeletons) =>{
             room = newMeshes[0];
-            room.position = new BABYLON.Vector3(0,0,0);
+            room.position = new Vector3(0,0,0);
         });
 
 
@@ -1289,9 +1232,6 @@ class Viewer extends Component {
                         selectedPiece = "shortDarkFlatSquare";
                         shortDarkFlatSquare.position = coasterLocation;
                         hasPieceBeenPicked = true;
-                        //this.props.selectBagPiece(0);
-                        //pickResult.handleCellClick(0,0);
-                        //this.props.handlePieceClick(this.props.selectedPieceId);
                         
                     }
                     else if(pickResult.hit && pickResult.pickedMesh.name.includes("shortDarkHoleSquare"))
@@ -1402,7 +1342,6 @@ class Viewer extends Component {
     render() {     
         
         return (
-           // <LoadingScreen/>
             <BabylonScene onSceneMount={this.onSceneMount} />
         )
     }

@@ -52,6 +52,10 @@ function initializeScene (canvas, engine) {
 
 class Viewer extends Component {
 
+    componentWillMount() {
+        this.props.initBoard();
+    }
+
     handleOnlineChange () {
         const { isOnlineMode } = this.props;
         this.props.updateBoardData('isOnlineMode', !isOnlineMode);
@@ -87,10 +91,10 @@ class Viewer extends Component {
         var slabForPieces; 
         var pieceHolder;
         var boardObj = {
-            shortDarkFlatCylinder, shortDarkFlatSquare, shortDarkHoleCylinder, shortDarkHoleSquare, 
-            shortLightFlatCylinder, shortLightFlatSquare, shortLightHoleSquare, shortLightHoleCylinder, 
-            tallDarkFlatCylinder, tallDarkFlatSquare, tallDarkHoleCylinder, tallDarkHoleSquare, 
-            tallLightFlatCylinder, tallLightFlatSquare, tallLightHoleSquare, tallLightHoleCylinder
+            shortDarkFlatSquare, shortDarkHoleSquare, shortDarkFlatCylinder, shortDarkHoleCylinder,
+            tallDarkFlatSquare, tallDarkHoleSquare, tallDarkFlatCylinder, tallDarkHoleCylinder,
+            shortLightFlatSquare, shortLightHoleSquare, shortLightFlatCylinder, shortLightHoleCylinder,
+            tallLightFlatSquare, tallLightHoleSquare, tallLightFlatCylinder, tallLightHoleCylinder,
         };
         var circlePieces = [];
         var circleBoards = [];
@@ -260,7 +264,7 @@ class Viewer extends Component {
                             hasPieceBeenPicked = false;
                             boardObj[selectedPiece].position = hole;
                             const column = parseInt(holeid) % 4;
-                            const row = Math.abs(parseInt(holeid) / 4);
+                            const row = Math.floor(parseInt(holeid) / 4);
                             this.handleCellClick(row, column)
                         }
                     }

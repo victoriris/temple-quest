@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Button, Container, Grid, GridColumn, GridRow, Icon } from 'semantic-ui-react';
-import history from '../history';
+import { Button, Container, Grid, GridColumn } from 'semantic-ui-react';
 import BackButton from '../components/BackButton';
+import history from '../history';
 
 
 class DifficultyScreen extends Component {

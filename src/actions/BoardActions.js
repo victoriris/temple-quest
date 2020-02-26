@@ -1,8 +1,7 @@
-import { BOARD_UPDATE_DATA, BOARD_INIT, BOARD_PLACE_PIECE, BOARD_PICK_PIECE, BOARD_RESET_GAME, NETWORK_RESET_DATA } from './types';
-import { sendNetworkData } from './NetworkActions';
-import { CheckWin } from '../helpers';
-import {startMinimax}  from '../helpers';
+import { CheckWin, startMinimax } from '../helpers';
 import history from '../history';
+import { sendNetworkData } from './NetworkActions';
+import { BOARD_INIT, BOARD_PICK_PIECE, BOARD_PLACE_PIECE, BOARD_RESET_GAME, BOARD_UPDATE_DATA } from './types';
 
 
 export const endGame = () => {

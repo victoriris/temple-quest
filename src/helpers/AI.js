@@ -1,6 +1,5 @@
 import {CheckWin} from '../helpers';
 import DeepEqual from 'deep-equal'
-import { selectBoardCell, selectBagPiece } from '../actions/BoardActions';
 
 
 var AlphaBetaResult ={
@@ -148,25 +147,11 @@ function getBoardScore( board, emptyLocations, selectedPiece, unusedPieces, curr
 
 
 function getDepth(unusedPieces){
-    switch (unusedPieces) {
-        case 16:;
-        case 15:;
-        case 14: return 2;
-        case 13:;
-        case 12: return 2;
-        case 11:;
-        case 10: return 2;
-        case 9:;
-        case 8: return 2;
-        case 7:;
-        case 6:;
-        case 5:;
-        case 4:;
-        case 3:;
-        case 2:;
-        case 1:;
-        default: return 2;
-    }
+    if (unusedPieces >= 14) return 2;
+    if (unusedPieces >= 12) return 2;
+    if (unusedPieces >= 10) return 2;
+    if (unusedPieces >= 8) return 2;
+    return 2;
 }
 
 export {startMinimax};

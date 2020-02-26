@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Button, Container, Grid, GridColumn, GridRow, Checkbox, Segment} from 'semantic-ui-react';
-import history from '../history';
+import { Checkbox, Container, Grid, GridColumn, GridRow, Segment } from 'semantic-ui-react';
 import BackButton from '../components/BackButton';
+import history from '../history';
 
 
 class SettingsScreen extends Component{

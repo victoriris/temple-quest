@@ -131,7 +131,7 @@ class Viewer extends Component {
         } );
 
         SceneLoader.ImportMesh("",sDFS, "", scene, (newMeshes, particleSystems, skeletons) =>{
-            boardObj. shortDarkFlatSquare = newMeshes[0];
+            boardObj.shortDarkFlatSquare = newMeshes[0];
              boardObj.shortDarkFlatSquare.scaling = new Vector3(0.6, 0.6, 0.6);
              boardObj.shortDarkFlatSquare.position = new Vector3(-9, 0.15, 13);
         } );

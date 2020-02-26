@@ -1,4 +1,4 @@
-import { NETWORK_RECEIVE_MESSSAGE, NETWORK_UPDATE_DATA, BOARD_RESET_GAME, NETWORK_RESET_DATA } from "../actions/types";
+import { NETWORK_RECEIVE_MESSSAGE, NETWORK_UPDATE_DATA, NETWORK_RESET_DATA } from "../actions/types";
 import moment from "moment";
 
 

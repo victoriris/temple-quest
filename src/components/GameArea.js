@@ -241,7 +241,7 @@ class Viewer extends Component {
             room.position = new Vector3(0,0,0);
         });
 
-        
+
         //Point and click logic
         setTimeout(function() {
             var hasPieceBeenPicked = false;
@@ -249,12 +249,16 @@ class Viewer extends Component {
             scene.onPointerDown = function(evt, pickResult) {
                 if(hasPieceBeenPicked) {
                     if (pickResult.hit) {
-                        if (pickResult.pickedMesh.name === "Cylinder.015") {
+                        const meshname = pickResult.pickedMesh.name;
+                        if (!meshname.includes("Cylinder.015")) return;
+
+                        if (meshname === "Cylinder.015") {
                             hasPieceBeenPicked = false;
                             boardObj[selectedPiece].position = circleBoards[0];
                         }
                         else {
-                            const holeIdx = pickResult.pickedMesh.name.match(/holePiece(\d+)\.Cylinder/)[1];
+                            const holeIdx = meshname.match(/holePiece(\d+)\.Cylinder/)[1];
+                            if (!holeIdx) return;
                             const hole = circleBoards.find((val, idx) => idx === parseInt(holeIdx));
 
                             if (hole) {
@@ -265,8 +269,7 @@ class Viewer extends Component {
                         }
                     }
                 }
-                else
-                {
+                else {
                     if (pickResult.hit) {
                         for (let [key, value] of Object.entries(boardObj)) {
                             if (pickResult.pickedMesh.name.includes(key)) {

@@ -8,17 +8,20 @@ function CheckWin (pieces, pieceId) {
     var neighbors = [];
     pieces.forEach((p) => {
         if (!p.location) return false;
-        if(p.location.row === piece.location.row) {
+        const sameRow = p.location.row === piece.location.row;
+        const sameColumn = p.location.column === piece.location.column;
+        const diagonalValue = getDiagonalValue(piece, p);
+        const isSameLocation = sameRow && sameColumn;
+        if(sameRow) {
             neighbors.push({...p, match: 'row'});
         }
-        if (p.location.column === piece.location.column) {
+        if (sameColumn) {
             neighbors.push({...p, match: 'column'});
         }
-        const diagonalValue = getDiagonalValue(piece, p);
-        if(diagonalValue === 1) {
+        if(diagonalValue === 1 || isSameLocation) {
             neighbors.push({...p, match: 'diagonal_up'});
         }
-        else if(diagonalValue === -1) {
+        if(diagonalValue === -1 || isSameLocation) {
             neighbors.push({...p, match: 'diagonal_down'});
         }
     });

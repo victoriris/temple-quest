@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import { Scene, SceneLoader, Vector3, ArcRotateCamera, DirectionalLight, Mesh } from 'babylonjs';
-import BabylonScene from './BabylonScene';
+import { ArcRotateCamera, DirectionalLight, Mesh, Scene, SceneLoader, Vector3 } from 'babylonjs';
 import 'babylonjs-loaders';
-import { tLFS, tLHC, pieceThatGoesInHole, floor, slab, sDFC, sDFS } from '../objects';
-import { sDHC, sDHS, sLFC, sLFS, sLHC, sLHS, tDFC, tDFS, tDHC, tDHS, tLFC, tLHS, gameBoard, coaster  } from '../objects';
-import { initBoard, selectBagPiece, selectBoardCell, updateBoardData } from '../actions';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { initBoard, selectBagPiece, selectBoardCell, updateBoardData } from '../actions';
+import { coaster, floor, gameBoard, pieceObjects, pieceThatGoesInHole, slab, cellCords } from '../objects';
+import BabylonScene from './BabylonScene';
+
 
 function initializeScene (canvas, engine) {
     engine.displayLoadingUI();
@@ -81,144 +81,39 @@ class Viewer extends Component {
         const { canvas, engine } = e;
         var scene = initializeScene(canvas, engine);
 
-        //Board Pieces 
-        var shortDarkFlatCylinder, shortDarkFlatSquare, shortDarkHoleCylinder, shortDarkHoleSquare, 
-        shortLightFlatCylinder, shortLightFlatSquare, shortLightHoleSquare, shortLightHoleCylinder, 
-        tallDarkFlatCylinder, tallDarkFlatSquare, tallDarkHoleCylinder, tallDarkHoleSquare, 
-        tallLightFlatCylinder, tallLightFlatSquare, tallLightHoleSquare, tallLightHoleCylinder;
-        
+        //Board Pieces         
         var room;
         var slabForPieces; 
         var pieceHolder;
-        var boardObj = {
-            shortDarkFlatSquare, shortDarkHoleSquare, shortDarkFlatCylinder, shortDarkHoleCylinder,
-            tallDarkFlatSquare, tallDarkHoleSquare, tallDarkFlatCylinder, tallDarkHoleCylinder,
-            shortLightFlatSquare, shortLightHoleSquare, shortLightFlatCylinder, shortLightHoleCylinder,
-            tallLightFlatSquare, tallLightHoleSquare, tallLightFlatCylinder, tallLightHoleCylinder,
-        };
+        var boardObj = {};
         var circlePieces = [];
         var circleBoards = [];
         var selectedPiece;
 
-        
-        //Board Positions
-        let positionCords = [
-            [-7.5, 0.15, -7.5], [-7.5, 0.15, -2.5], [-7.5, 0.15, 2.5], [-7.5, 0.15, 7.5],
-            [-2.5, 0.15, -7.5], [-2.5, 0.15, -2.5], [-2.5, 0.15, 2.5], [-2.5, 0.15, 7.5],
-            [2.5, 0.15, -7.5], [2.5, 0.15, -2.5], [2.5, 0.15, 2.5], [2.5, 0.15, 7.5],
-            [7.5, 0.15, -7.5], [7.5, 0.15, -2.5], [7.5, 0.15, 2.5], [7.5, 0.15, 7.5]
-        ];
-
-        for (const position in positionCords) {
-            const cord = positionCords[position];
+        for (const position in cellCords) {
+            const cord = cellCords[position];
             circleBoards[position] = new Vector3(cord[0], cord[1], cord[2]);
         }
 
         var coasterLocation = new Vector3(0, 0.069, -13);
 
-         //importing the board object    empty   objectImportName  empty scene (paramsForAnimation)
+        // Set gameboard and slab
         SceneLoader.ImportMesh("",gameBoard, "", scene);
-
         SceneLoader.ImportMesh("",slab, "", scene, (newMeshes, particleSystems, skeletons) =>{
             slabForPieces = newMeshes[0];
             slabForPieces.position = new Vector3(0, 0.069, 15);
         } );
 
-        SceneLoader.ImportMesh("",sDFC, "", scene, (newMeshes, particleSystems, skeletons) =>{
-            boardObj.shortDarkFlatCylinder = newMeshes[0];
-            boardObj.shortDarkFlatCylinder.scaling = new Vector3(0.6, 0.6, 0.6);
-            boardObj.shortDarkFlatCylinder.position = new Vector3(-12.5, 0.15, 13);
-        } );
-
-        SceneLoader.ImportMesh("",sDFS, "", scene, (newMeshes, particleSystems, skeletons) =>{
-            boardObj.shortDarkFlatSquare = newMeshes[0];
-             boardObj.shortDarkFlatSquare.scaling = new Vector3(0.6, 0.6, 0.6);
-             boardObj.shortDarkFlatSquare.position = new Vector3(-9, 0.15, 13);
-        } );
-
-        SceneLoader.ImportMesh("",sDHC, "", scene, (newMeshes, particleSystems, skeletons) =>{
-             boardObj.shortDarkHoleCylinder = newMeshes[0];
-             boardObj.shortDarkHoleCylinder.scaling = new Vector3(0.6, 0.6, 0.6);
-             boardObj.shortDarkHoleCylinder.position = new Vector3(-5.5, 0.15, 13);
-        } );
-
-        SceneLoader.ImportMesh("",sDHS, "", scene, (newMeshes, particleSystems, skeletons) =>{
-             boardObj.shortDarkHoleSquare = newMeshes[0];
-             boardObj.shortDarkHoleSquare.scaling = new Vector3(0.6, 0.6, 0.6);
-             boardObj.shortDarkHoleSquare.position = new Vector3(-2, 0.15, 13);
-        } );
-
-        SceneLoader.ImportMesh("",tDFC, "", scene, (newMeshes, particleSystems, skeletons) =>{
-             boardObj.tallDarkFlatCylinder = newMeshes[0];
-             boardObj.tallDarkFlatCylinder.scaling = new Vector3(0.6, 0.6, 0.6);
-             boardObj.tallDarkFlatCylinder.position = new Vector3(2, 0.15, 13);
-        } );
-
-        SceneLoader.ImportMesh("",tDFS, "", scene, (newMeshes, particleSystems, skeletons) =>{
-             boardObj.tallDarkFlatSquare = newMeshes[0];
-             boardObj.tallDarkFlatSquare.scaling = new Vector3(0.6, 0.6, 0.6);
-             boardObj.tallDarkFlatSquare.position = new Vector3(5.5, 0.15, 13);
-        } );
-
-        SceneLoader.ImportMesh("",tDHC, "", scene, (newMeshes, particleSystems, skeletons) =>{
-             boardObj.tallDarkHoleCylinder = newMeshes[0];
-             boardObj.tallDarkHoleCylinder.scaling = new Vector3(0.6, 0.6, 0.6);
-             boardObj.tallDarkHoleCylinder.position = new Vector3(9, 0.15, 13);
-        } );
-
-        SceneLoader.ImportMesh("",tDHS, "", scene, (newMeshes, particleSystems, skeletons) =>{
-             boardObj.tallDarkHoleSquare = newMeshes[0];
-             boardObj.tallDarkHoleSquare.scaling = new Vector3(0.6, 0.6, 0.6);
-             boardObj.tallDarkHoleSquare.position = new Vector3(12.5, 0.15, 13);
-        } );
-
-        SceneLoader.ImportMesh("",sLFC, "", scene, (newMeshes, particleSystems, skeletons) =>{
-             boardObj.shortLightFlatCylinder = newMeshes[0];
-             boardObj.shortLightFlatCylinder.scaling = new Vector3(0.6, 0.6, 0.6);
-             boardObj.shortLightFlatCylinder.position = new Vector3(-12.5, 0.15, 17);
-        } );
-
-        SceneLoader.ImportMesh("",sLFS, "", scene, (newMeshes, particleSystems, skeletons) =>{
-             boardObj.shortLightFlatSquare = newMeshes[0];
-             boardObj.shortLightFlatSquare.scaling = new Vector3(0.6, 0.6, 0.6);
-             boardObj.shortLightFlatSquare.position = new Vector3(-9, 0.15, 17);
-        } );
-
-        SceneLoader.ImportMesh("",sLHC, "", scene, (newMeshes, particleSystems, skeletons) =>{
-             boardObj.shortLightHoleCylinder = newMeshes[0];
-             boardObj.shortLightHoleCylinder.scaling = new Vector3(0.6, 0.6, 0.6);
-             boardObj.shortLightHoleCylinder.position = new Vector3(-5.5, 0.15, 17);
-        } );
-
-        SceneLoader.ImportMesh("",sLHS, "", scene, (newMeshes, particleSystems, skeletons) =>{
-             boardObj.shortLightHoleSquare = newMeshes[0];
-             boardObj.shortLightHoleSquare.scaling = new Vector3(0.6, 0.6, 0.6);
-             boardObj.shortLightHoleSquare.position = new Vector3(-2, 0.15, 17);
-        } );
-
-        SceneLoader.ImportMesh("",tLFC, "", scene, (newMeshes, particleSystems, skeletons) =>{
-             boardObj.tallLightFlatCylinder = newMeshes[0];
-             boardObj.tallLightFlatCylinder.scaling = new Vector3(0.6, 0.6, 0.6);
-             boardObj.tallLightFlatCylinder.position = new Vector3(2, 0.15, 17);
-        } );
-
-        SceneLoader.ImportMesh("",tLFS, "", scene, (newMeshes, particleSystems, skeletons) =>{
-             boardObj.tallLightFlatSquare = newMeshes[0];
-             boardObj.tallLightFlatSquare.scaling = new Vector3(0.6, 0.6, 0.6);
-             boardObj.tallLightFlatSquare.position = new Vector3(5.5, 0.15, 17);
-        } );
-
-        SceneLoader.ImportMesh("",tLHC, "", scene, (newMeshes, particleSystems, skeletons) =>{
-             boardObj.tallLightHoleCylinder = newMeshes[0];
-             boardObj.tallLightHoleCylinder.scaling = new Vector3(0.6, 0.6, 0.6);
-             boardObj.tallLightHoleCylinder.position = new Vector3(9, 0.15, 17);
-        } );
-
-        SceneLoader.ImportMesh("",tLHS, "", scene, (newMeshes, particleSystems, skeletons) =>{
-             boardObj.tallLightHoleSquare = newMeshes[0];
-             boardObj.tallLightHoleSquare.scaling = new Vector3(0.6, 0.6, 0.6);
-             boardObj.tallLightHoleSquare.position = new Vector3(12.5, 0.15, 17);
-        } );
+        // Set pieces
+        const pieceScaling = new Vector3(0.6, 0.6, 0.6);
+        for (const [key, piece] of Object.entries(pieceObjects)) {
+            const loc = piece.loc;
+            SceneLoader.ImportMesh("",piece.obj, "", scene, (newMeshes, particleSystems, skeletons) =>{
+                boardObj[key] = newMeshes[0];
+                boardObj[key].scaling = pieceScaling;
+                boardObj[key].position = new Vector3(loc[0], loc[1], loc[2]);
+            } );
+        }
 
         SceneLoader.ImportMesh("",pieceThatGoesInHole, "", scene, (newMeshes, particleSystems, skeletons) =>{
             for (const hole in circleBoards) {
@@ -233,13 +128,10 @@ class Viewer extends Component {
                 circlePieces[hole].position.y = 0.015;
             }
         } );
-
-
         SceneLoader.ImportMesh("", coaster, "", scene, (newMeshes, particleSystems, skeletons) => {
             pieceHolder = newMeshes[0];
             pieceHolder.position = new Vector3(0, 0.069, -13);
         });
-
         SceneLoader.ImportMesh("",floor, "", scene, (newMeshes, particleSystems, skeletons) =>{
             room = newMeshes[0];
             room.position = new Vector3(0,0,0);
@@ -272,13 +164,12 @@ class Viewer extends Component {
                 // Pieces bag item selection
                 else {
                     if (pickResult.hit) {
-                        const pieces = Object.keys(boardObj);
                         for (let [key, value] of Object.entries(boardObj)) {
                             if (pickResult.pickedMesh.name.includes(key)) {
                                 selectedPiece = key;
                                 value.position = coasterLocation;
                                 hasPieceBeenPicked = true;
-                                const pieceId = pieces.indexOf(key);
+                                const pieceId = pieceObjects[key].id;
                                 this.handlePieceClick(pieceId)
                                 break;
                             }
@@ -290,7 +181,6 @@ class Viewer extends Component {
         engine.hideLoadingUI();
         }, 3000);
 
-        
         //heck if I know
        engine.runRenderLoop(() => {
             if (scene) {
@@ -299,8 +189,7 @@ class Viewer extends Component {
         });
     }
 
-    render() {     
-        
+    render() {    
         return (
             <BabylonScene onSceneMount={this.onSceneMount} />
         )

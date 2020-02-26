@@ -243,39 +243,39 @@ class Viewer extends Component {
 
 
         //Point and click logic
-        setTimeout(function() {
+        setTimeout(() => {
             var hasPieceBeenPicked = false;
 
-            scene.onPointerDown = function(evt, pickResult) {
+            scene.onPointerDown = (evt, pickResult) => {
+                // Cell item selection
                 if(hasPieceBeenPicked) {
                     if (pickResult.hit) {
                         const meshname = pickResult.pickedMesh.name;
                         if (!meshname.includes("Cylinder.015")) return;
 
-                        if (meshname === "Cylinder.015") {
-                            hasPieceBeenPicked = false;
-                            boardObj[selectedPiece].position = circleBoards[0];
-                        }
-                        else {
-                            const holeIdx = meshname.match(/holePiece(\d+)\.Cylinder/)[1];
-                            if (!holeIdx) return;
-                            const hole = circleBoards.find((val, idx) => idx === parseInt(holeIdx));
+                        const holeid = meshname === "Cylinder.015" ? 0 : meshname.match(/holePiece(\d+)\.Cylinder/)[1];
+                        const hole = circleBoards.find((val, idx) => idx === parseInt(holeid));
 
-                            if (hole) {
-                                hasPieceBeenPicked = false;
-                                boardObj[selectedPiece].position = hole;
-                            }
-                            
+                        if (hole) {
+                            hasPieceBeenPicked = false;
+                            boardObj[selectedPiece].position = hole;
+                            const column = parseInt(holeid) % 4;
+                            const row = Math.abs(parseInt(holeid) / 4);
+                            this.handleCellClick(row, column)
                         }
                     }
                 }
+                // Pieces bag item selection
                 else {
                     if (pickResult.hit) {
+                        const pieces = Object.keys(boardObj);
                         for (let [key, value] of Object.entries(boardObj)) {
                             if (pickResult.pickedMesh.name.includes(key)) {
                                 selectedPiece = key;
                                 value.position = coasterLocation;
                                 hasPieceBeenPicked = true;
+                                const pieceId = pieces.indexOf(key);
+                                this.handlePieceClick(pieceId)
                                 break;
                             }
                         }

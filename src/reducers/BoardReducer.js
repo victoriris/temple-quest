@@ -5,7 +5,7 @@ const INITIAL_STATE = {
     pieces: [],
     selectedPieceId: '',
     isOnlineMode: false,
-    isSingleMode: true,
+    isSingleMode: false,
     mounted: false,
 }
 

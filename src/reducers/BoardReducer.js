@@ -1,4 +1,6 @@
-import { BOARD_UPDATE_DATA, BOARD_INIT, BOARD_PLACE_PIECE, BOARD_PICK_PIECE, BOARD_RESET_GAME } from "../actions/types";
+import { BOARD_UPDATE_DATA, BOARD_INIT, BOARD_PLACE_PIECE, BOARD_PICK_PIECE, BOARD_RESET_GAME, BOARD_UPDATE_PIECE_OBJECT } from "../actions/types";
+import { cellCords, pieceObjects } from '../helpers';
+
 
 const INITIAL_STATE = {
     isUserTurn: true,
@@ -7,6 +9,8 @@ const INITIAL_STATE = {
     isOnlineMode: false,
     isSingleMode: false,
     mounted: false,
+    cellCords: cellCords,
+    pieceObjects: pieceObjects,
 }
 
 export default (state = INITIAL_STATE, { type, payload }) => {
@@ -14,6 +18,22 @@ export default (state = INITIAL_STATE, { type, payload }) => {
         
         case BOARD_UPDATE_DATA:
             return { ...state, [payload.prop]: payload.value };
+
+        case BOARD_UPDATE_PIECE_OBJECT: {
+            let newPieceObjects = [ ...state.pieceObjects ];
+
+            // Find piece index, exit otherwise
+            let pieceIdx = newPieceObjects.findIndex(p => p.id === parseInt(payload.id));
+            if (pieceIdx < 0) return state;
+
+            // Modify piece properties
+            newPieceObjects[pieceIdx] = {
+                ...newPieceObjects[pieceIdx],
+                [payload.prop]: payload.value
+            };
+
+            return { ...state, pieceObjects: newPieceObjects };
+        }
 
         case BOARD_INIT: {
             let pieces = [];

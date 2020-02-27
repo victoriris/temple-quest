@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Container, Form, Grid, GridColumn, GridRow } from 'semantic-ui-react';
-import { getPeersList, initPeer, listenNetworkData, updateNetworkData } from '../actions/NetworkActions';
 import { launchMultiplayer, resetNetwork } from '../actions';
-import PeersList from '../components/PeersList';
-import history from '../history';
+import { getPeersList, initPeer, listenNetworkData, updateNetworkData } from '../actions/NetworkActions';
 import BackButton from '../components/BackButton';
+import PeersList from '../components/PeersList';
 
 
 class OnlineSetupScreen extends Component{

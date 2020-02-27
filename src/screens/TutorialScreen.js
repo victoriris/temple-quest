@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import history from '../history';
-import { Button, Container, Grid, GridColumn } from 'semantic-ui-react';
+import { Container, Grid, GridColumn } from 'semantic-ui-react';
 import BackButton from '../components/BackButton';
 
 

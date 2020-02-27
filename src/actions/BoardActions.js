@@ -1,13 +1,24 @@
 import { CheckWin, startMinimax } from '../helpers';
 import history from '../history';
 import { sendNetworkData } from './NetworkActions';
-import { BOARD_INIT, BOARD_PICK_PIECE, BOARD_PLACE_PIECE, BOARD_RESET_GAME, BOARD_UPDATE_DATA } from './types';
+import { BOARD_INIT, BOARD_PICK_PIECE, BOARD_PLACE_PIECE, BOARD_RESET_GAME, BOARD_UPDATE_DATA, BOARD_UPDATE_PIECE_OBJECT } from './types';
 
 
 export const endGame = () => {
     return (dispatch, getState) => {
         dispatch({ type: BOARD_RESET_GAME });
         history.push('/menu');
+    };
+};
+
+export const updatePieceObject = (pieceId, prop, value) => {
+    return (dispatch) => {
+        dispatch({
+            type: BOARD_UPDATE_PIECE_OBJECT,
+            payload: {
+                id: pieceId, prop, value
+            }
+        })
     };
 };
 
@@ -49,6 +60,9 @@ export const selectBagPiece = (pieceId, isRemote = false) => {
             }
         })
 
+        // Update 3D view
+        dispatch(updatePieceObject(pieceId, 'loc', [0, 0.069, -13]))
+
         // Send to peer
         if (isOnlineMode && !isRemote) {
             dispatch(
@@ -72,7 +86,7 @@ export const selectBagPiece = (pieceId, isRemote = false) => {
     };
 };
 
-export const selectBoardCell = (row, column, isRemote = false) => {
+export const selectBoardCell = (row, column, isRemote = false, position = null) => {
     return (dispatch, getState) => {
         const {isOnlineMode} = getState().board;
 
@@ -88,6 +102,12 @@ export const selectBoardCell = (row, column, isRemote = false) => {
                 location: { row, column },
             } 
         });
+
+        // Update 3d view
+        if (position) {
+            const {x, y, z} = position;
+            dispatch(updatePieceObject(selectedPieceId, 'loc', [x,y,z]));
+        }
         
         // Check if it is a winning move
         dispatch(checkBoardWin(selectedPieceId));

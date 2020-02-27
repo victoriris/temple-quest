@@ -1,30 +1,11 @@
 import { Vector3 } from 'babylonjs';
 import 'babylonjs-loaders';
 import React, { Component } from 'react';
-import { ArcRotateCamera, DirectionalLight, Engine, Ground, Model, Scene, ShadowGenerator, Button3D } from 'react-babylonjs';
+import { ArcRotateCamera, DirectionalLight, Engine, Ground, Model, Scene, ShadowGenerator } from 'react-babylonjs';
 import { connect } from 'react-redux';
-import { initBoard, selectBagPiece, selectBoardCell, updateBoardData } from '../actions';
-import { pieceThatGoesInHole, cellCords } from '../objects';
+import { initBoard, selectBagPiece, selectBoardCell, updateBoardData, updatePieceObject } from '../actions';
 
 let baseUrl = `${process.env.PUBLIC_URL}/objects/`;
-const pieceObjects = [
-    { id: 0,    obj: 'shortDarkFlatSquare',      loc: [-12.5, 0.15, 13]}, 
-    { id: 1,    obj: 'shortDarkHoleSquare',      loc: [-9, 0.15, 13]}, 
-    { id: 2,    obj: 'shortDarkFlatCylinder',    loc: [-5.5, 0.15, 13]}, 
-    { id: 3,    obj: 'shortDarkHoleCylinder',    loc: [-2, 0.15, 13]},
-    { id: 4,    obj: 'tallDarkFlatSquare',       loc: [2, 0.15, 13]}, 
-    { id: 5,    obj: 'tallDarkHoleSquare',       loc: [5.5, 0.15, 13]}, 
-    { id: 6,    obj: 'tallDarkFlatCylinder',     loc: [9, 0.15, 13]}, 
-    { id: 7,    obj: 'tallDarkHoleCylinder',     loc: [12.5, 0.15, 13]},
-    { id: 8,    obj: 'shortLightFlatSquare',     loc: [-12.5, 0.15, 17]}, 
-    { id: 9,    obj: 'shortLightHoleSquare',     loc: [-9, 0.15, 17]}, 
-    { id: 10,   obj: 'shortLightFlatCylinder',   loc: [-5.5, 0.15, 17]}, 
-    { id: 11,   obj: 'shortLightHoleCylinder',   loc: [-2, 0.15, 17]},
-    { id: 12,   obj: 'tallLightFlatSquare',      loc: [2, 0.15, 17]}, 
-    { id: 13,   obj: 'tallLightHoleSquare',      loc: [5.5, 0.15, 17]}, 
-    { id: 14,   obj: 'tallLightFlatCylinder',    loc: [9, 0.15, 17]}, 
-    { id: 15,   obj: 'tallLightHoleCylinder',    loc: [12.5, 0.15, 17]},
-];
 
 class Playground extends Component {
 
@@ -41,8 +22,8 @@ class Playground extends Component {
         this.props.selectBagPiece(pieceId);
     }
 
-    handleCellClick (row, column) {
-        this.props.selectBoardCell(row, column);
+    handleCellClick (row, column, position) {
+        this.props.selectBoardCell(row, column, false, position);
     }
 
     isUsedLocation(row, column) {
@@ -54,10 +35,11 @@ class Playground extends Component {
     }
 
     meshPicked(mesh) {
+        console.log(mesh);
+        const {cellCords} = this.props;
         const {name, _absolutePosition : position} = mesh;
         console.log(name);
         if (name === 'Cylinder.015') {
-            console.log(position.x, position.z);
             const cellIdx = cellCords.findIndex((cell) => {
                 return cell[0] === position.x && cell[2] === position.z;
             });
@@ -65,16 +47,15 @@ class Playground extends Component {
             // TODO: Update cord of selected piece
             const column = parseInt(cellIdx) % 4;
             const row = Math.floor(parseInt(cellIdx) / 4);
-            this.handleCellClick(row, column)
+            this.handleCellClick(row, column, position);
         }
         else if (name.includes('_primitive')) {
             console.log(name);
-            const piece = pieceObjects.find(((piece) => {
+            const piece = this.props.pieceObjects.find(((piece) => {
                 return name.includes(piece.obj);
             }));
             if (piece) {
                 // UPDATE DELECTED PIECE ID
-                console.log(piece.id);
                 this.handlePieceClick(piece.id);
             }
         }
@@ -82,7 +63,6 @@ class Playground extends Component {
     }
 
     render () {
-        
 
         return (
           <Engine canvasId="playground" adaptToDeviceRatio antialias>
@@ -93,7 +73,7 @@ class Playground extends Component {
                 name="camera1"
                 alpha={0} beta={0}
                 radius={35} 
-                setPosition={[new Vector3(30, 0, 0)]}
+                setPosition={[new Vector3(30, 15, 0)]}
                 lowerBetaLimit = {0.5}
                 upperRadiusLimit = {50}
                 lowerRadiusLimit = {20}
@@ -154,7 +134,7 @@ class Playground extends Component {
 
     renderPieces () {
         const pieceScaling = new Vector3(0.6, 0.6, 0.6);
-        return pieceObjects.map((piece, idx) => {
+        return this.props.pieceObjects.map((piece, idx) => {
             const {loc} = piece;
             return (
                 <Model 
@@ -170,7 +150,7 @@ class Playground extends Component {
     }
 
     renderCells() {
-        return cellCords.map((cord, idx)=>{
+        return this.props.cellCords.map((cord, idx)=>{
             return (
                 <Model sceneFilename="pieceThatGoesInHole.glb"
                     rootUrl = {baseUrl}
@@ -185,10 +165,10 @@ class Playground extends Component {
 
 
 const mapStateToProps = ({ board, network }) => {
-    const { pieces, isUserTurn, selectedPieceId, isOnlineMode, hasPieceBeenPicked } = board;
-    return { pieces, isUserTurn, selectedPieceId, isOnlineMode, hasPieceBeenPicked };
+    const { pieces, isUserTurn, selectedPieceId, isOnlineMode, hasPieceBeenPicked, cellCords, pieceObjects } = board;
+    return { pieces, isUserTurn, selectedPieceId, isOnlineMode, hasPieceBeenPicked, cellCords, pieceObjects };
 };
 
 export default connect(mapStateToProps, {
-    initBoard, selectBagPiece, selectBoardCell, updateBoardData
+    initBoard, selectBagPiece, selectBoardCell, updateBoardData, updatePieceObject
 })(Playground);

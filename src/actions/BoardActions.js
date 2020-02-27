@@ -12,6 +12,8 @@ export const endGame = () => {
 };
 
 export const updatePieceObject = (pieceId, prop, value) => {
+    
+    console.log("Position after move: ", value);
     return (dispatch) => {
         dispatch({
             type: BOARD_UPDATE_PIECE_OBJECT,
@@ -76,8 +78,10 @@ export const selectBagPiece = (pieceId, isRemote = false) => {
             startMinimax(pieces, pieceId)
                 .then(({ location, pieceId }) => {
                     const cellId = location.column + (location.row * 4);
-                    const position = cellCords.find((cords, idx) => idx === cellId);
+                    const cell = cellCords.find((cords, idx) => idx === cellId);
                     console.log(location,cellId, position);
+                    const [x, y, z] = cell;
+                    const position = {x, y, z};
                     dispatch(selectBoardCell(location.row, location.column, false, position));
                     dispatch(selectBagPiece(pieceId, true));
                 })

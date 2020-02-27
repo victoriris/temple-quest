@@ -7,7 +7,7 @@ const INITIAL_STATE = {
     pieces: [],
     selectedPieceId: '',
     isOnlineMode: false,
-    isSingleMode: false,
+    isSingleMode: true,
     mounted: false,
     cellCords: cellCords,
     pieceObjects: pieceObjects,

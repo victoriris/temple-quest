@@ -6,7 +6,7 @@ import BoardScreen from './screens/BoardScreen';
 import ConnectionLost from './screens/ConnectionLost';
 import DifficultyScreen from './screens/DifficultyScreen';
 import GameModeScreen from './screens/GameModeScreen';
-import GameScreen from './screens/GameScreen';
+import GameScreen from './screens/Playground';
 import IntroScreen from './screens/IntroScreen';
 import LocalSetupScreen from './screens/LocalSetupScreen';
 import MainScreen from './screens/MainScreen';

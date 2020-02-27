@@ -51,7 +51,7 @@ export const initBoard = () => {
 
 export const selectBagPiece = (pieceId, isRemote = false) => {
     return (dispatch, getState) => {
-        const { isOnlineMode, isSingleMode, pieces } = getState().board;
+        const { isOnlineMode, isSingleMode, pieces, cellCords } = getState().board;
         console.log("Selecting Piece: ", pieceId);
         dispatch({
             type: BOARD_PICK_PIECE,
@@ -75,13 +75,15 @@ export const selectBagPiece = (pieceId, isRemote = false) => {
 
             startMinimax(pieces, pieceId)
                 .then(({ location, pieceId }) => {
-                    dispatch(selectBoardCell(location.row, location.column));
+                    const cellId = location.column + (location.row * 4);
+                    const position = cellCords.find((cords, idx) => idx === cellId);
+                    console.log(location,cellId, position);
+                    dispatch(selectBoardCell(location.row, location.column, false, position));
                     dispatch(selectBagPiece(pieceId, true));
                 })
                 .catch(err => {
                     alert('The AI failed');
                 })
-
         }
     };
 };

@@ -62,11 +62,20 @@ class Playground extends Component {
             
     }
 
+    onSceneMount (e) {
+        const {scene} = e;
+        scene.getEngine().displayLoadingUI();
+        setTimeout(() => {  
+            scene.getEngine().hideLoadingUI();
+        }, 4000);
+    }
+
     render () {
 
         return (
           <Engine canvasId="playground" adaptToDeviceRatio antialias>
             <Scene 
+            onSceneMount={this.onSceneMount}
             onMeshPicked={this.meshPicked.bind(this)} 
             >
                 <ArcRotateCamera 

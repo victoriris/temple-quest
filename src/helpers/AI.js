@@ -43,6 +43,7 @@ async function startMinimax(pieces, selectedPieceId, movementAction) {
        // console.log("selectedPiece: ", selectedPiece);
     
         const maxDepth = getDepth(unused.length);
+        console.log("Depth: ", maxDepth);
         const bestMove = getBestMove(pieces, emptySpaces, selectedPiece, unused, maxDepth );
         console.log("BESTMOVE: ", bestMove);
 
@@ -72,7 +73,7 @@ function getBestMove(board, emptyLocations, selectedPiece, unusedPieces, maxDept
     
     emptyLocations.forEach((location)=>{
     selectedPiece.location = location;
-    result = getBoardScore(board, emptyLocations, selectedPiece, unusedPieces, 1, maxDepth);
+    result = getBoardScore(board, emptyLocations, selectedPiece, unusedPieces, 1, maxDepth, true);
     // console.log("FINISHED ONE LOOP, RESULT: ", result, "LOCATION: ", location);
     // console.log(AlphaBetaResult);
     if (result.score > AlphaBetaResult.piece.score){
@@ -91,7 +92,7 @@ function getBestMove(board, emptyLocations, selectedPiece, unusedPieces, maxDept
 }
 
 
-function getBoardScore( board, emptyLocations, selectedPiece, unusedPieces, currentDepth, maxDepth ){
+function getBoardScore( board, emptyLocations, selectedPiece, unusedPieces, currentDepth, maxDepth, flip){
     //console.log("Current depth: ", currentDepth, "/", maxDepth);
     let max = -Infinity;
     //base cases
@@ -101,7 +102,7 @@ function getBoardScore( board, emptyLocations, selectedPiece, unusedPieces, curr
         return bestPiece;
     }//if depth is reached (or tie)
     else if (currentDepth === maxDepth || emptyLocations.length === 0){
-        const bestPiece = {piece:selectedPiece, score:0}
+        const bestPiece = {piece:selectedPiece, score:1}
         return bestPiece;
     }
     
@@ -113,14 +114,11 @@ function getBoardScore( board, emptyLocations, selectedPiece, unusedPieces, curr
         return !DeepEqual(u, selectedPiece);
     });;
     let currentPiece;
-    var bestPiece;
+    var bestPiece = {piece: null, score: null};
     locationsCopy.forEach((location,locationIndex)=>{
         unusedCopy.forEach((piece,unusedIndex)=>{
-            //TODO: set currentPiece on boardCopy while popping from arrays
             currentPiece = piece;
             currentPiece.location = location;
-
-            //I don't know how to do this.
            let boardPiece = boardCopy.find(({ id }) => id === parseInt(piece.id));
            if (boardPiece){ 
            boardPiece.location = location;
@@ -128,30 +126,32 @@ function getBoardScore( board, emptyLocations, selectedPiece, unusedPieces, curr
                console.log("No Board Piece: " , boardPiece);
            }
             currentDepth++;
-            let miniMaxResult = getBoardScore(boardCopy, locationsCopy, currentPiece, unusedCopy, currentDepth, maxDepth) //MUST FLIP THE RESULT
+            let miniMaxResult = getBoardScore(boardCopy, locationsCopy, currentPiece, unusedCopy, currentDepth, maxDepth, flip); //MUST FLIP THE RESULT
             currentDepth--;
-            miniMaxResult.score = (miniMaxResult.score === -Infinity ? 0 : (miniMaxResult.score * -1)); //I DID IT I FLIPPED THE RESULT
+            if (flip){
+            miniMaxResult.score = miniMaxResult.score * -1; //I DID IT I FLIPPED THE RESULT
+            }
             currentPiece.location = null;
             boardPiece.location = null;
             if (miniMaxResult.score > max){
-                bestPiece = {piece: currentPiece, score: miniMaxResult.score};
                 max = miniMaxResult.score;
                 //console.log("Max: ", max);
             }
         })
     } )
     //console.log("Best Piece:", bestPiece);
+    bestPiece = {piece: currentPiece, score: max};
     return bestPiece;
 
 }
 
 
 function getDepth(unusedPieces){
-    if (unusedPieces >= 14) return 2;
-    if (unusedPieces >= 12) return 2;
+    //if (unusedPieces >= 14) return 2;
     if (unusedPieces >= 10) return 2;
-    if (unusedPieces >= 8) return 2;
-    return 2;
+    if (unusedPieces >= 8) return 3;
+    if (unusedPieces >= 6) return 4;
+    return 4;
 }
 
 export {startMinimax};

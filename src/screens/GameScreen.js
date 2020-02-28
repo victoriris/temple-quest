@@ -35,10 +35,10 @@ class GameScreen extends Component {
     }
 
     meshPicked(mesh) {
-        console.log(mesh);
+        //console.log(mesh);
         const {cellCords} = this.props;
         const {name, _absolutePosition : position} = mesh;
-        console.log(name);
+        //console.log(name);
         if (name === 'Cylinder.015') {
             const cellIdx = cellCords.findIndex((cell) => {
                 return cell[0] === position.x && cell[2] === position.z;
@@ -50,7 +50,7 @@ class GameScreen extends Component {
             this.handleCellClick(row, column, position);
         }
         else if (name.includes('_primitive')) {
-            console.log(name);
+            //console.log(name);
             const piece = this.props.pieceObjects.find(((piece) => {
                 return name.includes(piece.obj);
             }));

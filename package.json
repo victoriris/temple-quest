@@ -10,7 +10,7 @@
     "@babylonjs/core": "^4.0.3",
     "@babylonjs/gui": "^4.0.3",
     "@babylonjs/loaders": "^4.0.3",
-    "babylonjs": "^4.0.3",
+    "babylonjs": "^4.1.0",
     "babylonjs-loaders": "^4.0.3",
     "deep-equal": "^2.0.1",
     "electron-is": "^3.0.0",

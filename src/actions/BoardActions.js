@@ -13,7 +13,6 @@ export const endGame = () => {
 
 export const updatePieceObject = (pieceId, prop, value) => {
     
-    console.log("Position after move: ", value);
     return (dispatch) => {
         dispatch({
             type: BOARD_UPDATE_PIECE_OBJECT,
@@ -54,7 +53,6 @@ export const initBoard = () => {
 export const selectBagPiece = (pieceId, isRemote = false) => {
     return (dispatch, getState) => {
         const { isOnlineMode, isSingleMode, pieces, cellCords } = getState().board;
-        console.log("Selecting Piece: ", pieceId);
         dispatch({
             type: BOARD_PICK_PIECE,
             payload: {
@@ -74,20 +72,22 @@ export const selectBagPiece = (pieceId, isRemote = false) => {
 
         // AI
         else if (isSingleMode && !isRemote){
-
+            var t1 = performance.now();
             startMinimax(pieces, pieceId)
                 .then(({ location, pieceId }) => {
                     const cellId = location.column + (location.row * 4);
                     const cell = cellCords.find((cords, idx) => idx === cellId);
-                    console.log(location,cellId, position);
                     const [x, y, z] = cell;
                     const position = {x, y, z};
+                    console.log("Selected location: ", location, " Selected Piece: ", pieceId);
                     dispatch(selectBoardCell(location.row, location.column, false, position));
                     dispatch(selectBagPiece(pieceId, true));
                 })
                 .catch(err => {
                     alert('The AI failed');
                 })
+            var t2 = performance.now();
+            console.log("Time elapsed: ", (t2-t1) / 1000, " seconds");
         }
     };
 };

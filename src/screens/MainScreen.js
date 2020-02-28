@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { Button, Container, Grid, GridColumn, GridRow } from 'semantic-ui-react';
 import history from '../history';
 import GameLogo from '../img/gameLogo.svg';
-import { menuClick } from '../helpers';
-//import Audio from './components/Audio';
+import { menuClick, menuSound } from '../helpers';
+import ReactPlayer from 'react-player';
+import JungleMenu from '../sounds/JungleMenu.wav'
 
 
 class MainScreen extends Component {
@@ -14,6 +15,9 @@ class MainScreen extends Component {
     render () {
         return(
             <Grid stretched className="mainScreen" padded centered columns={3}>
+                <ReactPlayer playing loop height={0} width={0}
+                url={JungleMenu}
+                />
                 <GridRow>
                     <GridColumn verticalAlign="middle">
                         <div className="mainScreen__logo" >

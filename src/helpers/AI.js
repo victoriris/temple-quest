@@ -7,14 +7,12 @@ var AlphaBetaResult ={
    piece: {bestPiece: null, score: -10000} //newPiece
 }
 
-
+let max;
 
 async function startMinimax(pieces, selectedPieceId, movementAction) {
 
     return new Promise((resolve, reject) => {
 
-        //copy pieces, find unusedPieces, find emptyLocations
-    
         //fill up spaces array
         AlphaBetaResult.piece.score = -10000;
         let spaces = [];
@@ -55,28 +53,17 @@ async function startMinimax(pieces, selectedPieceId, movementAction) {
     });
 }
 
-
-
-// function makeMove(bestMove, selectedPiece, dispatch){
-//     //selectedPiece.location = bestMove.location
-//     selectBoardCell(bestMove.coordinates.row, bestMove.coordinates.column);
-//     console.log("Coordinates: ", bestMove.coordinates.row, bestMove.coordinates.column);
-//     selectBagPiece(bestMove.piece.piece.id);
-//     console.log("Piece: ", bestMove.piece.piece.id);
-    
-//     //selectedPiece = bestMove.piece
-// }
-
 //returns optimal location, optimal piece to give opponent
 function getBestMove(board, emptyLocations, selectedPiece, unusedPieces, maxDepth){
     let result;
     
     emptyLocations.forEach((location)=>{
+    max = -10000;
     selectedPiece.location = location;
     result = getBoardScore(board, emptyLocations, selectedPiece, unusedPieces, 1, maxDepth, true);
     // console.log("FINISHED ONE LOOP, RESULT: ", result, "LOCATION: ", location);
     // console.log(AlphaBetaResult);
-    if (result.score > AlphaBetaResult.piece.score){
+    if (result.score >= AlphaBetaResult.piece.score){
     AlphaBetaResult.coordinates = location;
     AlphaBetaResult.piece = result;
    // console.log("current best: ", AlphaBetaResult);
@@ -94,7 +81,7 @@ function getBestMove(board, emptyLocations, selectedPiece, unusedPieces, maxDept
 
 function getBoardScore( board, emptyLocations, selectedPiece, unusedPieces, currentDepth, maxDepth, flip){
     //console.log("Current depth: ", currentDepth, "/", maxDepth);
-    let max = -Infinity;
+    
     //base cases
     //if someone wins:
     if (CheckWin(board, selectedPiece.id)){
@@ -126,7 +113,7 @@ function getBoardScore( board, emptyLocations, selectedPiece, unusedPieces, curr
                console.log("No Board Piece: " , boardPiece);
            }
             currentDepth++;
-            let miniMaxResult = getBoardScore(boardCopy, locationsCopy, currentPiece, unusedCopy, currentDepth, maxDepth, flip); //MUST FLIP THE RESULT
+            let miniMaxResult = getBoardScore(boardCopy, locationsCopy, currentPiece, unusedCopy, currentDepth, maxDepth, !flip); //MUST FLIP THE RESULT
             currentDepth--;
             if (flip){
             miniMaxResult.score = miniMaxResult.score * -1; //I DID IT I FLIPPED THE RESULT
@@ -137,10 +124,13 @@ function getBoardScore( board, emptyLocations, selectedPiece, unusedPieces, curr
                 max = miniMaxResult.score;
                 //console.log("Max: ", max);
             }
+            if (miniMaxResult.score === max){
+                bestPiece.piece = currentPiece;
+            }
         })
     } )
     //console.log("Best Piece:", bestPiece);
-    bestPiece = {piece: currentPiece, score: max};
+    bestPiece.score = max;
     return bestPiece;
 
 }
@@ -151,7 +141,7 @@ function getDepth(unusedPieces){
     if (unusedPieces >= 10) return 2;
     if (unusedPieces >= 8) return 3;
     if (unusedPieces >= 6) return 4;
-    return 4;
+    return 6;
 }
 
 export {startMinimax};

@@ -38,8 +38,7 @@ export const checkBoardWin = (pieceId) => {
 
         if (hasWon) {
             const message = isUserTurn ? "You've won!!!!!!" : "Game Over, you lost";
-            alert(message);
-            dispatch(endGame());
+            dispatch(updateBoardData("isGameOver", true));
         }
     };
 };
@@ -52,7 +51,7 @@ export const initBoard = () => {
 
 export const selectBagPiece = (pieceId, isRemote = false) => {
     return (dispatch, getState) => {
-        const { isOnlineMode, isSingleMode, pieces, cellCords } = getState().board;
+        const { isOnlineMode, isSingleMode, pieces, cellCords, isGameOver } = getState().board;
         dispatch({
             type: BOARD_PICK_PIECE,
             payload: {
@@ -81,7 +80,9 @@ export const selectBagPiece = (pieceId, isRemote = false) => {
                     const position = {x, y, z};
                     console.log("Selected location: ", location, " Selected Piece: ", pieceId);
                     dispatch(selectBoardCell(location.row, location.column, false, position));
+                    if (!isGameOver){
                     dispatch(selectBagPiece(pieceId, true));
+                    }
                 })
                 .catch(err => {
                     alert('The AI failed');
@@ -97,7 +98,7 @@ export const selectBoardCell = (row, column, isRemote = false, position = null) 
         const {isOnlineMode} = getState().board;
 
         // Get selected piece or exit otherwise
-        const { selectedPieceId } = getState().board;
+        const { selectedPieceId, isGameOver, isUserTurn } = getState().board;
         if (!selectedPieceId) return;
 
         // Assign location to piece
@@ -127,6 +128,12 @@ export const selectBoardCell = (row, column, isRemote = false, position = null) 
                     sendNetworkData('place_piece', {row, column})
                 );
             }
+        }
+
+        if (isGameOver){
+            const message = isUserTurn ? "You've won!!!!!!" : "Game Over, you lost";
+            alert(message);
+            dispatch(endGame());
         }
 
     }

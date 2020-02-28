@@ -11,6 +11,7 @@ const INITIAL_STATE = {
     mounted: false,
     cellCords: cellCords,
     pieceObjects: pieceObjects,
+    isGameOver: false,
 }
 
 export default (state = INITIAL_STATE, { type, payload }) => {

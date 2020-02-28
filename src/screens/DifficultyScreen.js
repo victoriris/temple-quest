@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, Container, Grid, GridColumn } from 'semantic-ui-react';
 import BackButton from '../components/BackButton';
 import history from '../history';
+import { menuClick } from '../helpers';
 
 
 class DifficultyScreen extends Component {
@@ -16,21 +17,21 @@ class DifficultyScreen extends Component {
                         <Container
                         className="mainScreen__option">
                             <Button   size="massive" color="black"
-                            onClick={() => this.handleClick('board')}>
+                            onClick={() => {this.handleClick('board'); menuClick()}}>
                                 EASY
                             </Button>
                         </Container>
                         <Container
                         className="mainScreen__option">
                             <Button   size="massive" color="black"
-                            onClick={() => this.handleClick('board')}>
-                                MEDUIM
+                            onClick={() => {this.handleClick('board'); menuClick()}}>
+                                MEDIUM
                             </Button>
                         </Container>
                         <Container
                         className="mainScreen__option">
                             <Button   size="massive" color="black"
-                            onClick={() => this.handleClick('board')}>
+                            onClick={() => {this.handleClick('board'); menuClick()}}>
                                 HARD
                             </Button>
                         </Container>

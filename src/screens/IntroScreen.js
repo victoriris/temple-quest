@@ -11,7 +11,7 @@ class IntroScreen extends Component {
     }
     
     render() {
-        
+
         return (
             <div tabIndex="0" 
             className="introScreen" 

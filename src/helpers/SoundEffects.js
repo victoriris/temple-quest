@@ -1,6 +1,6 @@
 
 import CongaSound from '../sounds/CongaSound-4.wav';
-import IntroSound from '../sounds/staticRadio.wav';
+import IntroSound from '../sounds/staticRadio1.wav';
 
 export function menuClick()
 {
@@ -9,7 +9,7 @@ export function menuClick()
     audio.play();
 }
 
-export function introSound()
+export function teamLogoSound()
 {
     var audio = new Audio(IntroSound);
     audio.play();

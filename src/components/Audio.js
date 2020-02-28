@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
-import jungleMenuMusic from '../sounds/JungleMenu.wav';
+import jungleAudioMainMenu from '../sounds/JungleMenu.wav';
 import { connect } from 'react-redux';
 
-class Audio extends Component{
-    
+class Audio extends Component {
 
-    render() { 
+
+    render () {
         return (
-            <audio id="JungleMenuAudio" 
-            src={jungleMenuMusic} 
-            type="audio/wav" 
+            <audio id="jungleAudioMainMenu" 
+            src={jungleAudioMainMenu} 
+            type="audio/mp4" 
             autoPlay loop /> 
         );
     }

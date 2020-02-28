@@ -29,7 +29,7 @@ class MainScreen extends Component {
                         <Container
                         className="mainScreen__option">
                             <Button   size="massive" color="black"
-                            onClick={() => {this.handleClick('mode'); menuClick()}}>
+                            onClick={() => {this.handleClick('tutorial'); menuClick()}}>
                                 HOW TO PLAY
                             </Button>
                         </Container>
@@ -37,7 +37,7 @@ class MainScreen extends Component {
                         className="mainScreen__option">
                             <Button   floated="left" 
                              color="black" size="massive"
-                             onClick={() => {this.handleClick('mode'); menuClick()}}>
+                             onClick={() => {this.handleClick('settings'); menuClick()}}>
                                 SETTINGS
                             </Button>
                         </Container>
@@ -45,7 +45,7 @@ class MainScreen extends Component {
                         className="mainScreen__option">
                             <Button   floated="left" 
                              color="black" size="massive"
-                             onClick={() => {this.handleClick('mode'); menuClick()}}>
+                             onClick={() => {this.handleClick('about'); menuClick()}}>
                                 ABOUT
                             </Button>
                         </Container>
@@ -53,7 +53,7 @@ class MainScreen extends Component {
                         className="mainScreen__option">
                             <Button   floated="right" 
                              color="black" size="massive"
-                             onClick={() => {this.handleClick('mode'); menuClick()}}>
+                             onClick={() => {this.handleClick('menu'); menuClick()}}>
                                 EXIT
                             </Button>
                         </Container>

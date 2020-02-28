@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button, Container, Grid, GridColumn, GridRow } from 'semantic-ui-react';
 import history from '../history';
 import BackButton from '../components/BackButton';
-
+import { menuClick } from '../helpers';
 
 class GameModeScreen extends Component {
 
@@ -17,28 +17,28 @@ class GameModeScreen extends Component {
                         <Container
                         className="mainScreen__option">
                             <Button   size="massive" color="black"
-                            onClick={() => this.handleClick('difficulty')}>
+                            onClick={() => {this.handleClick('difficulty'); menuClick()}}>
                                 SINGLEPLAYER
                             </Button>
                         </Container>
                         <Container
                         className="mainScreen__option">
                             <Button   size="massive" color="black"
-                            onClick={() => this.handleClick('online')}>
+                            onClick={() => {this.handleClick('online'); menuClick()}}>
                                 ONLINE
                             </Button>
                         </Container>
                         <Container
                         className="mainScreen__option">
                             <Button   size="massive" color="black"
-                            onClick={() => this.handleClick('local')}>
+                            onClick={() => {this.handleClick('local'); menuClick()}}>
                                 LOCAL MULTIPLAYER
                             </Button>
                         </Container>
                         <Container
                         className="mainScreen__option">
                             <Button   size="massive" color="black"
-                            onClick={() => history.push('/game')}>
+                            onClick={() => {history.push('/game'); menuClick()}}>
                                 3D VERSION (TEST)
                             </Button>
                         </Container>

@@ -3,7 +3,7 @@ import { Button, Container, Grid, GridColumn, GridRow } from 'semantic-ui-react'
 import history from '../history';
 import GameLogo from '../img/gameLogo.svg';
 import { menuClick } from '../helpers';
-
+//import Audio from './components/Audio';
 
 
 class MainScreen extends Component {

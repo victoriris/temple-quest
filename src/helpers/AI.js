@@ -161,4 +161,25 @@ function getDepth(unusedPieces){
     return 2;
 }
 
+const gameState =  {
+    pieces: [],
+    isUserTurn: false,
+    isGameOver: false,
+    selectedPieceId: '',
+}
+
+const move = {
+    piece: null,
+    location: null 
+};
+
+
+function generateMoves(gameState) {
+    /* 
+    Your generateMoves function must take a gameState object and
+     return an array of all legal moves for that game state. 
+    You can represent the moves however 
+    you see fit: integers, objects, strings, etc.
+     */
+}
 export {startMinimax};

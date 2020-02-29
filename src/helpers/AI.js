@@ -326,6 +326,12 @@ function threeInARow(pieces){
 
 }
 
+function evaluateTerminal(gameState){
+    if (CheckWin(gameState.pieces, gameState.selectedPieceId)){
+        return evaluate(gameState);
+    }
+    return null;
+}
 
 
 export {startMinimax};

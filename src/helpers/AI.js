@@ -208,7 +208,22 @@ function generateMoves(gameState) {
 Your makeMove function must take a gameState object and a move object, perform the move upon the gameState, altering it in place, and return a boolean value that represents whether or not the side-to-move has changed after having performed the move.
  */
 function makeMove(gameState, move) {
-    
+    const {pieceId, location} = move;
+    const { selectedPieceId } = gameState;
+
+    const updatedPiece = gameState.pieces.find((piece) => {
+        if (piece.id === selectedPieceId) {
+            piece.location = location;
+            return true;
+        }
+        return false;
+    });
+
+    if (updatedPiece) {
+        gameState.selectedPieceId = move.pieceId;
+    }
+
+    return !!updatedPiece;
 }
 
 

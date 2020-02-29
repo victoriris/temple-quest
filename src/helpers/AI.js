@@ -18,13 +18,44 @@ async function startMinimax(pieces, selectedPieceId) {
     return new Promise((resolve, reject) => {
         var gameState =  {
             pieces: [],
+            unusedPieces: [],
+            unusedLocations: [],
             isUserTurn: false,
             isGameOver: false,
             selectedPieceId: '',
+            lastPieceID: '',
         }
 
-        gameState.pieces = [...pieces];
+        let spaces = [];
+        for (let row = 0; row < 4; row++){
+            for (let column = 0; column < 4; column++){
+                spaces.push({row, column});
+            }
+        }
+
+       //create array of empty spaces, only taking an item if the return is false(and the space isn't filled)
+       const emptySpaces = spaces.filter((item)=>{
+           //switches the nested return
+           return !pieces.some((piece)=>{
+               //returns true if a piece has a location
+               return DeepEqual(piece.location, item);
+           })
+       })
+
+        let unused = pieces.filter((item)=>{
+            return !item.location;
+        })
+        let selectedPiece = unused.find(u => u.id === parseInt(selectedPieceId));
+        unused = unused.filter((u) => {
+        return !DeepEqual(u, selectedPiece);
+    });
+
+
+
+        gameState.pieces =  pieces.slice(0);
         gameState.selectedPieceId = selectedPieceId;
+        gameState.unusedLocations = emptySpaces;
+        gameState.unusedPieces = unused;
 
         let config = {
             generateMoves,
@@ -37,7 +68,7 @@ async function startMinimax(pieces, selectedPieceId) {
           let negamax = new negamaxAlphaBeta(config);
           const depth = getDepth(gameState.pieces.length);
           let result = negamax.search(gameState, depth);
-          console.log(`Result: score = ${result.score}, bestMove = ${result.bestMove}`);
+          console.log(`Result: score = ${result.score}, bestMove = `, result.bestMove);
           resolve({
             location: result.bestMove.location,
             pieceId: result.bestMove.pieceId
@@ -181,10 +212,10 @@ async function startMinimax(pieces, selectedPieceId) {
 
 function getDepth(unusedPieces){
     //if (unusedPieces >= 14) return 2;
-    if (unusedPieces >= 10) return 2;
-    if (unusedPieces >= 8) return 2;
-    if (unusedPieces >= 6) return 2;
-    return 2;
+    if (unusedPieces >= 10) return 3;
+    if (unusedPieces >= 8) return 3;
+    if (unusedPieces >= 6) return 3;
+    return 3;
 }
 
 
@@ -196,17 +227,29 @@ You can represent the moves however
 you see fit: integers, objects, strings, etc.
  */
 function generateMoves(gameState) {
-    const { pieces } = gameState;
+    const { pieces, unusedLocations, unusedPieces } = gameState;
     let possibleMoves = [];
 
-    for (let row = 0; row < 16; row++) {
-        for (let column = 0; column < 16; column++) {
+    // unusedLocations.forEach((location)=>{
+    //     unusedPieces.forEach((piece)=>{
+    //         const move = {
+    //             pieceId: piece.id,
+    //             location
+    //         }
+    //         possibleMoves.push(move);
+    //     });
+    // });
+
+
+    for (let row = 0; row < 4; row++) {
+        for (let column = 0; column < 4; column++) {
             const isUsed = pieces.some((piece) => {
                 return DeepEqual(piece.location, {row, column});
             });
             if (!isUsed) {
-                for (let piece of pieces) {
+                for (let piece of pieces.filter(p => !p.location)) {
                     const move = {
+                        selectedPieceId: gameState.selectedPieceId,
                         pieceId: piece.id, 
                         location: { row, column }
                     }
@@ -216,27 +259,33 @@ function generateMoves(gameState) {
         }
     }
 
+    //console.log('list returned')
     return possibleMoves;
 }
 
 /* 
 Your makeMove function must take a gameState object and a move object, perform the move upon the gameState, altering it in place, and return a boolean value that represents whether or not the side-to-move has changed after having performed the move.
  */
-function makeMove(gameState, move) {
-    const {pieceId, location} = move;
-    const { selectedPieceId } = gameState;
+function makeMove(gameState, move, flip = false) {
+    const {pieceId, location, selectedPieceId} = move;
 
     const updatedPiece = gameState.pieces.find((piece) => {
-        if (piece.id === selectedPieceId) {
+        if (piece.id === parseInt(selectedPieceId)) {
             piece.location = location;
             return true;
         }
         return false;
     });
 
-    if (updatedPiece) {
+    if (updatedPiece){
+        gameState.lastPieceID = selectedPieceId;
         gameState.selectedPieceId = pieceId;
     }
+
+    // if (updatedPiece && !flip) {
+    //     gameState.lastPieceID = selectedPieceId;
+    //     gameState.selectedPieceId = pieceId;
+    // }
 
     return !!updatedPiece;
 }
@@ -245,10 +294,10 @@ function makeMove(gameState, move) {
 Your unmakeMove function must take a gameState object and a move object, un-perform the move upon the gameState, altering it in place. This must end up producing the exact same gameState as before having called makeMove.
  */
 function unmakeMove (gameState, move) {
-    const {pieceId, location} = move;
+    const {pieceId, location, selectedPieceId} = move;
 
     const updatedPiece = gameState.pieces.find((piece) => {
-        if (piece.id === pieceId) {
+        if (piece.id === parseInt(gameState.lastPieceID)) {
             piece.location = null;
             return true;
         }
@@ -256,7 +305,7 @@ function unmakeMove (gameState, move) {
     });
 
     if (updatedPiece) {
-        gameState.selectedPieceId = pieceId;
+        gameState.selectedPieceId = selectedPieceId;
     }
 }
 
@@ -264,7 +313,7 @@ function evaluate(gameState){
     /*
     If the current player wins, add 50 points. If current player doesn't win, they get 0. TODO: add threeInARow function
     */
-    if (CheckWin(gameState.pieces, gameState.selectedPieceId)){
+    if (CheckWin(gameState.pieces, gameState.lastPieceID)){
         return 50;
     }
     return threeInARow(gameState.pieces) * 3;
@@ -342,7 +391,7 @@ function threeInARow(pieces){
 }
 
 function evaluateTerminal(gameState){
-    if (CheckWin(gameState.pieces, gameState.selectedPieceId)){
+    if (CheckWin(gameState.pieces, gameState.lastPieceID)){
         return evaluate(gameState);
     }
     return null;

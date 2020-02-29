@@ -39,6 +39,7 @@ export const checkBoardWin = (pieceId) => {
         if (hasWon) {
             const message = isUserTurn ? "You've won!!!!!!" : "Game Over, you lost";
             alert(message);
+            console.log("Winning board: ", pieces)
             dispatch(updateBoardData("isGameOver", true));
         }
     };
@@ -101,7 +102,7 @@ export const selectBoardCell = (row, column, isRemote = false, position = null) 
         const {isOnlineMode} = getState().board;
 
         // Get selected piece or exit otherwise
-        const { selectedPieceId, isGameOver, isUserTurn } = getState().board;
+        const { selectedPieceId, isUserTurn } = getState().board;
         if (!selectedPieceId) return;
 
         // Assign location to piece
@@ -132,7 +133,7 @@ export const selectBoardCell = (row, column, isRemote = false, position = null) 
                 );
             }
         }
-
+        const {isGameOver} = getState().board;
         if (isGameOver){
             const message = isUserTurn ? "You've won!!!!!!" : "Game Over, you lost";
             alert(message);

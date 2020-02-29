@@ -227,7 +227,86 @@ function makeMove(gameState, move) {
 }
 
 
+function evaluate(gameState){
+    /*
+    If the current player wins, add 50 points. If current player doesn't win, they get 0. TODO: add threeInARow function
+    */
+    if (CheckWin(gameState.pieces, gameState.selectedPieceId)){
+        return 50;
+    }
+    return threeInARow(gameState.pieces) * 3;
+    
 
+}
+
+function threeInARow(pieces){
+    let row0 = [], row1 = [], row2 = [], row3 = [], col0 = [], col1 = [], col2 = [], col3 = [], diag0 = [], diag1 = [], countOf3s = 0;
+    pieces.forEach((p) => {
+        if (!p.location){
+            return false;
+        }
+        switch (p.location.row){
+            case 0: row0.push(p);
+            break;
+            case 1: row1.push(p);
+            break;
+            case 2: row2.push(p);
+            break;
+            case 3: row3.push(p);
+            break;
+            default: return false;
+        }
+        switch (p.location.column){
+            case 0: col0.push(p);
+            break;
+            case 1: col1.push(p);
+            break;
+            case 2: col2.push(p);
+            break;
+            case 3: col3.push(p);
+            break;
+            default: return false;
+        }
+
+        if (p.location.row === p.location.column){
+            diag0.push(p);
+        }
+        else if (p.location === {row: 0, column: 3} || 
+                 p.location === {row: 1, column: 2} || 
+                 p.location === {row: 2, column: 1} || 
+                 p.location === {row: 3, column: 0}){
+            diag1.push(p);
+        }
+    }
+    );
+    
+    //tally 3 in a rows:
+    if (row0.length === 3)
+    countOf3s++;
+    if (row1.length === 3)
+    countOf3s++;
+    if (row2.length === 3)
+    countOf3s++;
+    if (row3.length === 3)
+    countOf3s++;
+
+    if (col0.length === 3)
+    countOf3s++;
+    if (col1.length === 3)
+    countOf3s++;
+    if (col2.length === 3)
+    countOf3s++;
+    if (col3.length === 3)
+    countOf3s++;
+
+    if (diag0.length === 3)
+    countOf3s++;
+    if (diag1.length === 3)
+    countOf3s++;
+
+    return countOf3s;
+
+}
 
 
 

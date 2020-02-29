@@ -39,10 +39,13 @@ async function startMinimax(pieces, selectedPieceId, movementAction) {
     
         let selectedPiece = unused.find(u => u.id === parseInt(selectedPieceId));
        // console.log("selectedPiece: ", selectedPiece);
+       let unusedCopy = unused.filter((u) => {
+        return !DeepEqual(u, selectedPiece);
+    });
     
         const maxDepth = getDepth(unused.length);
         console.log("Depth: ", maxDepth);
-        const bestMove = getBestMove(pieces, emptySpaces, selectedPiece, unused, maxDepth );
+        const bestMove = getBestMove(pieces, emptySpaces, selectedPiece, unusedCopy, maxDepth );
         console.log("BESTMOVE: ", bestMove);
 
         // Coordinates and piece
@@ -56,40 +59,50 @@ async function startMinimax(pieces, selectedPieceId, movementAction) {
 //returns optimal location, optimal piece to give opponent
 function getBestMove(board, emptyLocations, selectedPiece, unusedPieces, maxDepth){
     let result;
-    
+    let alpha, beta;
+    console.log("Locations: ", emptyLocations);
     emptyLocations.forEach((location)=>{
     max = -10000;
+    alpha = -Infinity;
+    beta = Infinity;
     selectedPiece.location = location;
-    result = getBoardScore(board, emptyLocations, selectedPiece, unusedPieces, 1, maxDepth, true);
+    let locationsCopy = emptyLocations.filter((l) =>{
+        return !DeepEqual(l, selectedPiece.location);
+    });
+    let boardPiece = board.find(({ id }) => id === parseInt(selectedPiece.id));
+    if (boardPiece){ 
+    boardPiece.location = location;
+    }
+    result = getBoardScore(board, locationsCopy, selectedPiece, unusedPieces, 1, maxDepth, true, alpha, beta);
     // console.log("FINISHED ONE LOOP, RESULT: ", result, "LOCATION: ", location);
-    // console.log(AlphaBetaResult);
+    console.log("result: ", result);
     if (result.score >= AlphaBetaResult.piece.score){
     AlphaBetaResult.coordinates = location;
     AlphaBetaResult.piece = result;
-   // console.log("current best: ", AlphaBetaResult);
+    console.log("current best: ", AlphaBetaResult);
     }
     selectedPiece.location = null;
     });
 
 
-    //console.log("final best: ",AlphaBetaResult)
+    console.log("final best: ",AlphaBetaResult)
     return AlphaBetaResult;
 
 
 }
 
 
-function getBoardScore( board, emptyLocations, selectedPiece, unusedPieces, currentDepth, maxDepth, flip){
+function getBoardScore( board, emptyLocations, selectedPiece, unusedPieces, currentDepth, maxDepth, flip, alpha, beta){
     //console.log("Current depth: ", currentDepth, "/", maxDepth);
     
     //base cases
     //if someone wins:
     if (CheckWin(board, selectedPiece.id)){
-        const bestPiece = {piece:selectedPiece, score:5}
+        const bestPiece = {piece:selectedPiece, score:50}
         return bestPiece;
     }//if depth is reached (or tie)
     else if (currentDepth === maxDepth || emptyLocations.length === 0){
-        const bestPiece = {piece:selectedPiece, score:1}
+        const bestPiece = {piece:selectedPiece, score:0}
         return bestPiece;
     }
     
@@ -99,9 +112,9 @@ function getBoardScore( board, emptyLocations, selectedPiece, unusedPieces, curr
     });
     let unusedCopy = unusedPieces.filter((u) => {
         return !DeepEqual(u, selectedPiece);
-    });;
+    });
     let currentPiece;
-    var bestPiece = {piece: null, score: null};
+    var bestPiece = {piece: null, score: 0};
     locationsCopy.forEach((location,locationIndex)=>{
         unusedCopy.forEach((piece,unusedIndex)=>{
             currentPiece = piece;
@@ -113,8 +126,8 @@ function getBoardScore( board, emptyLocations, selectedPiece, unusedPieces, curr
                console.log("No Board Piece: " , boardPiece);
            }
             currentDepth++;
-            let miniMaxResult = getBoardScore(boardCopy, locationsCopy, currentPiece, unusedCopy, currentDepth, maxDepth, !flip); //MUST FLIP THE RESULT
-            currentDepth--;
+            let miniMaxResult = getBoardScore(boardCopy, locationsCopy, currentPiece, unusedCopy, currentDepth, maxDepth, !flip, -alpha, -beta); //MUST FLIP THE RESULT
+            
             if (flip){
             miniMaxResult.score = miniMaxResult.score * -1; //I DID IT I FLIPPED THE RESULT
             }
@@ -124,13 +137,17 @@ function getBoardScore( board, emptyLocations, selectedPiece, unusedPieces, curr
                 max = miniMaxResult.score;
                 //console.log("Max: ", max);
             }
-            if (miniMaxResult.score === max){
-                bestPiece.piece = currentPiece;
+            if (currentDepth === 2 && max === 50){
+                return {piece: currentPiece, score: Infinity}
             }
+            currentDepth--;
+                bestPiece.piece = currentPiece;
+                bestPiece.score += miniMaxResult.score
+            
         })
     } )
     //console.log("Best Piece:", bestPiece);
-    bestPiece.score = max;
+    //bestPiece.score = max;
     return bestPiece;
 
 }
@@ -139,9 +156,9 @@ function getBoardScore( board, emptyLocations, selectedPiece, unusedPieces, curr
 function getDepth(unusedPieces){
     //if (unusedPieces >= 14) return 2;
     if (unusedPieces >= 10) return 2;
-    if (unusedPieces >= 8) return 3;
-    if (unusedPieces >= 6) return 4;
-    return 6;
+    if (unusedPieces >= 8) return 2;
+    if (unusedPieces >= 6) return 2;
+    return 2;
 }
 
 export {startMinimax};

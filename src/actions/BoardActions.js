@@ -35,9 +35,10 @@ export const checkBoardWin = (pieceId) => {
     return (dispatch, getState) => {
         const { pieces, isUserTurn } = getState().board;
         let hasWon = CheckWin(pieces, pieceId);
-
+        console.log("hasWon: ", hasWon);
         if (hasWon) {
             const message = isUserTurn ? "You've won!!!!!!" : "Game Over, you lost";
+            alert(message);
             dispatch(updateBoardData("isGameOver", true));
         }
     };
@@ -51,7 +52,7 @@ export const initBoard = () => {
 
 export const selectBagPiece = (pieceId, isRemote = false) => {
     return (dispatch, getState) => {
-        const { isOnlineMode, isSingleMode, pieces, cellCords, isGameOver } = getState().board;
+        const { isOnlineMode, isSingleMode, pieces, cellCords } = getState().board;
         dispatch({
             type: BOARD_PICK_PIECE,
             payload: {
@@ -80,8 +81,10 @@ export const selectBagPiece = (pieceId, isRemote = false) => {
                     const position = {x, y, z};
                     console.log("Selected location: ", location, " Selected Piece: ", pieceId);
                     dispatch(selectBoardCell(location.row, location.column, false, position));
+                    const {isGameOver} = getState().board;
                     if (!isGameOver){
                     dispatch(selectBagPiece(pieceId, true));
+                    console.log("Selecting Bag Piece ", pieceId, " isGameOver: ", isGameOver);
                     }
                 })
                 .catch(err => {

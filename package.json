@@ -16,6 +16,7 @@
     "electron-is": "^3.0.0",
     "fibers": "^4.0.2",
     "moment": "^2.24.0",
+    "negamax-alpha-beta": "^1.0.0",
     "node-sass": "^4.13.1",
     "peerjs": "^1.2.0",
     "react": "^16.12.0",

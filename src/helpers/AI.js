@@ -226,6 +226,24 @@ function makeMove(gameState, move) {
     return !!updatedPiece;
 }
 
+/* 
+Your unmakeMove function must take a gameState object and a move object, un-perform the move upon the gameState, altering it in place. This must end up producing the exact same gameState as before having called makeMove.
+ */
+function unmakeMove (gameState, move) {
+    const {pieceId, location} = move;
+
+    const updatedPiece = gameState.pieces.find((piece) => {
+        if (piece.id === pieceId) {
+            piece.location = null;
+            return true;
+        }
+        return false;
+    });
+
+    if (updatedPiece) {
+        gameState.selectedPieceId = move.pieceId;
+    }
+}
 
 function evaluate(gameState){
     /*

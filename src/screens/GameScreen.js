@@ -43,7 +43,7 @@ class GameScreen extends Component {
             const cellIdx = cellCords.findIndex((cell) => {
                 return cell[0] === position.x && cell[2] === position.z;
             });
-            if (!cellIdx) return;
+            if (cellIdx < 0) return;
             // TODO: Update cord of selected piece
             const column = parseInt(cellIdx) % 4;
             const row = Math.floor(parseInt(cellIdx) / 4);
@@ -67,7 +67,7 @@ class GameScreen extends Component {
         scene.getEngine().displayLoadingUI();
         setTimeout(() => {  
             scene.getEngine().hideLoadingUI();
-        }, 4000);
+        }, 5000);
     }
 
     render () {
@@ -82,7 +82,7 @@ class GameScreen extends Component {
                 name="camera1"
                 alpha={0} beta={0}
                 radius={35} 
-                setPosition={[new Vector3(30, 15, 0)]}
+                setPosition={[new Vector3(30, 25, 0)]}
                 lowerBetaLimit = {0.5}
                 upperRadiusLimit = {50}
                 lowerRadiusLimit = {20}

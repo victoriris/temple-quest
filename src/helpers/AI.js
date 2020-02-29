@@ -22,7 +22,7 @@ async function startMinimax(pieces, selectedPieceId) {
             isGameOver: false,
             selectedPieceId: '',
         }
-        
+
         gameState.pieces = [...pieces];
         gameState.selectedPieceId = selectedPieceId;
 

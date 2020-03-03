@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Container, Form, Grid, GridColumn, GridRow, Confirm } from 'semantic-ui-react';
+import { Button, Container, Form, Grid, GridColumn, GridRow, Confirm, Message, Icon } from 'semantic-ui-react';
 import { launchMultiplayer, resetNetwork } from '../actions';
 import { getPeersList, initPeer, listenNetworkData, updateNetworkData, sendNetworkData } from '../actions/NetworkActions';
 import BackButton from '../components/BackButton';
@@ -9,10 +9,7 @@ import PeersList from '../components/PeersList';
 
 class OnlineSetupScreen extends Component{
     
-    handleClick = () => {
-        this.props.updateNetworkData('inviteSent', true);
-        alert('Your invite has been sent! please wait for a response.');
-    }
+    handleClick = () => this.props.updateNetworkData('inviteSent', true);
     handleConfirm = () => { 
         this.props.sendNetworkData('inviteStatus', 'accepted');
         this.props.launchMultiplayer(true);
@@ -72,6 +69,26 @@ class OnlineSetupScreen extends Component{
                     )}
             <GridRow>
                 <GridColumn verticalAlign="middle">
+                    <Container className="mainScreen_option">
+                    {this.props.inviteSent && this.props.inviteStatus === 'pending' && (
+                           <Message icon>
+                               <Icon name='circle notched' loading />
+                               <Message.Content>
+                                <Message.Header>Invite Sent</Message.Header>
+                                    Your invite has been sent, please wait for a response.
+                               </Message.Content>
+                           </Message> 
+                        )}
+                        {this.props.inviteStatus === 'declined' && (
+                           <Message icon>
+                               <Icon name='circle notched' loading />
+                               <Message.Content>
+                                <Message.Header>Invite Sent</Message.Header>
+                                    Your invite has been sent, please wait for a response.
+                               </Message.Content>
+                           </Message> 
+                        )}
+                    </Container>
                         <PeersList />
                     <Container
                     className="mainScreen__option">
@@ -109,8 +126,8 @@ class OnlineSetupScreen extends Component{
 }
 
 const mapStateToProps = ({ network }) => {
-    const { remotePeerId, onlineUsers, peer, peerId, isInvited, inviteSent } = network;
-    return {remotePeerId, onlineUsers, peer, peerId, isInvited, inviteSent};
+    const { remotePeerId, onlineUsers, peer, peerId, isInvited, inviteSent, inviteStatus } = network;
+    return {remotePeerId, onlineUsers, peer, peerId, isInvited, inviteSent, inviteStatus};
 };
 
 export default  connect(mapStateToProps, {

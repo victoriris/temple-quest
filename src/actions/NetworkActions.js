@@ -79,7 +79,7 @@ export const listenNetworkData = () => {
                     dispatch(launchMultiplayer(true));
 
                 } else if (type === 'inviteStatus') {
-                    alert('Your invite was declined.');
+                    //alert('Your invite was declined.');
                     dispatch(updateNetworkData('inviteSent', false));
                     dispatch(updateNetworkData('isInvited', false));
                 }

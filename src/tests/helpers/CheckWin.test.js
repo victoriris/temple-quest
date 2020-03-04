@@ -1,4 +1,13 @@
 import { CheckWin, getInitialPieces } from "../../helpers";
+// import App from '../../index';
+
+// describe ('Aplication startup', () => {
+
+//   it ('renders without crashing', () => {
+//       shallow(<App />);
+//   });
+
+// });
 
 describe ('Win check on rows', () => {
 

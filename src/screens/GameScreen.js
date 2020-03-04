@@ -1,9 +1,10 @@
-import { Vector3 } from 'babylonjs';
+import { Vector3 } from '@babylonjs/core/Maths/math';
 import 'babylonjs-loaders';
 import React, { Component } from 'react';
 import { ArcRotateCamera, DirectionalLight, Engine, Ground, Model, Scene, ShadowGenerator } from 'react-babylonjs';
 import { connect } from 'react-redux';
 import { initBoard, selectBagPiece, selectBoardCell, updateBoardData, updatePieceObject } from '../actions';
+import "@babylonjs/core/Meshes/meshBuilder";
 
 let baseUrl = `${process.env.PUBLIC_URL}/objects/`;
 

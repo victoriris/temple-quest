@@ -7,7 +7,7 @@
   "homepage": "./",
   "private": true,
   "dependencies": {
-    "@babylonjs/core": "^4.0.3",
+    "@babylonjs/core": "^4.1.0",
     "@babylonjs/gui": "^4.0.3",
     "@babylonjs/loaders": "^4.0.3",
     "babylonjs": "^4.1.0",

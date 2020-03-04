@@ -5,41 +5,7 @@ function CheckWin (pieces, pieceId) {
     if (!piece) return;
 
     // Get located pieces with same row OR column
-    var neighbors = [];
-    pieces.forEach((p) => {
-        if (!p.location) return false;
-        const sameRow = p.location.row === piece.location.row;
-        const sameColumn = p.location.column === piece.location.column;
-        const diagonalValue = getDiagonalValue(piece, p);
-        const isSameLocation = sameRow && sameColumn;
-        if(sameRow) {
-            neighbors.push({...p, match: 'row'});
-        }
-        if (sameColumn) {
-            neighbors.push({...p, match: 'column'});
-        }
-        if(diagonalValue === 1 || isSameLocation) {
-            neighbors.push({...p, match: 'diagonal_up'});
-        }
-        if(diagonalValue === -1 || isSameLocation) {
-            neighbors.push({...p, match: 'diagonal_down'});
-        }
-    });
-
-    // Accumulate similarities per direction
-    const directions = neighbors.reduce((acc, item) => {
-
-        // For each characteristic
-        Object.keys(item.details).forEach((key) => {
-
-            // Sum its boolean value to the matched row or column
-            const matches = item.details[key] === piece.details[key];
-            acc[item.match][key] = (acc[item.match][key] || 0) + matches;
-            
-        });
-
-        return acc;
-    }, {row: {}, column: {}, diagonal_up: {}, diagonal_down: {}});
+    const directions = getNeighborMatches(pieces, piece);
 
     // Check if some value in some direction totally matched
     const hasWon = Object.values(directions).some(direction => {
@@ -47,6 +13,43 @@ function CheckWin (pieces, pieceId) {
     });
 
     return hasWon;
+}
+
+function getNeighborMatches(pieces, piece) {
+    var neighbors = [];
+    pieces.forEach((p) => {
+        if (!p.location)
+            return false;
+        const sameRow = p.location.row === piece.location.row;
+        const sameColumn = p.location.column === piece.location.column;
+        const diagonalValue = getDiagonalValue(piece, p);
+        const isSameLocation = sameRow && sameColumn;
+        if (sameRow) {
+            neighbors.push({ ...p, match: 'row' });
+        }
+        if (sameColumn) {
+            neighbors.push({ ...p, match: 'column' });
+        }
+        if (diagonalValue === 1 || isSameLocation) {
+            neighbors.push({ ...p, match: 'diagonal_up' });
+        }
+        if (diagonalValue === -1 || isSameLocation) {
+            neighbors.push({ ...p, match: 'diagonal_down' });
+        }
+    });
+
+    // Accumulate similarities per direction
+    const directions = neighbors.reduce((acc, item) => {
+        // For each characteristic
+        Object.keys(item.details).forEach((key) => {
+            // Sum its boolean value to the matched row or column
+            const matches = item.details[key] === piece.details[key];
+            acc[item.match][key] = (acc[item.match][key] || 0) + matches;
+        });
+        return acc;
+    }, { row: {}, column: {}, diagonal_up: {}, diagonal_down: {} });
+    
+    return directions;
 }
 
 // Gets the diagonal type (+, -)
@@ -60,5 +63,5 @@ function getDiagonalValue (rootPiece, comparedPiece) {
 
 
 export {
-    CheckWin
+    CheckWin, getNeighborMatches
 };

@@ -85,7 +85,6 @@ export const selectBagPiece = (pieceId, isRemote = false) => {
                     const {isGameOver} = getState().board;
                     if (!isGameOver){
                     dispatch(selectBagPiece(pieceId, true));
-                    console.log("Selecting Bag Piece ", pieceId, " isGameOver: ", isGameOver);
                     }
                 })
                 .catch(err => {

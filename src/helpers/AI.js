@@ -40,10 +40,10 @@ async function startMinimax(pieces, selectedPieceId) {
 
 function getDepth(unusedPieces){
     //if (unusedPieces >= 14) return 2;
-    if (unusedPieces >= 10) return 3;
-    if (unusedPieces >= 8) return 3;
-    if (unusedPieces >= 6) return 3;
-    return 3;
+    if (unusedPieces >= 10) return 2;
+    if (unusedPieces >= 8) return 2;
+    if (unusedPieces >= 6) return 2;
+    return 2;
 }
 
 
@@ -75,7 +75,6 @@ function generateMoves(gameState) {
             }
         }
     }
-
     return possibleMoves;
 }
 
@@ -97,7 +96,6 @@ function makeMove(gameState, move) {
         gameState.lastPieceID = selectedPieceId;
         gameState.selectedPieceId = pieceId;
     }
-
     return !!updatedPiece;
 }
 
@@ -126,21 +124,18 @@ If the current player wins, add 50 points. If current player doesn't win, they g
 */
 function evaluate(gameState){
     let score = 0;
-    for (let column = 0; column < 4; column++) {
-        const piece = gameState.pieces.find(piece => {
-            const { location } = piece;
-            if (location && location.column === column) {
-                return location.row === 0 || location.row === 3
-            }
-            return false;
-        });
-        if (piece) {
+    for (const piece of gameState.pieces) {
+
+        if (piece.location) {
             const neighborMatches = getNeighborMatches(gameState.pieces, piece);
             // Sum all the matches of piece directions
             const matchCount = Object.values(neighborMatches).reduce((acc, direction) => {
                 // Get the max matched details on direction
-                const max = Math.max(...Object.values(direction));
-                return max;
+                let sum = 0;
+                Object.values(direction).forEach(value => {
+                    sum += value;
+                })
+                return acc + sum;
             }, 0);
             score += matchCount;
         }
@@ -149,14 +144,11 @@ function evaluate(gameState){
 }
 
 function evaluateTerminal(gameState){
-    const isTie = () => gameState.piece.every(piece => !!piece.location);
-    if (CheckWin(gameState.pieces, gameState.lastPieceID)){
-        return 1000;
-    }
-    else if (isTie){
-        return 0;
-    }
-    return null;
+    const didWin = gameState.lastPieceID.length && CheckWin(gameState.pieces, gameState.lastPieceID);
+    const boardIsFull = gameState.pieces.every(piece => !!piece.location) && !didWin;
+
+    if (!boardIsFull && !didWin) return null;
+    return Infinity * Math.sign(didWin);
 }
 
 

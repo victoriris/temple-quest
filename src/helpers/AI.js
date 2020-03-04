@@ -1,6 +1,7 @@
 import {CheckWin} from '../helpers';
 import DeepEqual from 'deep-equal';
 import negamaxAlphaBeta from 'negamax-alpha-beta';
+import { getNeighborMatches } from './CheckWin';
 
 
 async function startMinimax(pieces, selectedPieceId) {
@@ -124,15 +125,36 @@ function unmakeMove (gameState, move) {
 If the current player wins, add 50 points. If current player doesn't win, they get 0. TODO: add threeInARow function
 */
 function evaluate(gameState){
-    if (CheckWin(gameState.pieces, gameState.lastPieceID)){
-        return 50;
+    let score = 0;
+    for (let column = 0; column < 4; column++) {
+        const piece = gameState.pieces.find(piece => {
+            const { location } = piece;
+            if (location && location.column === column) {
+                return location.row === 0 || location.row === 3
+            }
+            return false;
+        });
+        if (piece) {
+            const neighborMatches = getNeighborMatches(gameState.pieces, piece);
+            // Sum all the matches of piece directions
+            const matchCount = Object.values(neighborMatches).reduce((acc, direction) => {
+                // Get the max matched details on direction
+                const max = Math.max(...Object.values(direction));
+                return max;
+            }, 0);
+            score += matchCount;
+        }
     }
-    return 0;
+    return score;
 }
 
 function evaluateTerminal(gameState){
+    const isTie = () => gameState.piece.every(piece => !!piece.location);
     if (CheckWin(gameState.pieces, gameState.lastPieceID)){
-        return evaluate(gameState);
+        return 1000;
+    }
+    else if (isTie){
+        return 0;
     }
     return null;
 }

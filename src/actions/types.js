@@ -4,6 +4,11 @@
 
 // Audio
 export const AUDIO_UPDATE_DATA = 'AUDIO_UPDATE_DATA';
+//export const AUDIO_CHANGE_SONG = 'AUDIO_CHANGE_SONG';
+export const AUDIO_PLAY_MENU_SOUND = 'AUDIO_PLAY_MENU_SOUND';
+export const AUDIO_MOVE_PIECE = 'AUDIO_MOVE_PIECE';
+export const AUDIO_MUTE_SOUND = 'AUDIO_MUTE_SOUND';
+export const AUDIO_MUTE_MUSIC = 'AUDIO_MUTE_MUSIC';
 
 // Board
 export const BOARD_INIT = 'board_init';

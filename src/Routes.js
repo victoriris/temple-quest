@@ -14,12 +14,15 @@ import OnlineSetupScreen from './screens/OnlineSetupScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import TutorialScreen from './screens/TutorialScreen';
 import BackgroundVideo from './components/BackgroundVideo';
+import JungleMenu from '../sounds/JungleMenu.wav'
+import ReactPlayer from 'react-player';
 
 const Routes = () => {
 
     return (
       <Router history={history}>
           <BackgroundVideo />
+          <ReactPlayer playing loop height={0} width={0} url={JungleMenu}/>
           <Route path="/" component={IntroScreen} exact/>
           <Route path="/menu" component={MainScreen}/>
           <Route path="/mode" component={GameModeScreen}/>

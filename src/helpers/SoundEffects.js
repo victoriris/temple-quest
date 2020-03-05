@@ -15,3 +15,5 @@ export function teamLogoSound()
     audio.play();
 }
 
+export var musicUrl;
+

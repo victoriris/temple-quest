@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Button, Container, Grid, GridColumn, GridRow } from 'semantic-ui-react';
 import history from '../history';
 import GameLogo from '../img/gameLogo.svg';
-import { menuClick, menuSound } from '../helpers';
-import ReactPlayer from 'react-player';
-import JungleMenu from '../sounds/JungleMenu.wav'
+//import ReactPlayer from 'react-player';
+//import JungleMenu from '../sounds/JungleMenu.wav'
+import { playMenuSound } from '../actions';
 
 
 class MainScreen extends Component {
@@ -12,12 +12,13 @@ class MainScreen extends Component {
     handleClick = (route) => history.push(route);
     handleExit = () => {};
 
+    //handleMenuSound = () => {
+    //    this.props.playMenuSound();
+    //}
+
     render () {
         return(
             <Grid stretched className="mainScreen" padded centered columns={3}>
-                <ReactPlayer playing loop height={0} width={0}
-                url={JungleMenu}
-                />
                 <GridRow>
                     <GridColumn verticalAlign="middle">
                         <div className="mainScreen__logo" >
@@ -26,14 +27,14 @@ class MainScreen extends Component {
                         <Container
                         className="mainScreen__option">
                             <Button   size="massive" color="black"
-                            onClick={() => {this.handleClick('mode'); menuClick()}}>
+                            onClick={() => {this.handleClick('mode'); playMenuSound()}}>
                                 PLAY
                             </Button>
                         </Container>
                         <Container
                         className="mainScreen__option">
                             <Button   size="massive" color="black"
-                            onClick={() => {this.handleClick('tutorial'); menuClick()}}>
+                            onClick={() => {this.handleClick('tutorial'); playMenuSound()}}>
                                 HOW TO PLAY
                             </Button>
                         </Container>
@@ -41,7 +42,7 @@ class MainScreen extends Component {
                         className="mainScreen__option">
                             <Button   floated="left" 
                              color="black" size="massive"
-                             onClick={() => {this.handleClick('settings'); menuClick()}}>
+                             onClick={() => {this.handleClick('settings'); playMenuSound()}}>
                                 SETTINGS
                             </Button>
                         </Container>
@@ -49,7 +50,7 @@ class MainScreen extends Component {
                         className="mainScreen__option">
                             <Button   floated="left" 
                              color="black" size="massive"
-                             onClick={() => {this.handleClick('about'); menuClick()}}>
+                             onClick={() => {this.handleClick('about'); playMenuSound()}}>
                                 ABOUT
                             </Button>
                         </Container>
@@ -57,7 +58,7 @@ class MainScreen extends Component {
                         className="mainScreen__option">
                             <Button   floated="right" 
                              color="black" size="massive"
-                             onClick={() => {this.handleClick('menu'); menuClick()}}>
+                             onClick={() => {this.handleClick('menu'); playMenuSound()}}>
                                 EXIT
                             </Button>
                         </Container>

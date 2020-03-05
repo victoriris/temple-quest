@@ -11,6 +11,7 @@ async function startMinimax(pieces, selectedPieceId) {
             pieces: [],
             selectedPieceId,
             lastPieceID: '',
+            isUserTurn: true,
         }
 
         for (const piece of pieces) {
@@ -26,24 +27,15 @@ async function startMinimax(pieces, selectedPieceId) {
           };
 
           let negamax = new negamaxAlphaBeta(config);
-          const depth = getDepth(gameState.pieces.length);
+          const depth = 2;
           let result = negamax.search(gameState, depth);
+          console.log('result', result);
           resolve({
             location: result.bestMove.location,
             pieceId: result.bestMove.pieceId
         });
     
-        
     });
-}
-
-
-function getDepth(unusedPieces){
-    //if (unusedPieces >= 14) return 2;
-    if (unusedPieces >= 10) return 2;
-    if (unusedPieces >= 8) return 2;
-    if (unusedPieces >= 6) return 2;
-    return 2;
 }
 
 
@@ -57,6 +49,7 @@ you see fit: integers, objects, strings, etc.
 function generateMoves(gameState) {
     const { pieces } = gameState;
     let possibleMoves = [];
+    gameState.isUserTurn = !gameState.isUserTurn;
 
     for (let row = 0; row < 4; row++) {
         for (let column = 0; column < 4; column++) {
@@ -96,7 +89,8 @@ function makeMove(gameState, move) {
         gameState.lastPieceID = selectedPieceId;
         gameState.selectedPieceId = pieceId;
     }
-    return !!updatedPiece;
+
+    return true;
 }
 
 /* 
@@ -120,10 +114,15 @@ function unmakeMove (gameState, move) {
 }
 
 /*
-If the current player wins, add 50 points. If current player doesn't win, they get 0. TODO: add threeInARow function
+Take a gameState object and return a numeric value representing the score of the gameState 
+from the perspective of the gameState's current player-to-move. Higher numbers mean the 
+gameState is better for the current player-to-move.
 */
 function evaluate(gameState){
     let score = 0;
+    let result = 0;
+    const { isUserTurn } = gameState;
+
     for (const piece of gameState.pieces) {
 
         if (piece.location) {
@@ -140,15 +139,25 @@ function evaluate(gameState){
             score += matchCount;
         }
     }
-    return score;
+
+    result = score * (isUserTurn?1:-1);
+    return result;
 }
 
 function evaluateTerminal(gameState){
-    const didWin = gameState.lastPieceID.length && CheckWin(gameState.pieces, gameState.lastPieceID);
-    const boardIsFull = gameState.pieces.every(piece => !!piece.location) && !didWin;
+    let result = null;
+    const {isUserTurn, selectedPieceId, pieces, lastPieceID} = gameState;
+    const didWin = CheckWin(pieces, lastPieceID);
+    const boardIsFull = pieces.every(piece => !!piece.location);
 
-    if (!boardIsFull && !didWin) return null;
-    return Infinity * Math.sign(didWin);
+    if (didWin) {
+        result = Infinity * (isUserTurn?1:-1);
+    }
+    else if (boardIsFull) {
+        result = 0;
+    }
+
+    return result;
 }
 
 

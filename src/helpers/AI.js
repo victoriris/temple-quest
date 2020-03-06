@@ -27,7 +27,7 @@ async function startMinimax(pieces, selectedPieceId) {
           };
 
           let negamax = new negamaxAlphaBeta(config);
-          const depth = 2;
+          const depth = getDepth(gameState.pieces);
           let result = negamax.search(gameState, depth);
           console.log('result', result);
           resolve({
@@ -36,6 +36,13 @@ async function startMinimax(pieces, selectedPieceId) {
         });
     
     });
+}
+
+function getDepth(pieces) {
+    const piecesLeft = pieces.filter(p => !p.location);
+    const length = piecesLeft.length;
+    if (length >= 15) return 2;
+    return 3;
 }
 
 
@@ -140,18 +147,18 @@ function evaluate(gameState){
         }
     }
 
-    result = score * (isUserTurn?1:-1);
+    result = score * (isUserTurn?-1:1);
     return result;
 }
 
 function evaluateTerminal(gameState){
     let result = null;
-    const {isUserTurn, selectedPieceId, pieces, lastPieceID} = gameState;
+    const {isUserTurn, pieces, lastPieceID} = gameState;
     const didWin = CheckWin(pieces, lastPieceID);
     const boardIsFull = pieces.every(piece => !!piece.location);
 
     if (didWin) {
-        result = Infinity * (isUserTurn?1:-1);
+        result = Infinity * (isUserTurn?-1:1);
     }
     else if (boardIsFull) {
         result = 0;

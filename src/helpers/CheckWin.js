@@ -9,7 +9,7 @@ function CheckWin (pieces, pieceId) {
 
     // Check if some value in some direction totally matched
     const hasWon = Object.values(directions).some(direction => {
-        return Object.values(direction).some(value => value === 4);   
+        return Object.values(direction).some(value => value >= 3);   
     });
 
     return hasWon;
@@ -18,22 +18,17 @@ function CheckWin (pieces, pieceId) {
 function getNeighborMatches(pieces, piece) {
     var neighbors = [];
     pieces.forEach((p) => {
-        if (!p.location)
-            return false;
+        if (!p.location || p.id === piece.id) return false;
         const sameRow = p.location.row === piece.location.row;
         const sameColumn = p.location.column === piece.location.column;
         const diagonalValue = getDiagonalValue(piece, p);
-        const isSameLocation = sameRow && sameColumn;
-        if (sameRow) {
-            neighbors.push({ ...p, match: 'row' });
-        }
-        if (sameColumn) {
-            neighbors.push({ ...p, match: 'column' });
-        }
-        if (diagonalValue === 1 || isSameLocation) {
+
+        if (sameRow) neighbors.push({ ...p, match: 'row' });
+        if (sameColumn) neighbors.push({ ...p, match: 'column' });
+        if (diagonalValue === 1) {
             neighbors.push({ ...p, match: 'diagonal_up' });
         }
-        if (diagonalValue === -1 || isSameLocation) {
+        if (diagonalValue === -1) {
             neighbors.push({ ...p, match: 'diagonal_down' });
         }
     });

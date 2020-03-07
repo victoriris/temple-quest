@@ -15,5 +15,6 @@ export function teamLogoSound()
     audio.play();
 }
 
-export var musicUrl;
+export var musicUrl = '../sounds/JungleMenu.wav';
+export var soundUrl = '../sounds/TeamLogo.wav';
 

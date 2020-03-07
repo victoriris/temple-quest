@@ -14,15 +14,19 @@ import OnlineSetupScreen from './screens/OnlineSetupScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import TutorialScreen from './screens/TutorialScreen';
 import BackgroundVideo from './components/BackgroundVideo';
-import JungleMenu from '../sounds/JungleMenu.wav'
+//import JungleMenu from '../sounds/JungleMenu.wav';
+//import introSound from './sounds/TeamLogo.wav';
+import { playMenuSound, playIntroSound, muteMusic, muteSound } from './actions';
 import ReactPlayer from 'react-player';
+import { connect } from 'react-redux';
 
 const Routes = () => {
 
     return (
       <Router history={history}>
           <BackgroundVideo />
-          <ReactPlayer playing loop height={0} width={0} url={JungleMenu}/>
+          <ReactPlayer id="musicPlayer" playing loop volume muted={this.props.musicOn} height={0} width={0} url={this.props.musicUrl}/>
+          <ReactPlayer id="soundPlayer" playing volume muted={this.props.soundOn} height={0} width={0} url={this.props.soundUrl}/>
           <Route path="/" component={IntroScreen} exact/>
           <Route path="/menu" component={MainScreen}/>
           <Route path="/mode" component={GameModeScreen}/>
@@ -41,4 +45,13 @@ const Routes = () => {
     
 }
 
-export default Routes;
+const mapStateToProps = ({ audio }) => {
+  const { musicUrl, soundUrl, musicOn, soundOn} = audio;
+  return { musicUrl, soundUrl, musicOn, soundOn};
+};
+
+export default connect(mapStateToProps, { 
+  playMenuSound, playIntroSound, muteMusic, muteSound
+})(Routes); 
+
+//export default Routes;

@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { stopIntroLoading } from '../actions';
 import TeamLogo from '../img/TeamLogo.svg';
-import TeamLogoSound from '../sounds/TeamLogo.wav'
-import ReactPlayer from 'react-player';
+//import TeamLogoSound from '../sounds/TeamLogo.wav'
+//import ReactPlayer from 'react-player';
 
 
 
@@ -20,9 +20,6 @@ class IntroScreen extends Component {
             className="introScreen" 
             onClick={this.props.stopIntroLoading} 
             onKeyDown={this.props.stopIntroLoading} >
-                <ReactPlayer playing loop height={0} width={0}
-                url={TeamLogoSound}
-                />
                 <div className="introScreen__logo" >
                     <img src={TeamLogo} alt=""/>
                 </div>

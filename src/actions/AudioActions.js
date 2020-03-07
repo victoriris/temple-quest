@@ -1,28 +1,51 @@
-import { AUDIO_UPDATE_DATA, AUDIO_PLAY_MENU_SOUND, AUDIO_MOVE_PIECE, AUDIO_MUTE_SOUND, AUDIO_MUTE_MUSIC} from './types';
-
+import { AUDIO_UPDATE_DATA, AUDIO_PLAY_MENU_SOUND, AUDIO_MOVE_PIECE, AUDIO_MUTE_SOUND, AUDIO_MUTE_MUSIC, AUDIO_INTRO_SOUND} from './types';
+//import { menuClick, teamLogoSound } from '../helpers';
 
 
 export const playMenuSound = () => {
-    return{
-        type:AUDIO_PLAY_MENU_SOUND
+    
+    return (dispatch, getState) => {
+        const { soundOn } = getState().audio;
+        if(soundOn)
+        {
+            dispatch(updateAudioData('soundUrl', '../sounds/CongaSound-4.wav'));
+            console.log("Played CongaSound-4.wav");
+        }
     }
 }
 
-export const movePiece = () => {
+export const playIntroSound = () => {
+    
+    return (dispatch, getState) => {
+        const { soundOn } = getState().audio;
+
+        if(soundOn)
+        {
+            dispatch(updateAudioData('soundUrl', '../sounds/TeamLogo.wav'));
+            console.log("Played TeamLogo.wav");
+        }
+    }
+}
+
+export const moveSound = () => {
     return{
         type:AUDIO_MOVE_PIECE
     }
 }
 
 export const muteMusic = () => {
-    return{
-        type: AUDIO_MUTE_MUSIC
+    return (dispatch, getState) => {
+        const { musicOn } = getState().audio;
+        let musicOpposite = !musicOn;
+        dispatch(updateAudioData('musicOn', musicOpposite));
     }
 }
 
 export const muteSound = () => { 
-    return{
-        type: AUDIO_MUTE_SOUND
+    return (dispatch, getState) => {
+        const { soundOn } = getState().audio;
+        let soundOpposite = !soundOn;
+        dispatch(updateAudioData('soundOn', soundOpposite));
     }
 }
 

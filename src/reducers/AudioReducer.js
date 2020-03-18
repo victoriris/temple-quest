@@ -1,5 +1,6 @@
 import { AUDIO_UPDATE_DATA, AUDIO_PLAY_MENU_SOUND, AUDIO_MOVE_PIECE, AUDIO_MUTE_SOUND, AUDIO_MUTE_MUSIC, AUDIO_INTRO_SOUND} from "../actions/types";
-import {musicUrl, soundUrl} from '../helpers/SoundEffects';
+import musicUrl from '../sounds/JungleMenu.wav';
+import soundUrl from '../sounds/TeamLogo.wav';
 //import { Action } from "babylonjs";
 
 const INITIAL_STATE = {

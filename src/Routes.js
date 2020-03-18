@@ -14,19 +14,18 @@ import OnlineSetupScreen from './screens/OnlineSetupScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import TutorialScreen from './screens/TutorialScreen';
 import BackgroundVideo from './components/BackgroundVideo';
-//import JungleMenu from '../sounds/JungleMenu.wav';
-//import introSound from './sounds/TeamLogo.wav';
 import { playMenuSound, playIntroSound, muteMusic, muteSound } from './actions';
 import ReactPlayer from 'react-player';
 import { connect } from 'react-redux';
 
-const Routes = () => {
+
+const Routes = (props) => {
 
     return (
       <Router history={history}>
           <BackgroundVideo />
-          <ReactPlayer id="musicPlayer" playing loop volume muted={this.props.musicOn} height={0} width={0} url={this.props.musicUrl}/>
-          <ReactPlayer id="soundPlayer" playing volume muted={this.props.soundOn} height={0} width={0} url={this.props.soundUrl}/>
+          <ReactPlayer id="musicPlayer" loop volume height={0} playing={props.musicOn} width={0} url={props.musicUrl}/>
+          <ReactPlayer id="soundPlayer" volume playing={props.soundOn} height={0} width={0} url={props.soundUrl}/>
           <Route path="/" component={IntroScreen} exact/>
           <Route path="/menu" component={MainScreen}/>
           <Route path="/mode" component={GameModeScreen}/>

@@ -1,10 +1,9 @@
 import { Vector3 } from '@babylonjs/core/Maths/math';
-import 'babylonjs-loaders';
 import React, { Component } from 'react';
 import { ArcRotateCamera, DirectionalLight, Engine, Ground, Model, Scene, ShadowGenerator } from 'react-babylonjs';
 import { connect } from 'react-redux';
 import { initBoard, selectBagPiece, selectBoardCell, updateBoardData, updatePieceObject } from '../actions';
-import "@babylonjs/core/Meshes/meshBuilder";
+
 
 let baseUrl = `${process.env.PUBLIC_URL}/objects/`;
 
@@ -77,8 +76,7 @@ class GameScreen extends Component {
           <Engine canvasId="playground" adaptToDeviceRatio antialias>
             <Scene 
             onSceneMount={this.onSceneMount}
-            onMeshPicked={this.meshPicked.bind(this)} 
-            >
+            onMeshPicked={this.meshPicked.bind(this)} >
                 <ArcRotateCamera 
                 name="camera1"
                 alpha={0} beta={0}

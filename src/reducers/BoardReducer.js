@@ -11,6 +11,7 @@ const INITIAL_STATE = {
     mounted: false,
     cellCords: cellCords,
     pieceObjects: pieceObjects,
+    isGameOver: false,
 }
 
 export default (state = INITIAL_STATE, { type, payload }) => {
@@ -63,13 +64,13 @@ export default (state = INITIAL_STATE, { type, payload }) => {
             }
 
 
-            console.log('isUserTurn', state.isUserTurn);
+            //console.log('isUserTurn', state.isUserTurn);
 
             return { ...state, pieces };
         }
 
         case BOARD_PICK_PIECE: {
-                console.log("userTurn: ", !state.isUserTurn);
+                //console.log("userTurn: ", !state.isUserTurn);
             return {
                 ...state,
                 selectedPieceId: payload.selectedPieceId,

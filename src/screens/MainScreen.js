@@ -4,6 +4,8 @@ import history from '../history';
 import GameLogo from '../img/gameLogo.svg';
 
 
+
+
 class MainScreen extends Component {
 
     handleClick = (route) => history.push(route);

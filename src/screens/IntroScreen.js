@@ -6,8 +6,10 @@ import TeamLogo from '../img/TeamLogo.svg';
 
 class IntroScreen extends Component {
 
+    stopIntro = () => this.props.stopIntroLoading();
+
     componentDidMount () {
-        setTimeout(this.props.stopIntroLoading, 3000);
+        setTimeout(this.stopIntro, 3000);
     }
     
     render() {
@@ -15,8 +17,8 @@ class IntroScreen extends Component {
         return (
             <div tabIndex="0" 
             className="introScreen" 
-            onClick={this.props.stopIntroLoading} 
-            onKeyDown={this.props.stopIntroLoading} >
+            onClick={this.stopIntro} 
+            onKeyDown={this.stopIntro} >
                 <div className="introScreen__logo" >
                     <img src={TeamLogo} alt=""/>
                 </div>

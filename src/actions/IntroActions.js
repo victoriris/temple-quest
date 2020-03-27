@@ -1,10 +1,11 @@
 import { INTRO_UPDATE_DATA } from './types';
 import history from '../history';
 
-
+// Stop the intro if loading, nothing otherwise
 export const stopIntroLoading = () => {
-
-    return (dispatch) => {
+    return (dispatch, getState) => {
+        const { loading } = getState().intro;
+        if (!loading)  return null;
         history.push('/menu');
         dispatch(updateIntroData('loading', false));
     }

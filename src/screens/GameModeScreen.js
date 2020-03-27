@@ -35,13 +35,6 @@ class GameModeScreen extends Component {
                                 LOCAL MULTIPLAYER
                             </Button>
                         </Container>
-                        <Container
-                        className="mainScreen__option">
-                            <Button   size="massive" color="black"
-                            onClick={() => history.push('/game')}>
-                                3D VERSION (TEST)
-                            </Button>
-                        </Container>
                         <BackButton />
                     </GridColumn>
                 </GridRow>

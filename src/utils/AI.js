@@ -1,7 +1,6 @@
 import {CheckWin} from '../utils';
 import DeepEqual from 'deep-equal';
 import negamaxAlphaBeta from 'negamax-alpha-beta';
-import { getNeighborMatches } from './CheckWin';
 import { countWinMoves } from './countWinMoves';
 
 
@@ -12,7 +11,7 @@ async function startMinimax(pieces, selectedPieceId) {
             pieces: [],
             selectedPieceId,
             lastPieceID: '',
-            isUserTurn: true,
+            isUserTurn: false,
         }
 
         for (const piece of pieces) {
@@ -56,19 +55,23 @@ You can represent the moves however
 you see fit: integers, objects, strings, etc.
  */
 function generateMoves(gameState) {
-    const { pieces } = gameState;
+    const { pieces, selectedPieceId } = gameState;
     let possibleMoves = [];
-    gameState.isUserTurn = !gameState.isUserTurn;
 
+    // For each possible board cell location
     for (let row = 0; row < 4; row++) {
         for (let column = 0; column < 4; column++) {
             const isUsed = pieces.some((piece) => {
                 return DeepEqual(piece.location, {row, column});
             });
             if (!isUsed) {
-                for (let piece of pieces.filter(p => !p.location)) {
+                // Try with all available pieces
+                const avaliablePieces = pieces.filter(p => {
+                    return !p.location && p.id !== parseInt(selectedPieceId)
+                });
+                for (let piece of avaliablePieces) {
                     const move = {
-                        selectedPieceId: gameState.selectedPieceId,
+                        selectedPieceId: selectedPieceId,
                         pieceId: piece.id, 
                         location: { row, column }
                     }
@@ -85,6 +88,7 @@ Your makeMove function must take a gameState object and a move object, perform t
  */
 function makeMove(gameState, move) {
     const { pieceId, location, selectedPieceId } = move;
+    gameState.isUserTurn = !gameState.isUserTurn;
 
     const updatedPiece = gameState.pieces.find((piece) => {
         if (piece.id === parseInt(selectedPieceId)) {
@@ -107,6 +111,7 @@ Your unmakeMove function must take a gameState object and a move object, un-perf
  */
 function unmakeMove (gameState, move) {
     const { selectedPieceId } = move;
+    gameState.isUserTurn = !gameState.isUserTurn;
 
     const updatedPiece = gameState.pieces.find((piece) => {
         if (piece.id === parseInt(gameState.lastPieceID)) {

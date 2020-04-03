@@ -19,7 +19,7 @@
     "node-sass": "^4.13.1",
     "peerjs": "^1.2.0",
     "react": "^16.12.0",
-    "react-babylonjs": "^2.0.3",
+    "react-babylonjs": "^2.1.0",
     "react-dom": "^16.12.0",
     "react-reconciler": "^0.25.0",
     "react-redux": "^7.1.3",

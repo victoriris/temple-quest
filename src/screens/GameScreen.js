@@ -1,9 +1,10 @@
 import { Vector3 } from '@babylonjs/core/Maths/math';
 import React, { Component } from 'react';
-import { ArcRotateCamera, DirectionalLight, Engine, Ground, Model, Scene, ShadowGenerator } from 'react-babylonjs';
+import { ArcRotateCamera, Engine, Ground, Model, Scene } from 'react-babylonjs';
 import { connect } from 'react-redux';
 import { initBoard, selectBagPiece, selectBoardCell, updateBoardData, updatePieceObject } from '../actions';
 import RoomLights from '../components/RoomLights';
+import RoomWalls from '../components/RoomWalls';
 
 
 let baseUrl = `${process.env.PUBLIC_URL}/objects/`;
@@ -102,13 +103,13 @@ class GameScreen extends Component {
                     rootUrl = {baseUrl}
                     position = { new Vector3(0, 0.069, -13) }
                 />
+                <RoomWalls />
                 <Ground name="ground" subdivisions={1} >
-                <Model sceneFilename="floor.glb"
-                    rootUrl = {baseUrl}
-                    position = {Vector3.Zero() }
-                />
-
-              </Ground>
+                    <Model sceneFilename="floor.glb"
+                        rootUrl = {baseUrl}
+                        position = {Vector3.Zero() }
+                    />
+                </Ground>
                 {this.renderCells()}
                 {this.renderPieces()}
             </Scene>

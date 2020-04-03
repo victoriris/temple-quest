@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { ArcRotateCamera, DirectionalLight, Engine, Ground, Model, Scene, ShadowGenerator } from 'react-babylonjs';
 import { connect } from 'react-redux';
 import { initBoard, selectBagPiece, selectBoardCell, updateBoardData, updatePieceObject } from '../actions';
+import RoomLights from '../components/RoomLights';
 
 
 let baseUrl = `${process.env.PUBLIC_URL}/objects/`;
@@ -89,31 +90,7 @@ class GameScreen extends Component {
                 upperBetaLimit = {(Math.PI / 2) * 0.99}
                 target={Vector3.Zero()} 
                 minZ={0.001} />
-                <DirectionalLight name="dl01" 
-                intensity={1.7}
-                direction={new Vector3(-1, -.35, 1)} 
-                position = {new Vector3(20, 20, -20)}>
-                  <ShadowGenerator mapSize={1024} useBlurExponentialShadowMap={true} blurKernel={32} shadowCasters={["counterClockwise", "clockwise", "BoomBox"]} />
-                </DirectionalLight>
-                <DirectionalLight name="dl02" 
-                intensity={1.7}
-                direction={new Vector3(1, -.35, -1)} 
-                position = {new Vector3(-20, 20, 20)}>
-                  <ShadowGenerator mapSize={1024} useBlurExponentialShadowMap={true} blurKernel={32} shadowCasters={["counterClockwise", "clockwise", "BoomBox"]} />
-                </DirectionalLight>
-                <DirectionalLight name="dl03" 
-                intensity={1.7}
-                direction={new Vector3(-1, -.35, -1)} 
-                position = {new Vector3(20, 20, 20)}>
-                  <ShadowGenerator mapSize={1024} useBlurExponentialShadowMap={true} blurKernel={32} shadowCasters={["counterClockwise", "clockwise", "BoomBox"]} />
-                </DirectionalLight>
-                <DirectionalLight name="dl04" 
-                intensity={1.7}
-                direction={new Vector3(1, -.35, 1)} 
-                position = {new Vector3(-20, 20, -20)}>
-                  <ShadowGenerator mapSize={1024} useBlurExponentialShadowMap={true} blurKernel={32} shadowCasters={["counterClockwise", "clockwise", "BoomBox"]} />
-                </DirectionalLight>
-
+                <RoomLights />
                 <Model sceneFilename="gameBoard.glb"
                     rootUrl = {baseUrl}
                 />

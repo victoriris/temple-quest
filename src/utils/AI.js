@@ -40,10 +40,11 @@ async function startMinimax(pieces, selectedPieceId) {
 }
 
 function getDepth(pieces) {
-    const piecesLeft = pieces.filter(p => !p.location);
-    const length = piecesLeft.length;
-    if (length >= 15) return 2;
-    return 3;
+    const leftCount = pieces.filter(p => !p.location).length;
+    if (leftCount > 14) return 1;
+    if (leftCount > 11) return 2;
+    const turn = pieces.length - leftCount
+    return turn - 2;
 }
 
 

@@ -13,7 +13,7 @@ function countWinMoves(pieces) {
                 // Get the max matched details on direction
                 let sum = 0;
                 Object.values(direction).forEach(value => {
-                    sum += value;
+                    sum += value >=3 ? 1 : 0;
                 })
                 return acc + sum;
             }, 0);

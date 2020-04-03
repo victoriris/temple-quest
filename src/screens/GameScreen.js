@@ -101,7 +101,7 @@ class GameScreen extends Component {
                 />
                 <Model sceneFilename="coaster.glb"
                     rootUrl = {baseUrl}
-                    position = { new Vector3(0, 0.069, -13) }
+                    position = { new Vector3(0, 0.15, -13) }
                 />
                 <RoomWalls />
                 <Ground name="ground" subdivisions={1} >

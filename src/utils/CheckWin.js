@@ -17,6 +17,10 @@ function CheckWin (pieces, pieceId) {
 
 function getNeighborMatches(pieces, piece) {
     var neighbors = [];
+
+    // Not matches if is not placed
+    if (!piece.location) return 0;
+
     pieces.forEach((p) => {
         if (!p.location || p.id === piece.id) return false;
         const sameRow = p.location.row === piece.location.row;

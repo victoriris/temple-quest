@@ -12,6 +12,7 @@ async function startMinimax(pieces, selectedPieceId) {
             selectedPieceId,
             lastPieceID: '',
             isUserTurn: false,
+            isUserPerspective: true,
         }
 
         for (const piece of pieces) {
@@ -57,6 +58,7 @@ you see fit: integers, objects, strings, etc.
 function generateMoves(gameState) {
     const { pieces, selectedPieceId } = gameState;
     let possibleMoves = [];
+    gameState.isUserPerspective = !gameState.isUserPerspective;
 
     // For each possible board cell location
     for (let row = 0; row < 4; row++) {
@@ -134,22 +136,26 @@ gameState is better for the current player-to-move.
 */
 function evaluate(gameState){
     let result = 0;
-    const { isUserTurn } = gameState;
+    const { isUserTurn, pieces, isUserPerspective } = gameState;
 
-    result = countWinMoves(gameState.pieces);
-    result *= (isUserTurn?-1:1);
+    result = countWinMoves(pieces);
+    if (result) {
+        console.log('evaluating....');
+        console.log(gameState, result);
+    }
+    result *= ((isUserTurn === isUserPerspective)?1:-1);
     
     return result;
 }
 
 function evaluateTerminal(gameState){
     let result = null;
-    const {isUserTurn, pieces, lastPieceID} = gameState;
+    const {isUserTurn, pieces, lastPieceID, isUserPerspective} = gameState;
     const didWin = CheckWin(pieces, lastPieceID);
     const boardIsFull = pieces.every(piece => !!piece.location);
 
     if (didWin) {
-        result = Infinity * (isUserTurn?-1:1);
+        result = Infinity * ((isUserTurn === isUserPerspective)?-1:1);
     }
     else if (boardIsFull) {
         result = 0;

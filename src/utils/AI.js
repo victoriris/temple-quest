@@ -59,6 +59,7 @@ function generateMoves(gameState) {
     const { pieces, selectedPieceId } = gameState;
     let possibleMoves = [];
     gameState.isUserPerspective = !gameState.isUserPerspective;
+    gameState.isUserTurn = gameState.isUserPerspective;
 
     // For each possible board cell location
     for (let row = 0; row < 4; row++) {
@@ -86,7 +87,10 @@ function generateMoves(gameState) {
 }
 
 /* 
-Your makeMove function must take a gameState object and a move object, perform the move upon the gameState, altering it in place, and return a boolean value that represents whether or not the side-to-move has changed after having performed the move.
+Your makeMove function must take a gameState object and a move object, 
+perform the move upon the gameState, altering it in place, and return a 
+boolean value that represents whether or not the side-to-move has 
+changed after having performed the move.
  */
 function makeMove(gameState, move) {
     const { pieceId, location, selectedPieceId } = move;
@@ -109,7 +113,9 @@ function makeMove(gameState, move) {
 }
 
 /* 
-Your unmakeMove function must take a gameState object and a move object, un-perform the move upon the gameState, altering it in place. This must end up producing the exact same gameState as before having called makeMove.
+Your unmakeMove function must take a gameState object and a move object, 
+un-perform the move upon the gameState, altering it in place. 
+This must end up producing the exact same gameState as before having called makeMove.
  */
 function unmakeMove (gameState, move) {
     const { selectedPieceId } = move;

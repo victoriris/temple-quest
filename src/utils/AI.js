@@ -2,6 +2,7 @@ import {CheckWin} from '../utils';
 import DeepEqual from 'deep-equal';
 import negamaxAlphaBeta from 'negamax-alpha-beta';
 import { getNeighborMatches } from './CheckWin';
+import { countWinMoves } from './countWinMoves';
 
 
 async function startMinimax(pieces, selectedPieceId) {
@@ -126,29 +127,12 @@ from the perspective of the gameState's current player-to-move. Higher numbers m
 gameState is better for the current player-to-move.
 */
 function evaluate(gameState){
-    let score = 0;
     let result = 0;
     const { isUserTurn } = gameState;
 
-    for (const piece of gameState.pieces) {
-
-        if (piece.location) {
-            const neighborMatches = getNeighborMatches(gameState.pieces, piece);
-            // Sum all the matches of piece directions
-            const matchCount = Object.values(neighborMatches).reduce((acc, direction) => {
-                // Get the max matched details on direction
-                let sum = 0;
-                Object.values(direction).forEach(value => {
-                    sum += value;
-                })
-                return acc + sum;
-            }, 0);
-            score += matchCount;
-        }
-    }
-
-    result = score;
+    result = countWinMoves(gameState.pieces);
     result *= (isUserTurn?-1:1);
+    
     return result;
 }
 

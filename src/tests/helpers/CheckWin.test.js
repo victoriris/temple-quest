@@ -1,4 +1,4 @@
-import { CheckWin, getInitialPieces } from "../../helpers";
+import { CheckWin, getInitialPieces } from "../../utils";
 // import App from '../../index';
 
 // describe ('Aplication startup', () => {

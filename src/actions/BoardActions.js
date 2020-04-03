@@ -1,4 +1,4 @@
-import { CheckWin, startMinimax } from '../helpers';
+import { CheckWin, startMinimax } from '../utils';
 import history from '../history';
 import { sendNetworkData } from './NetworkActions';
 import { BOARD_INIT, BOARD_PICK_PIECE, BOARD_PLACE_PIECE, BOARD_RESET_GAME, BOARD_UPDATE_DATA, BOARD_UPDATE_PIECE_OBJECT } from './types';

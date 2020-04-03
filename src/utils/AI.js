@@ -1,4 +1,4 @@
-import {CheckWin} from '../helpers';
+import {CheckWin} from '../utils';
 import DeepEqual from 'deep-equal';
 import negamaxAlphaBeta from 'negamax-alpha-beta';
 import { getNeighborMatches } from './CheckWin';
@@ -147,7 +147,8 @@ function evaluate(gameState){
         }
     }
 
-    result = score * (isUserTurn?-1:1);
+    result = score;
+    result *= (isUserTurn?-1:1);
     return result;
 }
 

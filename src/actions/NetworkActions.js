@@ -22,6 +22,7 @@ export const connectToPeer = (peerId) => {
         // Make connection to remote peer
         const { peer } = getState().network;
         peer.connect(peerId);
+        dispatch(updateNetworkData('isConnected', true));
         dispatch(updateNetworkData('remotePeerId', peerId));
 
     };
@@ -75,11 +76,11 @@ export const listenNetworkData = () => {
             conn.on('data', ({type, data}) => {
                 if (type === 'inviteStatus' && data === 'accepted') {
                     alert('Your invite was accepted!');
+                    dispatch(updateNetworkData('isConnected', true));
                     dispatch(updateBoardData('isUserTurn', false));
                     dispatch(launchMultiplayer(true));
 
                 } else if (type === 'inviteStatus') {
-                    //alert('Your invite was declined.');
                     dispatch(updateNetworkData('inviteSent', false));
                     dispatch(updateNetworkData('isInvited', false));
                 }
@@ -110,6 +111,10 @@ export const listenNetworkData = () => {
                 }
             });
         });
+        peer.on('disconnected', () => {
+            alert('You have disconnected, attempting to reconnect...');
+            attemptReconnect();
+        });
     };
 
 };
@@ -133,7 +138,9 @@ export const getPeersList = () => {
         var { peer } = getState().network;
         peer.listAllPeers(list => {
             const onlineUsers = list.filter((user) => {
-                return user !== peer.id;
+                if (!peer.isConnected) {
+                    return user !== peer.id;
+                }
             });
             dispatch(updateNetworkData('onlineUsers', onlineUsers));
         });
@@ -141,6 +148,26 @@ export const getPeersList = () => {
 
 }
 
+const attemptReconnect = () => {
+    return (getState) => {
+        var { peer } = getState().network;
+        var secondsAttempted = 0;
+        setTimeout (() => {
+            try {
+                peer.reconnect();
+            }
+            catch (e) {
+                if (secondsAttempted < 30) {
+                    attemptReconnect();
+                    secondsAttempted++;
+                }
+                else {
+                    alert('Reconnection attempts have timed out, please fix your connection.')
+                }
+            }
+        }, 1000);
+    }
+}
 
 const updateData = ({ prop, value }) => {
     return {

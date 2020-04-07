@@ -149,7 +149,7 @@ function evaluate(gameState){
         console.log('evaluating....');
         console.log(gameState, result);
     }
-    result *= ((isUserTurn === isUserPerspective)?1:-1);
+    result *= ((isUserTurn && isUserPerspective)?-1:-1);
     
     return result;
 }
@@ -161,7 +161,7 @@ function evaluateTerminal(gameState){
     const boardIsFull = pieces.every(piece => !!piece.location);
 
     if (didWin) {
-        result = Infinity * ((isUserTurn === isUserPerspective)?-1:1);
+        result = Infinity * ((isUserTurn && isUserPerspective)?1:-1);
     }
     else if (boardIsFull) {
         result = 0;

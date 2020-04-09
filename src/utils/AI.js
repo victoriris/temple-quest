@@ -30,7 +30,7 @@ async function startMinimax(pieces, selectedPieceId) {
           let negamax = new negamaxAlphaBeta(config);
           const depth = getDepth(gameState.pieces);
           let result = negamax.search(gameState, depth);
-          console.log('result', result);
+         // console.log('result', result);
           resolve({
             location: result.bestMove.location,
             pieceId: result.bestMove.pieceId
@@ -148,8 +148,8 @@ function evaluate(gameState){
 
     result = countWinMoves(pieces);
     if (result) {
-        console.log('evaluating....');
-        console.log(gameState, result);
+       // console.log('evaluating....');
+       // console.log(gameState, result);
     }
     result *= ((isUserTurn && isUserPerspective)?-1:-1);
     

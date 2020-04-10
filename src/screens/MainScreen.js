@@ -3,9 +3,8 @@ import { Grid, GridColumn, GridRow } from 'semantic-ui-react';
 import MenuButton from '../components/MenuButton';
 import history from '../history';
 import GameLogo from '../img/gameLogo.svg';
-//import ReactPlayer from 'react-player';
-//import JungleMenu from '../sounds/JungleMenu.wav'
 import { playMenuSound } from '../actions';
+import { connect } from 'react-redux';
 
 
 class MainScreen extends Component {
@@ -13,9 +12,9 @@ class MainScreen extends Component {
     handleClick = (route) => history.push(route);
     handleExit = () => {};
 
-    //handleMenuSound = () => {
-    //    this.props.playMenuSound();
-    //}
+    componentDidMount() {
+        this.props.playMenuSound();
+    }
 
     render () {
         return(
@@ -42,4 +41,6 @@ class MainScreen extends Component {
     }
 }
 
-export default MainScreen;
+export default connect(null, {
+    playMenuSound
+})(MainScreen);

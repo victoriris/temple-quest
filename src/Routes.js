@@ -23,7 +23,7 @@ const Routes = (props) => {
       <Router history={history}>
           <BackgroundVideo />
           <ReactPlayer id="musicPlayer" loop volume height={0} playing={props.musicOn} width={0} url={props.musicUrl}/>
-          <ReactPlayer id="soundPlayer" volume playing={props.soundOn} height={0} width={0} url={props.soundUrl}/>
+          {/* <ReactPlayer id="soundPlayer" volume playing={props.soundOn} height={0} width={0} url={props.soundUrl}/> */}
           <Route path="/" component={IntroScreen} exact/>
           <Route path="/menu" component={MainScreen}/>
           <Route path="/mode" component={GameModeScreen}/>

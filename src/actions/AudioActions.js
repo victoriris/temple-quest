@@ -1,6 +1,18 @@
 import { AUDIO_UPDATE_DATA, AUDIO_PLAY_MENU_SOUND, AUDIO_MOVE_PIECE, AUDIO_MUTE_SOUND, AUDIO_MUTE_MUSIC, AUDIO_INTRO_SOUND} from './types';
 import CongaSound from '../sounds/CongaSound-4.wav';
+import MenuMusic from '../sounds/JungleMenu.wav';
+import IntroMusic from '../sounds/TeamLogo.wav';
 
+
+export const stopMusic = () => {
+    return (dispatch, getState) => {
+        const { soundOn } = getState().audio;
+        if(soundOn)
+        {
+            dispatch(updateAudioData('musicUrl', null));
+        }
+    }
+};
 
 export const playMenuSound = () => {
     
@@ -8,8 +20,7 @@ export const playMenuSound = () => {
         const { soundOn } = getState().audio;
         if(soundOn)
         {
-            dispatch(updateAudioData('soundUrl', '../sounds/CongaSound-4.wav'));
-            console.log("Played CongaSound-4.wav");
+            dispatch(updateAudioData('musicUrl', MenuMusic));
         }
     }
 }
@@ -21,8 +32,7 @@ export const playIntroSound = () => {
 
         if(soundOn)
         {
-            dispatch(updateAudioData('soundUrl', '../sounds/TeamLogo.wav'));
-            console.log("Played TeamLogo.wav");
+            dispatch(updateAudioData('musicUrl', IntroMusic));
         }
     }
 }

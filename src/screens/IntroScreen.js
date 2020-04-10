@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { stopIntroLoading } from '../actions';
+import { stopIntroLoading, playIntroSound } from '../actions';
 import TeamLogo from '../img/TeamLogo.svg';
 
 
@@ -11,6 +11,7 @@ class IntroScreen extends Component {
 
     componentDidMount () {
         setTimeout(this.stopIntro, 3000);
+        this.props.playIntroSound();
     }
     
     render() {
@@ -35,5 +36,5 @@ const mapStateToProps = ({ intro }) => {
 };
 
 export default connect(mapStateToProps, {
-    stopIntroLoading
+    stopIntroLoading, playIntroSound
 })(IntroScreen);

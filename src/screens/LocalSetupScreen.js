@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Container, Grid, GridColumn } from 'semantic-ui-react';
-import BackButton from '../components/BackButton';
 import { connect } from 'react-redux';
 import { launchMultiplayer } from '../actions';
-import { menuClick } from '../helpers';
+import MenuButton from '../components/MenuButton';
 
 class LocalSetupScreen extends Component {
 
@@ -21,7 +20,7 @@ class LocalSetupScreen extends Component {
                             <Button.Or />
                             <Button size="massive" color="blue" onClick={() => {this.handleClick('game'); menuClick()}}>Player 2</Button>
                         </Container>
-                       <BackButton />
+                       <MenuButton back />
                     </GridColumn>
             </Grid>
         );

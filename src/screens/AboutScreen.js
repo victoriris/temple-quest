@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Grid, GridColumn } from 'semantic-ui-react';
-import BackButton from '../components/BackButton';
+import MenuButton from '../components/MenuButton';
 
 
 class AboutScreen extends Component {
@@ -31,7 +31,7 @@ class AboutScreen extends Component {
                 <h2>QUARTO.</h2>
                 <p></p>
                     </Container>
-                <BackButton />
+                <MenuButton back />
             </GridColumn>        
         </Grid>
 

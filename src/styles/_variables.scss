@@ -15,3 +15,13 @@ $secondary-text-color: $brand-yellow;
 
 // General screens
 $screen-content-radius: 1rem;
+
+// Button
+$btn-height: 5rem;
+$btn-width: 100%;
+$btn-depth:6;
+$btn-color:#7fbb98;
+$btn-text-color:darken($btn-color,10%);
+$btn-lighten-on-hover:7%;
+$btn-speed:.06;
+$btn-timing-function: ease-out;

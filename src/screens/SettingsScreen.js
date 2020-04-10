@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { Checkbox, Container, Grid, GridColumn, GridRow, Segment } from 'semantic-ui-react';
-import BackButton from '../components/BackButton';
-import { connect } from 'react-redux';
 import history from '../history';
-import { muteMusic, muteSound } from '../actions';
+import MenuButton from '../components/MenuButton';
 
 
 class SettingsScreen extends Component{
@@ -32,7 +30,7 @@ class SettingsScreen extends Component{
                             </Segment>
                         </Segment.Group>
                     </Container>
-                   <BackButton />
+                   <MenuButton back />
                 </GridColumn>
             </GridRow>
         </Grid>

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Checkbox, Container, Grid, GridColumn, GridRow, Segment } from 'semantic-ui-react';
 import history from '../history';
 import MenuButton from '../components/MenuButton';
+import { connect } from 'react-redux';
+import { muteSound, muteMusic } from '../actions';
 
 
 class SettingsScreen extends Component{

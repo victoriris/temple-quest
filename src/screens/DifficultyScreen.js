@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Grid, GridColumn } from 'semantic-ui-react';
 import MenuButton from '../components/MenuButton';
 import history from '../history';
-import { menuClick } from '../helpers';
 
 
 class DifficultyScreen extends Component {

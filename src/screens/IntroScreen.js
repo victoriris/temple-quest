@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { stopIntroLoading } from '../actions';
 import TeamLogo from '../img/TeamLogo.svg';
-//import TeamLogoSound from '../sounds/TeamLogo.wav'
-//import ReactPlayer from 'react-player';
 
 
 

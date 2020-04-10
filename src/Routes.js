@@ -2,7 +2,6 @@ import React from 'react';
 import { Route, Router } from 'react-router-dom';
 import history from './history';
 import AboutScreen from './screens/AboutScreen';
-import BoardScreen from './screens/BoardScreen';
 import ConnectionLost from './screens/ConnectionLost';
 import DifficultyScreen from './screens/DifficultyScreen';
 import GameModeScreen from './screens/GameModeScreen';
@@ -14,7 +13,6 @@ import OnlineSetupScreen from './screens/OnlineSetupScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import TutorialScreen from './screens/TutorialScreen';
 import BackgroundVideo from './components/BackgroundVideo';
-import { playMenuSound, playIntroSound, muteMusic, muteSound } from './actions';
 import ReactPlayer from 'react-player';
 import { connect } from 'react-redux';
 
@@ -50,7 +48,6 @@ const mapStateToProps = ({ audio }) => {
 };
 
 export default connect(mapStateToProps, { 
-  playMenuSound, playIntroSound, muteMusic, muteSound
 })(Routes); 
 
 //export default Routes;

@@ -1,8 +1,9 @@
 import moment from 'moment';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Header, Modal } from 'semantic-ui-react';
+import { Header, Modal, Feed, Input, Icon, Button } from 'semantic-ui-react';
 import { listenNetworkData, sendNetworkData, updateNetworkData } from '../actions';
+import Avatar from './Avatar';
 
 
 class ChatBox extends Component {
@@ -21,11 +22,20 @@ class ChatBox extends Component {
 
     renderMessages () {
         return this.props.messages.map((m, idx) => {
-            return <div key={idx}>
-                <p>{m.content}</p>
-                <p>sent {moment(m.createdOn).local().fromNow()}</p>
-                <p>by {m.createdBy}</p>
-            </div>
+            return <Feed.Event key={idx}>
+                <Feed.Label>
+                    <Avatar />
+                </Feed.Label>
+                <Feed.Content>
+                    <Feed.Summary>
+                    <Feed.User>{m.createdBy}</Feed.User>
+                    <Feed.Date>{moment(m.createdOn).local().fromNow()}</Feed.Date>
+                    </Feed.Summary>
+                    <Feed.Extra text>
+                        {m.content}
+                    </Feed.Extra>
+                </Feed.Content>
+            </Feed.Event>
         });
     }
 
@@ -38,13 +48,22 @@ class ChatBox extends Component {
                 <Modal.Header>Chat</Modal.Header>
                 <Modal.Content>
                     <Modal.Description>
-                    <Header>Default Profile Image</Header>
-                    <p>
-                        We've found the following gravatar image associated with your e-mail
-                        address.
-                    </p>
-                    <p>Is it okay to use this photo?</p>
+                        <Feed>
+                            {this.renderMessages()}
+                        </Feed>
+                    
                     </Modal.Description>
+                    <Input action
+                    fluid 
+                    size="large"
+                    placeholder='Message...'>
+                        <input />
+                        <Button icon labelPosition='right'
+                        onClick={this.handleMessageSend.bind(this)}>
+                            Send
+                            <Icon name='send' />
+                        </Button>
+                    </Input>
                 </Modal.Content>
             </Modal>
         )

@@ -10,6 +10,8 @@
     "@babylonjs/core": "^4.1.0",
     "@babylonjs/gui": "^4.1.0",
     "@babylonjs/loaders": "^4.1.0",
+    "@dicebear/avatars": "^4.0.8",
+    "@dicebear/avatars-gridy-sprites": "^4.0.8",
     "deep-equal": "^2.0.2",
     "electron-is": "^3.0.0",
     "fibers": "^4.0.2",

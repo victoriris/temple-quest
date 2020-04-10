@@ -12,6 +12,7 @@ const INITIAL_STATE = {
     inviteSent: false,
     inviteStatus: 'pending',
     isConnected: false,
+    messageInput: '',
 }
 
 export default (state = INITIAL_STATE, { type, payload }) => {

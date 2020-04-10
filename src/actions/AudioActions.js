@@ -1,6 +1,6 @@
-import CongaSound from '../sounds/CongaSound-4.wav';
-import MenuMusic from '../sounds/JungleMenu.wav';
-import IntroMusic from '../sounds/TeamLogo.wav';
+import CongaSound from '../assets/sounds/CongaSound-4.wav';
+import MenuMusic from '../assets/sounds/JungleMenu.wav';
+import IntroMusic from '../assets/sounds/TeamLogo.wav';
 import { AUDIO_MOVE_PIECE, AUDIO_UPDATE_DATA } from './types';
 
 

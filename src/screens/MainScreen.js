@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Grid, GridColumn, GridRow } from 'semantic-ui-react';
 import MenuButton from '../components/MenuButton';
 import history from '../history';
-import GameLogo from '../img/gameLogo.svg';
+import GameLogo from '../assets/img/gameLogo.svg';
 import { playMenuSound } from '../actions';
 import { connect } from 'react-redux';
 

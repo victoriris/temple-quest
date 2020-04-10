@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Menu } from 'semantic-ui-react';
+import { Menu, Icon } from 'semantic-ui-react';
 import ChatBox from './ChatBox';
 
 
@@ -16,7 +16,8 @@ class GameNavbar extends Component {
             <Menu.Item
             name='editorials'
             onClick={this.handleItemClick}>
-            Chat
+              <Icon name='chat' />
+              Chat
             </Menu.Item>
          </ChatBox>
       </Menu>

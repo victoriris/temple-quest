@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Button, Container, Grid, GridColumn } from 'semantic-ui-react';
-import BackButton from '../components/BackButton';
+import { Grid, GridColumn } from 'semantic-ui-react';
+import MenuButton from '../components/MenuButton';
 import history from '../history';
 
 
@@ -13,28 +13,13 @@ class DifficultyScreen extends Component {
         return(
             <Grid stretched className="screen" padded centered columns={3}>
                     <GridColumn verticalAlign="middle">
-                        <Container
-                        className="mainScreen__option">
-                            <Button   size="massive" color="black"
-                            onClick={() => this.handleClick('board')}>
-                                EASY
-                            </Button>
-                        </Container>
-                        <Container
-                        className="mainScreen__option">
-                            <Button   size="massive" color="black"
-                            onClick={() => this.handleClick('board')}>
-                                MEDUIM
-                            </Button>
-                        </Container>
-                        <Container
-                        className="mainScreen__option">
-                            <Button   size="massive" color="black"
-                            onClick={() => this.handleClick('board')}>
-                                HARD
-                            </Button>
-                        </Container>
-                       <BackButton />
+                        <MenuButton title="easy"
+                        onClick={() => this.handleClick('board')} />
+                        <MenuButton title="medium"
+                        onClick={() => this.handleClick('board')} />
+                        <MenuButton title="hard"
+                        onClick={() => this.handleClick('board')} />
+                       <MenuButton back/>
                     </GridColumn>
             </Grid>
         );

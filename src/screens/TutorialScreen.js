@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
+import MenuButton from '../components/MenuButton';
 import { Container, Grid, GridColumn } from 'semantic-ui-react';
-import BackButton from '../components/BackButton';
 
 
 class TutorialScreen extends Component{
@@ -34,7 +34,7 @@ class TutorialScreen extends Component{
                                 Pay close attention to that last spot and what could win there.</li>                    
                     </ul>
                     </Container>
-                    <BackButton />
+                    <MenuButton back />
                 </GridColumn>
         </Grid>
         );

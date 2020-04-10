@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Button, Container, Grid, GridColumn, GridRow } from 'semantic-ui-react';
+import { Grid, GridColumn, GridRow } from 'semantic-ui-react';
+import MenuButton from '../components/MenuButton';
 import history from '../history';
-import BackButton from '../components/BackButton';
 
 
 class GameModeScreen extends Component {
@@ -14,28 +14,13 @@ class GameModeScreen extends Component {
             <Grid stretched className="screen" padded centered columns={3}>
                 <GridRow>
                     <GridColumn verticalAlign="middle">
-                        <Container
-                        className="mainScreen__option">
-                            <Button   size="massive" color="black"
-                            onClick={() => this.handleClick('difficulty')}>
-                                SINGLEPLAYER
-                            </Button>
-                        </Container>
-                        <Container
-                        className="mainScreen__option">
-                            <Button   size="massive" color="black"
-                            onClick={() => this.handleClick('online')}>
-                                ONLINE
-                            </Button>
-                        </Container>
-                        <Container
-                        className="mainScreen__option">
-                            <Button   size="massive" color="black"
-                            onClick={() => this.handleClick('local')}>
-                                LOCAL MULTIPLAYER
-                            </Button>
-                        </Container>
-                        <BackButton />
+                        <MenuButton title="singleplayer"  
+                        onClick={() => this.handleClick('difficulty')}/>
+                        <MenuButton title="multiplayer"  
+                        onClick={() => this.handleClick('local')}/>
+                        <MenuButton title="online"  
+                        onClick={() => this.handleClick('online')}/>
+                        <MenuButton back />
                     </GridColumn>
                 </GridRow>
             </Grid>

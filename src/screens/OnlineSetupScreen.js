@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { Button, Container, Form, Grid, GridColumn, GridRow, Confirm, Message, Icon } from 'semantic-ui-react';
 import { launchMultiplayer, resetNetwork } from '../actions';
 import { getPeersList, initPeer, listenNetworkData, updateNetworkData, sendNetworkData } from '../actions/NetworkActions';
-import BackButton from '../components/BackButton';
 import PeersList from '../components/PeersList';
+import MenuButton from '../components/MenuButton';
 
 
 class OnlineSetupScreen extends Component{
@@ -99,7 +99,7 @@ class OnlineSetupScreen extends Component{
                                 REFRESH
                             </Button>
                         )}
-                        <BackButton />
+                        <MenuButton back />
                         {!!this.props.peer && !this.props.isInvited && !this.props.inviteSent && (
                             <Button  floated="right" 
                             color="black" size="massive"

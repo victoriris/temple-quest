@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Checkbox, Container, Grid, GridColumn, GridRow, Segment } from 'semantic-ui-react';
-import history from '../history';
-import MenuButton from '../components/MenuButton';
 import { connect } from 'react-redux';
-import { muteSound, muteMusic } from '../actions';
+import { Checkbox, Container, Grid, GridColumn, GridRow, Header, Icon, Segment } from 'semantic-ui-react';
+import { muteMusic, muteSound } from '../actions';
+import MenuButton from '../components/MenuButton';
+import history from '../history';
 
 
 class SettingsScreen extends Component{
@@ -22,19 +22,30 @@ class SettingsScreen extends Component{
             <Grid stretched className="screen" padded centered columns={3}>
             <GridRow>
                 <GridColumn verticalAlign="middle">
-                    <Container className="screen__box">
-                        <Segment.Group class="settingsGroup">
-                            <Segment compact>
-                                <Checkbox toggle 
-                                label="Mute Music" 
-                                checked={!this.props.musicOn}
-                                onChange={() => this.handleMuteMusicClick()}/>
-                            </Segment>
-                            <Segment compact>
-                                <Checkbox toggle 
-                                checked={!this.props.soundOn}
-                                label="Mute Sound" 
-                                onChange={() => this.handleMuteSoundClick()}/>
+                    <Container>
+                        <Segment.Group class="settingsGroup" 
+                        raised>
+                            <Segment>
+                                <Header as='h3' 
+                                dividing
+                                textAlign="center">
+                                    <Icon name="music" />
+                                    Audio
+                                </Header>
+                                <Grid columns="2">
+                                    <Grid.Column>
+                                        <Checkbox toggle
+                                        label="Mute Music" 
+                                        checked={!this.props.musicOn}
+                                        onChange={() => this.handleMuteMusicClick()}/>
+                                    </Grid.Column>
+                                    <Grid.Column>
+                                        <Checkbox toggle 
+                                        checked={!this.props.soundOn}
+                                        label="Mute Sound" 
+                                        onChange={() => this.handleMuteSoundClick()}/>
+                                    </Grid.Column>
+                                </Grid>
                             </Segment>
                         </Segment.Group>
                     </Container>
@@ -55,5 +66,3 @@ const mapStateToProps = ({ audio }) => {
 export default connect(mapStateToProps, { 
     muteSound, muteMusic
 })(SettingsScreen);
-
-//export default SettingsScreen;

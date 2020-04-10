@@ -1,4 +1,5 @@
 import { AUDIO_UPDATE_DATA, AUDIO_PLAY_MENU_SOUND, AUDIO_MOVE_PIECE, AUDIO_MUTE_SOUND, AUDIO_MUTE_MUSIC, AUDIO_INTRO_SOUND} from './types';
+import CongaSound from '../sounds/CongaSound-4.wav';
 
 
 export const playMenuSound = () => {
@@ -25,6 +26,18 @@ export const playIntroSound = () => {
         }
     }
 }
+
+export const playButtonSound = () => {
+    return (dispatch, getState) => {
+        const { soundOn } = getState().audio;
+
+        if(soundOn)
+        {
+            let audio = new Audio(CongaSound);
+            audio.play();
+        }
+    }
+};
 
 export const moveSound = () => {
     return{

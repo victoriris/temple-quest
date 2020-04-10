@@ -12,11 +12,12 @@ class MenuButton extends Component {
         const btnTitle = back ? 'back' : title;
         let btnAction = () => {
             playButtonSound();
-            onClick();
+            if (back) {
+                history.goBack();
+            } else {
+                onClick();
+            }
         };
-        if (back) {
-            btnAction = () => history.goBack();
-        }
 
         return (
             <Container

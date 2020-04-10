@@ -8,6 +8,10 @@ const INITIAL_STATE = {
     peerId: '',
     remotePeerId: '',
     onlineUsers: [],
+    isInvited: false,
+    inviteSent: false,
+    inviteStatus: 'pending',
+    messageInput: '',
 }
 
 export default (state = INITIAL_STATE, { type, payload }) => {

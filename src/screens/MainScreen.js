@@ -7,6 +7,8 @@ import GameLogo from '../img/gameLogo.svg';
 import { playMenuSound } from '../actions';
 
 
+
+
 class MainScreen extends Component {
 
     handleClick = (route) => history.push(route);

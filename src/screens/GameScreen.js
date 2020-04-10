@@ -1,9 +1,12 @@
-import { Vector3 } from 'babylonjs';
-import 'babylonjs-loaders';
+import { Vector3 } from '@babylonjs/core/Maths/math';
 import React, { Component } from 'react';
-import { ArcRotateCamera, DirectionalLight, Engine, Ground, Model, Scene, ShadowGenerator } from 'react-babylonjs';
+import { ArcRotateCamera, Engine, Ground, Model, Scene } from 'react-babylonjs';
 import { connect } from 'react-redux';
 import { initBoard, selectBagPiece, selectBoardCell, updateBoardData, updatePieceObject } from '../actions';
+import RoomLights from '../components/RoomLights';
+import RoomWalls from '../components/RoomWalls';
+import GameNavbar from '../components/GameNavbar';
+
 
 let baseUrl = `${process.env.PUBLIC_URL}/objects/`;
 
@@ -35,22 +38,22 @@ class GameScreen extends Component {
     }
 
     meshPicked(mesh) {
-        console.log(mesh);
+        //console.log(mesh);
         const {cellCords} = this.props;
         const {name, _absolutePosition : position} = mesh;
-        console.log(name);
+        //console.log(name);
         if (name === 'Cylinder.015') {
             const cellIdx = cellCords.findIndex((cell) => {
                 return cell[0] === position.x && cell[2] === position.z;
             });
-            if (!cellIdx) return;
+            if (cellIdx < 0) return;
             // TODO: Update cord of selected piece
             const column = parseInt(cellIdx) % 4;
             const row = Math.floor(parseInt(cellIdx) / 4);
             this.handleCellClick(row, column, position);
         }
         else if (name.includes('_primitive')) {
-            console.log(name);
+            //console.log(name);
             const piece = this.props.pieceObjects.find(((piece) => {
                 return name.includes(piece.obj);
             }));
@@ -67,22 +70,23 @@ class GameScreen extends Component {
         scene.getEngine().displayLoadingUI();
         setTimeout(() => {  
             scene.getEngine().hideLoadingUI();
-        }, 4000);
+        }, 5000);
     }
 
     render () {
 
         return (
+            <>
+            <GameNavbar />
           <Engine canvasId="playground" adaptToDeviceRatio antialias>
             <Scene 
             onSceneMount={this.onSceneMount}
-            onMeshPicked={this.meshPicked.bind(this)} 
-            >
+            onMeshPicked={this.meshPicked.bind(this)} >
                 <ArcRotateCamera 
                 name="camera1"
                 alpha={0} beta={0}
                 radius={35} 
-                setPosition={[new Vector3(30, 15, 0)]}
+                setPosition={[new Vector3(30, 25, 0)]}
                 lowerBetaLimit = {0.5}
                 upperRadiusLimit = {50}
                 lowerRadiusLimit = {20}
@@ -90,31 +94,7 @@ class GameScreen extends Component {
                 upperBetaLimit = {(Math.PI / 2) * 0.99}
                 target={Vector3.Zero()} 
                 minZ={0.001} />
-                <DirectionalLight name="dl01" 
-                intensity={1.7}
-                direction={new Vector3(-1, -.35, 1)} 
-                position = {new Vector3(20, 20, -20)}>
-                  <ShadowGenerator mapSize={1024} useBlurExponentialShadowMap={true} blurKernel={32} shadowCasters={["counterClockwise", "clockwise", "BoomBox"]} />
-                </DirectionalLight>
-                <DirectionalLight name="dl02" 
-                intensity={1.7}
-                direction={new Vector3(1, -.35, -1)} 
-                position = {new Vector3(-20, 20, 20)}>
-                  <ShadowGenerator mapSize={1024} useBlurExponentialShadowMap={true} blurKernel={32} shadowCasters={["counterClockwise", "clockwise", "BoomBox"]} />
-                </DirectionalLight>
-                <DirectionalLight name="dl03" 
-                intensity={1.7}
-                direction={new Vector3(-1, -.35, -1)} 
-                position = {new Vector3(20, 20, 20)}>
-                  <ShadowGenerator mapSize={1024} useBlurExponentialShadowMap={true} blurKernel={32} shadowCasters={["counterClockwise", "clockwise", "BoomBox"]} />
-                </DirectionalLight>
-                <DirectionalLight name="dl04" 
-                intensity={1.7}
-                direction={new Vector3(1, -.35, 1)} 
-                position = {new Vector3(-20, 20, -20)}>
-                  <ShadowGenerator mapSize={1024} useBlurExponentialShadowMap={true} blurKernel={32} shadowCasters={["counterClockwise", "clockwise", "BoomBox"]} />
-                </DirectionalLight>
-
+                <RoomLights />
                 <Model sceneFilename="gameBoard.glb"
                     rootUrl = {baseUrl}
                 />
@@ -124,21 +104,21 @@ class GameScreen extends Component {
                 />
                 <Model sceneFilename="coaster.glb"
                     rootUrl = {baseUrl}
-                    position = { new Vector3(0, 0.069, -13) }
+                    position = { new Vector3(0, 0.15, -13) }
                 />
+                <RoomWalls />
                 <Ground name="ground" subdivisions={1} >
-                <Model sceneFilename="floor.glb"
-                    rootUrl = {baseUrl}
-                    position = {Vector3.Zero() }
-                />
-
-              </Ground>
+                    <Model sceneFilename="floor.glb"
+                        rootUrl = {baseUrl}
+                        position = {Vector3.Zero() }
+                    />
+                </Ground>
                 {this.renderCells()}
                 {this.renderPieces()}
             </Scene>
           </Engine>
+        </>
         );
-
     }
 
     renderPieces () {

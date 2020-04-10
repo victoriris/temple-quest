@@ -28,6 +28,25 @@ export const connectToPeer = (peerId) => {
 
 };
 
+export const sendMessage = (message) => {
+
+    return (dispatch, getState) => {
+
+        const { peer } = getState().network;
+        dispatch(sendNetworkData('message', message));
+        dispatch({
+            type: NETWORK_RECEIVE_MESSSAGE,
+            payload: {
+                peerId: peer._id,
+                data: message
+            }
+        });
+        dispatch(updateNetworkData('messageInput', ''));
+
+    };
+
+}
+
 export const sendNetworkData = (type, data) => {
 
     return (dispatch, getState) => {
@@ -67,14 +86,22 @@ export const listenNetworkData = () => {
             // Connection was made by remote peer
             conn.on('open', () => {
                 if (!remotePeerId.length) {
-                    console.log('Game was started', remotePeerId);
                     dispatch(updateNetworkData('remotePeerId', conn.peer));
-                    dispatch(updateBoardData('isUserTurn', false));
-                    dispatch(launchMultiplayer(true));
+                    dispatch(updateNetworkData('isInvited', true));
                 }
             })
             // Data was received from remote peer
             conn.on('data', ({type, data}) => {
+                if (type === 'inviteStatus' && data === 'accepted') {
+                    alert('Your invite was accepted!');
+                    dispatch(updateBoardData('isUserTurn', false));
+                    dispatch(launchMultiplayer(true));
+
+                } else if (type === 'inviteStatus') {
+                    //alert('Your invite was declined.');
+                    dispatch(updateNetworkData('inviteSent', false));
+                    dispatch(updateNetworkData('isInvited', false));
+                }
 
                 if (type === 'message') {
                     dispatch({

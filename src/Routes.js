@@ -32,7 +32,7 @@ const Routes = (props) => {
           <Route path="/local" component={LocalSetupScreen}/>
           <Route path="/online" component={OnlineSetupScreen}/>
           <Route path="/play" component={GameModeScreen}/>
-          <Route path="/board" component={BoardScreen}/>
+          <Route path="/board" component={GameScreen}/>
           <Route path="/about" component={AboutScreen}/>
           <Route path="/tutorial" component={TutorialScreen}/>
           <Route path="/game" component={GameScreen}/>

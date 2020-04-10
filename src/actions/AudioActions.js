@@ -1,7 +1,7 @@
 import CongaSound from '../assets/sounds/CongaSound-4.wav';
 import MenuMusic from '../assets/sounds/JungleMenu.wav';
 import IntroMusic from '../assets/sounds/TeamLogo.wav';
-import { AUDIO_MOVE_PIECE, AUDIO_UPDATE_DATA } from './types';
+import { AUDIO_MOVE_PIECE, AUDIO_UPDATE_DATA, AUDIO_PLAY_SOUND } from './types';
 
 
 export const stopMusic = () => {
@@ -39,13 +39,7 @@ export const playIntroSound = () => {
 
 export const playButtonSound = () => {
     return (dispatch, getState) => {
-        const { soundOn } = getState().audio;
-
-        if(soundOn)
-        {
-            let audio = new Audio(CongaSound);
-            audio.play();
-        }
+        dispatch({ type: AUDIO_PLAY_SOUND, payload: CongaSound });
     }
 };
 

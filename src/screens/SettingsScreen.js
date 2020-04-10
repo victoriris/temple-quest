@@ -25,10 +25,16 @@ class SettingsScreen extends Component{
                     <Container className="screen__box">
                         <Segment.Group class="settingsGroup">
                             <Segment compact>
-                                <Checkbox toggle label="Mute Music" onChange={() => this.handleMuteMusicClick()}/>
+                                <Checkbox toggle 
+                                label="Mute Music" 
+                                checked={!this.props.musicOn}
+                                onChange={() => this.handleMuteMusicClick()}/>
                             </Segment>
                             <Segment compact>
-                                <Checkbox toggle label="Mute Sound" onChange={() => this.handleMuteSoundClick()}/>
+                                <Checkbox toggle 
+                                checked={!this.props.soundOn}
+                                label="Mute Sound" 
+                                onChange={() => this.handleMuteSoundClick()}/>
                             </Segment>
                         </Segment.Group>
                     </Container>

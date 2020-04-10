@@ -2,7 +2,7 @@ import moment from 'moment';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Header, Modal, Feed, Input, Icon, Button } from 'semantic-ui-react';
-import { listenNetworkData, sendNetworkData, updateNetworkData } from '../actions';
+import { listenNetworkData, sendNetworkData, updateNetworkData, sendMessage } from '../actions';
 import Avatar from './Avatar';
 
 
@@ -11,8 +11,7 @@ class ChatBox extends Component {
     handleMessageInput = ({target}) => this.props.updateNetworkData('messageInput', target.value);
 
     handleMessageSend () {
-        this.props.sendNetworkData('message', this.props.messageInput);
-        this.props.updateNetworkData('messageInput', '');
+        this.props.sendMessage(this.props.messageInput);
     }
 
     renderMessages () {
@@ -76,5 +75,5 @@ const mapStateToProps = ({ network, board }) => {
 
 
 export default connect(mapStateToProps, {
-   updateNetworkData, sendNetworkData, listenNetworkData, 
+   updateNetworkData, sendNetworkData, listenNetworkData, sendMessage
 })(ChatBox);

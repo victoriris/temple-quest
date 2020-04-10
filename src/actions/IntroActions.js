@@ -7,8 +7,8 @@ export const stopIntroLoading = () => {
     return (dispatch, getState) => {
         const { loading } = getState().intro;
         if (!loading)  return null;
-        history.push('/menu');
         dispatch(stopMusic());
+        history.push('/menu');
         dispatch(updateIntroData('loading', false));
     }
 };

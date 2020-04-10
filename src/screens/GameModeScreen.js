@@ -17,10 +17,10 @@ class GameModeScreen extends Component {
                     <GridColumn verticalAlign="middle">
                         <MenuButton title="singleplayer"  
                         onClick={() => this.handleClick('difficulty')}/>
+                        <MenuButton title="multiplayer"  
+                        onClick={() => this.handleClick('local')}/>
                         <MenuButton title="online"  
                         onClick={() => this.handleClick('online')}/>
-                        <MenuButton title="local multiplayer"  
-                        onClick={() => this.handleClick('local')}/>
                         <BackButton />
                     </GridColumn>
                 </GridRow>

@@ -7,10 +7,11 @@ const MenuButton = ({onClick, title}) => {
     return (
         <Container
          className="mainScreen__option">
-            <Button color='black' size="massive" 
+            <button
+            className="menuButton"
             onClick={onClick}>
                 {title.toUpperCase()}
-            </Button>
+            </button>
         </Container>
     );
 

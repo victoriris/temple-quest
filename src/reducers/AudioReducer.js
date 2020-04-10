@@ -1,11 +1,12 @@
-import { AUDIO_UPDATE_DATA, AUDIO_PLAY_MENU_SOUND, AUDIO_MOVE_PIECE, AUDIO_MUTE_SOUND, AUDIO_MUTE_MUSIC, AUDIO_INTRO_SOUND} from "../actions/types";
-
+import { AUDIO_UPDATE_DATA, AUDIO_MUTE_SOUND, AUDIO_MUTE_MUSIC, AUDIO_INTRO_SOUND, BOARD_PLACE_PIECE, BOARD_PICK_PIECE } from "../actions/types";
+import stoneSound from '../assets/sounds/stone.wav';
 
 
 const INITIAL_STATE = {
-    soundOn: true,                //will be used to mute sound
-    musicOn: true,                //will be used to mute music
+    musicOn: true,
     musicUrl: null,
+    playingSound: false,
+    soundOn: true,
     soundUrl: null,
 }
 
@@ -16,18 +17,12 @@ export default (state = INITIAL_STATE, { type, payload }) => {
             return { ...state, [payload.prop]: payload.value };
         }
 
-        case AUDIO_PLAY_MENU_SOUND: {
-            if(state.soundOn)
-                return state;
-            else
-                return state;
+        case BOARD_PICK_PIECE: {
+            return { ...state,  soundUrl: stoneSound, playingSound: true };
         }
-        
-        case AUDIO_MOVE_PIECE:{
-            if(state.soundOn)
-                return state;
-            else
-                return state;
+
+        case BOARD_PLACE_PIECE: {
+            return { ...state,  soundUrl: stoneSound, playingSound: true };
         }
         
         case AUDIO_MUTE_MUSIC:

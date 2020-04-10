@@ -3,13 +3,13 @@ import Avatars from '@dicebear/avatars';
 import sprites from '@dicebear/avatars-gridy-sprites';
 
 
-export default function Avatar() {
+export default function Avatar({ seed }) {
 
-    let options = { height: 200, width: 200 };
+    let options = { base64: true, width: 50 };
     let avatars = new Avatars(sprites, options);
-    let svg = avatars.create('custom-seed');
+    let svg = avatars.create(seed);
 
     return (
-        <img src={'https://avatars.dicebear.com/v2/gridy/a.svg'} />
+        <img src={svg} />
     )
 }

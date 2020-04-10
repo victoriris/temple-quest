@@ -24,7 +24,7 @@ class ChatBox extends Component {
         return this.props.messages.map((m, idx) => {
             return <Feed.Event key={idx}>
                 <Feed.Label>
-                    <Avatar />
+                    <Avatar seed={m.createdBy} />
                 </Feed.Label>
                 <Feed.Content>
                     <Feed.Summary>

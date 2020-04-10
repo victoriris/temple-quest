@@ -1,8 +1,8 @@
 import moment from 'moment';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Header, Modal, Feed, Input, Icon, Button } from 'semantic-ui-react';
-import { listenNetworkData, sendNetworkData, updateNetworkData, sendMessage } from '../actions';
+import { Button, Feed, Icon, Input, Modal } from 'semantic-ui-react';
+import { listenNetworkData, sendMessage, sendNetworkData, updateNetworkData } from '../actions';
 import Avatar from './Avatar';
 
 

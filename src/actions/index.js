@@ -8,3 +8,4 @@ export * from './ExampleActions';
 export * from './IntroActions';
 export * from './BoardActions';
 export * from './NetworkActions';
+export * from './AudioActions';

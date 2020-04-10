@@ -10,6 +10,6 @@ export default function Avatar({ seed }) {
     let svg = avatars.create(seed);
 
     return (
-        <img src={svg} />
+        <img alt="avatar" src={svg} />
     )
 }

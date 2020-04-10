@@ -1,11 +1,13 @@
 import { INTRO_UPDATE_DATA } from './types';
 import history from '../history';
+import { stopMusic } from './AudioActions';
 
 // Stop the intro if loading, nothing otherwise
 export const stopIntroLoading = () => {
     return (dispatch, getState) => {
         const { loading } = getState().intro;
         if (!loading)  return null;
+        dispatch(stopMusic());
         history.push('/menu');
         dispatch(updateIntroData('loading', false));
     }

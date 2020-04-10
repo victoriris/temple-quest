@@ -2,7 +2,6 @@ import React from 'react';
 import { Route, Router } from 'react-router-dom';
 import history from './history';
 import AboutScreen from './screens/AboutScreen';
-import BoardScreen from './screens/BoardScreen';
 import ConnectionLost from './screens/ConnectionLost';
 import DifficultyScreen from './screens/DifficultyScreen';
 import GameModeScreen from './screens/GameModeScreen';
@@ -14,12 +13,15 @@ import OnlineSetupScreen from './screens/OnlineSetupScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import TutorialScreen from './screens/TutorialScreen';
 import BackgroundVideo from './components/BackgroundVideo';
+import AudioPlayer from './components/AudioPlayer';
+
 
 const Routes = () => {
 
     return (
       <Router history={history}>
           <BackgroundVideo />
+          <AudioPlayer />
           <Route path="/" component={IntroScreen} exact/>
           <Route path="/menu" component={MainScreen}/>
           <Route path="/mode" component={GameModeScreen}/>
@@ -38,4 +40,5 @@ const Routes = () => {
     
 }
 
-export default Routes;
+
+export default Routes; 

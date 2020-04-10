@@ -3,7 +3,6 @@ import { Grid, GridColumn, GridRow } from 'semantic-ui-react';
 import MenuButton from '../components/MenuButton';
 import history from '../history';
 
-
 class GameModeScreen extends Component {
 
     handleClick = (route) => history.push(route);

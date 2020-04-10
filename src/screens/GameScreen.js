@@ -2,7 +2,7 @@ import { Vector3 } from '@babylonjs/core/Maths/math';
 import React, { Component } from 'react';
 import { ArcRotateCamera, Engine, Ground, Model, Scene } from 'react-babylonjs';
 import { connect } from 'react-redux';
-import { initBoard, selectBagPiece, selectBoardCell, updateBoardData, updatePieceObject } from '../actions';
+import { initBoard, selectBagPiece, selectBoardCell, updateBoardData, updatePieceObject, stopMusic } from '../actions';
 import RoomLights from '../components/RoomLights';
 import RoomWalls from '../components/RoomWalls';
 import GameNavbar from '../components/GameNavbar';
@@ -13,6 +13,7 @@ let baseUrl = `${process.env.PUBLIC_URL}/objects/`;
 class GameScreen extends Component {
 
     componentWillMount() {
+        this.props.stopMusic();
         this.props.initBoard();
     }
 
@@ -159,5 +160,5 @@ const mapStateToProps = ({ board, network }) => {
 };
 
 export default connect(mapStateToProps, {
-    initBoard, selectBagPiece, selectBoardCell, updateBoardData, updatePieceObject
+    initBoard, selectBagPiece, selectBoardCell, updateBoardData, updatePieceObject, stopMusic
 })(GameScreen);

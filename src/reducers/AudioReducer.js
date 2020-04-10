@@ -6,6 +6,8 @@ import successSound from '../assets/sounds/game-success.wav'
 
 const INITIAL_STATE = {
     musicOn: true,
+    musicVolume: 100,
+    soundVolume: 100,
     musicUrl: null,
     playingSound: false,
     soundOn: true,

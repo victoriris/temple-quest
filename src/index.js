@@ -7,6 +7,7 @@ import reducers from './reducers';
 import Routes from './Routes';
 import * as serviceWorker from './serviceWorker';
 import './styles/main.scss';
+import 'react-rangeslider/lib/index.css'
 import 'semantic-ui-css/semantic.min.css';
 import { composeWithDevTools } from 'redux-devtools-extension';
 

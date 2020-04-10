@@ -8,16 +8,11 @@ import Avatar from './Avatar';
 
 class ChatBox extends Component {
 
-    componentWillMount () {
-        //this.props.listenNetworkData({});
-    }
-
-    handleIdChange (value) {
-        //this.props.updateNetworkData('remotePeerId', value);
-    }
+    handleMessageInput = ({target}) => this.props.updateNetworkData('messageInput', target.value);
 
     handleMessageSend () {
-        this.props.sendNetworkData('message', 'hello world');
+        this.props.sendNetworkData('message', this.props.messageInput);
+        this.props.updateNetworkData('messageInput', '');
     }
 
     renderMessages () {
@@ -57,7 +52,8 @@ class ChatBox extends Component {
                     fluid 
                     size="large"
                     placeholder='Message...'>
-                        <input />
+                        <input onChange={this.handleMessageInput} 
+                        value={this.props.messageInput}/>
                         <Button icon labelPosition='right'
                         onClick={this.handleMessageSend.bind(this)}>
                             Send
@@ -74,8 +70,8 @@ class ChatBox extends Component {
 
 const mapStateToProps = ({ network, board }) => {
     const { isOnlineMode } = board;
-    const { remotePeerId, messages, peer } = network;
-    return { remotePeerId, messages, peer, isOnlineMode };
+    const { remotePeerId, messages, peer, messageInput } = network;
+    return { remotePeerId, messages, peer, isOnlineMode, messageInput };
 };
 
 

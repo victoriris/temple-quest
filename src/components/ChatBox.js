@@ -1,7 +1,7 @@
 import moment from 'moment';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, FormInput } from 'semantic-ui-react';
+import { Header, Modal } from 'semantic-ui-react';
 import { listenNetworkData, sendNetworkData, updateNetworkData } from '../actions';
 
 
@@ -31,17 +31,22 @@ class ChatBox extends Component {
 
     
     render() {
-        if (!this.props.isOnlineMode) return null;
+        // if (!this.props.isOnlineMode) return null;
 
         return (
-            <div>
-                <h1>Network messenger</h1>
-                <FormInput onChange={(e,{value}) => this.handleIdChange(value)} />
-                <Button onClick={() => this.handleMessageSend()}>
-                    Send message
-                </Button>
-                {this.renderMessages()}
-            </div>
+            <Modal trigger={this.props.children}>
+                <Modal.Header>Chat</Modal.Header>
+                <Modal.Content>
+                    <Modal.Description>
+                    <Header>Default Profile Image</Header>
+                    <p>
+                        We've found the following gravatar image associated with your e-mail
+                        address.
+                    </p>
+                    <p>Is it okay to use this photo?</p>
+                    </Modal.Description>
+                </Modal.Content>
+            </Modal>
         )
     };
 

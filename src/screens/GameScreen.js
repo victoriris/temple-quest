@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { initBoard, selectBagPiece, selectBoardCell, updateBoardData, updatePieceObject } from '../actions';
 import RoomLights from '../components/RoomLights';
 import RoomWalls from '../components/RoomWalls';
+import GameNavbar from '../components/GameNavbar';
 
 
 let baseUrl = `${process.env.PUBLIC_URL}/objects/`;
@@ -75,6 +76,8 @@ class GameScreen extends Component {
     render () {
 
         return (
+            <>
+            <GameNavbar />
           <Engine canvasId="playground" adaptToDeviceRatio antialias>
             <Scene 
             onSceneMount={this.onSceneMount}
@@ -114,8 +117,8 @@ class GameScreen extends Component {
                 {this.renderPieces()}
             </Scene>
           </Engine>
+        </>
         );
-
     }
 
     renderPieces () {

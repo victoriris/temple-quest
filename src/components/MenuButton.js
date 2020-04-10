@@ -1,16 +1,24 @@
 import React from 'react';
-import { Button, Icon, Container } from 'semantic-ui-react';
+import { Container, Icon } from 'semantic-ui-react';
+import history from '../history';
 
 
-const MenuButton = ({onClick, title}) => {
+const MenuButton = ({ onClick, title, back }) => {
+
+    const btnTitle = back ? 'back' : title;
+    let btnAction = onClick;
+    if (back) {
+        btnAction = () => history.goBack();
+    }
 
     return (
         <Container
          className="mainScreen__option">
             <button
             className="menuButton"
-            onClick={onClick}>
-                {title.toUpperCase()}
+            onClick={btnAction}>
+                {back && (<Icon name="left arrow" />)}
+                {btnTitle}
             </button>
         </Container>
     );

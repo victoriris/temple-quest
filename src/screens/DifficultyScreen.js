@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Grid, GridColumn } from 'semantic-ui-react';
-import BackButton from '../components/BackButton';
 import MenuButton from '../components/MenuButton';
 import history from '../history';
 
@@ -20,7 +19,7 @@ class DifficultyScreen extends Component {
                         onClick={() => this.handleClick('board')} />
                         <MenuButton title="hard"
                         onClick={() => this.handleClick('board')} />
-                       <BackButton />
+                       <MenuButton back/>
                     </GridColumn>
             </Grid>
         );

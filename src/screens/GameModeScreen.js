@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Grid, GridColumn, GridRow } from 'semantic-ui-react';
-import BackButton from '../components/BackButton';
 import MenuButton from '../components/MenuButton';
 import history from '../history';
 
@@ -21,7 +20,7 @@ class GameModeScreen extends Component {
                         onClick={() => this.handleClick('local')}/>
                         <MenuButton title="online"  
                         onClick={() => this.handleClick('online')}/>
-                        <BackButton />
+                        <MenuButton back />
                     </GridColumn>
                 </GridRow>
             </Grid>

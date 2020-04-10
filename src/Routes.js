@@ -13,17 +13,15 @@ import OnlineSetupScreen from './screens/OnlineSetupScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import TutorialScreen from './screens/TutorialScreen';
 import BackgroundVideo from './components/BackgroundVideo';
-import ReactPlayer from 'react-player';
-import { connect } from 'react-redux';
+import AudioPlayer from './components/AudioPlayer';
 
 
-const Routes = (props) => {
+const Routes = () => {
 
     return (
       <Router history={history}>
           <BackgroundVideo />
-          <ReactPlayer id="musicPlayer" loop volume height={0} playing={props.musicOn} width={0} url={props.musicUrl}/>
-          {/* <ReactPlayer id="soundPlayer" volume playing={props.soundOn} height={0} width={0} url={props.soundUrl}/> */}
+          <AudioPlayer />
           <Route path="/" component={IntroScreen} exact/>
           <Route path="/menu" component={MainScreen}/>
           <Route path="/mode" component={GameModeScreen}/>
@@ -42,12 +40,5 @@ const Routes = (props) => {
     
 }
 
-const mapStateToProps = ({ audio }) => {
-  const { musicUrl, soundUrl, musicOn, soundOn} = audio;
-  return { musicUrl, soundUrl, musicOn, soundOn};
-};
 
-export default connect(mapStateToProps, { 
-})(Routes); 
-
-//export default Routes;
+export default Routes; 

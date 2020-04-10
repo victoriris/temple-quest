@@ -35,7 +35,7 @@ class ChatBox extends Component {
 
     
     render() {
-        // if (!this.props.isOnlineMode) return null;
+        if (!this.props.isOnlineMode) return null;
 
         return (
             <Modal trigger={this.props.children}>

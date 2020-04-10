@@ -9,7 +9,6 @@ class GameNavbar extends Component {
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
   render() {
-    const { activeItem } = this.state
 
     return (
       <Menu style={{ margin: 0 }}>

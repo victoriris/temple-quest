@@ -1,7 +1,7 @@
-import { AUDIO_UPDATE_DATA, AUDIO_PLAY_MENU_SOUND, AUDIO_MOVE_PIECE, AUDIO_MUTE_SOUND, AUDIO_MUTE_MUSIC, AUDIO_INTRO_SOUND} from './types';
 import CongaSound from '../sounds/CongaSound-4.wav';
 import MenuMusic from '../sounds/JungleMenu.wav';
 import IntroMusic from '../sounds/TeamLogo.wav';
+import { AUDIO_MOVE_PIECE, AUDIO_UPDATE_DATA } from './types';
 
 
 export const stopMusic = () => {

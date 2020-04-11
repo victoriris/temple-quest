@@ -1,0 +1,40 @@
+import React, { Component } from 'react';
+import { Container, Icon } from 'semantic-ui-react';
+import history from '../history';
+import { playButtonSound } from '../actions';
+import { connect } from 'react-redux';
+
+
+class MenuButton extends Component {
+
+    render () {
+        const { onClick, title, back, playButtonSound } = this.props;
+        const btnTitle = back ? 'back' : title;
+        let btnAction = () => {
+            playButtonSound();
+            if (back) {
+                history.goBack();
+            } else {
+                onClick();
+            }
+        };
+
+        return (
+            <Container
+            className="mainScreen__option">
+                <button
+                className="menuButton"
+                onClick={btnAction}>
+                    {back && (<Icon name="left arrow" />)}
+                    {btnTitle}
+                </button>
+            </Container>
+        );
+    }
+
+};
+
+
+export default connect(null, {
+    playButtonSound
+})(MenuButton);

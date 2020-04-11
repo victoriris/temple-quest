@@ -1,0 +1,69 @@
+.menuButton {
+  cursor: pointer;
+  margin-left: 5px;
+  margin-bottom: 15px;
+  text-shadow: 0 -2px 0 darken($btn-color,20%),0 1px 1px lighten($btn-color,20%) ;
+  box-sizing: border-box;
+  font-size: 2em;
+  font-family: Helvetica, Arial, Sans-Serif;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight:bold;
+  color: $btn-text-color;
+  &:visited {
+    color:$btn-text-color;
+  }
+  height: $btn-height;
+  width: $btn-width;
+  line-height:$btn-height;
+  padding: 0 (($btn-height/2));
+  display:inline-block;
+  background: linear-gradient(to bottom,
+    saturate(lighten($btn-color,15%),35%) 0%,
+    saturate(lighten($btn-color,12%),15%) 26%,
+    $btn-color 100%);
+  border-radius:5px;
+  border-top:1px solid lighten($btn-color,22%);
+  border-bottom:1px solid lighten($btn-color,20%);
+  top:0;
+  transition:all ($btn-speed + s) $btn-timing-function;
+  position:relative;
+}
+
+.menuButton:hover {
+  background: linear-gradient(to bottom,
+    lighten(saturate(lighten($btn-color,15%),35%),$btn-lighten-on-hover) 0%,
+    lighten(saturate(lighten($btn-color,12%),15%),$btn-lighten-on-hover) 26%,
+    lighten($btn-color,$btn-lighten-on-hover) 100%);
+}
+
+.menuButton:active {
+  top:$btn-depth+px;
+       text-shadow:0 -2px 0 darken($btn-color,0%),0 1px 1px lighten($btn-color,20%), 0 0 4px white ;
+  color:lighten($btn-color,45%);
+  &:before {
+    top:0;
+    box-shadow: 0 3px 3px rgba(0,0,0,.7),0 3px 9px rgba(0,0,0,.2);
+
+  }
+}
+
+.menuButton:before {
+  display:inline-block;
+  content:'';
+  position:absolute;
+  left:0;
+  right:0;
+  z-index:-1;
+  top:($btn-depth)+px;
+  border-radius:5px;
+  height: $btn-height;
+  background: linear-gradient(to top,
+    saturate(darken($btn-color,40%),15%) 0%,
+    saturate(darken($btn-color,25%),10%) $btn-depth+px);
+  transition:all (($btn-speed*1.3) + s) $btn-timing-function;
+  box-shadow:
+    0 1px 0 2px rgba(0,0,0,.3),
+    0 5px ($btn-depth*.4+px) rgba(0,0,0,.5),
+    0 ($btn-depth*1.8+px) 9px rgba(0,0,0,.2);
+}

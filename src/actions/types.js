@@ -2,6 +2,15 @@
  * Constant types used to sync actions with their reducers
  */
 
+// Audio
+export const AUDIO_UPDATE_DATA = 'AUDIO_UPDATE_DATA';
+export const AUDIO_INTRO_SOUND = 'AUDIO_INTRO_SOUND';
+export const AUDIO_PLAY_MENU_SOUND = 'AUDIO_PLAY_MENU_SOUND';
+export const AUDIO_PLAY_SOUND = 'audio_play_sound';
+export const AUDIO_MOVE_PIECE = 'AUDIO_MOVE_PIECE';
+export const AUDIO_MUTE_SOUND = 'AUDIO_MUTE_SOUND';
+export const AUDIO_MUTE_MUSIC = 'AUDIO_MUTE_MUSIC';
+
 // Board
 export const BOARD_INIT = 'board_init';
 export const BOARD_PICK_PIECE = 'board_pick_piece';

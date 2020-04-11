@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { stopIntroLoading } from '../actions';
-import TeamLogo from '../img/TeamLogo.svg';
+import { stopIntroLoading, playIntroSound } from '../actions';
+import TeamLogo from '../assets/img/TeamLogo.svg';
+
 
 
 class IntroScreen extends Component {
@@ -10,10 +11,11 @@ class IntroScreen extends Component {
 
     componentDidMount () {
         setTimeout(this.stopIntro, 3000);
+        this.props.playIntroSound();
     }
     
     render() {
-        
+
         return (
             <div tabIndex="0" 
             className="introScreen" 
@@ -34,5 +36,5 @@ const mapStateToProps = ({ intro }) => {
 };
 
 export default connect(mapStateToProps, {
-    stopIntroLoading
+    stopIntroLoading, playIntroSound
 })(IntroScreen);

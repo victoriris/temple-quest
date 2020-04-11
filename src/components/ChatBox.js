@@ -1,31 +1,35 @@
 import moment from 'moment';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, FormInput } from 'semantic-ui-react';
-import { listenNetworkData, sendNetworkData, updateNetworkData } from '../actions';
+import { Button, Feed, Icon, Input, Modal } from 'semantic-ui-react';
+import { listenNetworkData, sendMessage, sendNetworkData, updateNetworkData } from '../actions';
+import Avatar from './Avatar';
 
 
 class ChatBox extends Component {
 
-    componentWillMount () {
-        //this.props.listenNetworkData({});
-    }
-
-    handleIdChange (value) {
-        //this.props.updateNetworkData('remotePeerId', value);
-    }
+    handleMessageInput = ({target}) => this.props.updateNetworkData('messageInput', target.value);
 
     handleMessageSend () {
-        this.props.sendNetworkData('message', 'hello world');
+        this.props.sendMessage(this.props.messageInput);
     }
 
     renderMessages () {
         return this.props.messages.map((m, idx) => {
-            return <div key={idx}>
-                <p>{m.content}</p>
-                <p>sent {moment(m.createdOn).local().fromNow()}</p>
-                <p>by {m.createdBy}</p>
-            </div>
+            return <Feed.Event key={idx}>
+                <Feed.Label>
+                    <Avatar seed={m.createdBy} />
+                </Feed.Label>
+                <Feed.Content>
+                    <Feed.Summary>
+                    <Feed.User>{m.createdBy}</Feed.User>
+                    <Feed.Date>{moment(m.createdOn).local().fromNow()}</Feed.Date>
+                    </Feed.Summary>
+                    <Feed.Extra text>
+                        {m.content}
+                    </Feed.Extra>
+                </Feed.Content>
+            </Feed.Event>
         });
     }
 
@@ -34,14 +38,29 @@ class ChatBox extends Component {
         if (!this.props.isOnlineMode) return null;
 
         return (
-            <div>
-                <h1>Network messenger</h1>
-                <FormInput onChange={(e,{value}) => this.handleIdChange(value)} />
-                <Button onClick={() => this.handleMessageSend()}>
-                    Send message
-                </Button>
-                {this.renderMessages()}
-            </div>
+            <Modal trigger={this.props.children}>
+                <Modal.Header>Chat</Modal.Header>
+                <Modal.Content>
+                    <Modal.Description>
+                        <Feed>
+                            {this.renderMessages()}
+                        </Feed>
+                    
+                    </Modal.Description>
+                    <Input action
+                    fluid 
+                    size="large"
+                    placeholder='Message...'>
+                        <input onChange={this.handleMessageInput} 
+                        value={this.props.messageInput}/>
+                        <Button icon labelPosition='right'
+                        onClick={this.handleMessageSend.bind(this)}>
+                            Send
+                            <Icon name='send' />
+                        </Button>
+                    </Input>
+                </Modal.Content>
+            </Modal>
         )
     };
 
@@ -50,11 +69,11 @@ class ChatBox extends Component {
 
 const mapStateToProps = ({ network, board }) => {
     const { isOnlineMode } = board;
-    const { remotePeerId, messages, peer } = network;
-    return { remotePeerId, messages, peer, isOnlineMode };
+    const { remotePeerId, messages, peer, messageInput } = network;
+    return { remotePeerId, messages, peer, isOnlineMode, messageInput };
 };
 
 
 export default connect(mapStateToProps, {
-   updateNetworkData, sendNetworkData, listenNetworkData, 
+   updateNetworkData, sendNetworkData, listenNetworkData, sendMessage
 })(ChatBox);

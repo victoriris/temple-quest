@@ -28,6 +28,25 @@ export const connectToPeer = (peerId) => {
 
 };
 
+export const sendMessage = (message) => {
+
+    return (dispatch, getState) => {
+
+        const { peer } = getState().network;
+        dispatch(sendNetworkData('message', message));
+        dispatch({
+            type: NETWORK_RECEIVE_MESSSAGE,
+            payload: {
+                peerId: peer._id,
+                data: message
+            }
+        });
+        dispatch(updateNetworkData('messageInput', ''));
+
+    };
+
+}
+
 export const sendNetworkData = (type, data) => {
 
     return (dispatch, getState) => {

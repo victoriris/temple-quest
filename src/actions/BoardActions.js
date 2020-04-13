@@ -1,4 +1,4 @@
-import { CheckWin, startMinimax } from '../utils';
+import { CheckWin, startMinimax, getCellPosition } from '../utils';
 import history from '../history';
 import { sendNetworkData } from './NetworkActions';
 import { BOARD_INIT, BOARD_PICK_PIECE, BOARD_PLACE_PIECE, BOARD_RESET_GAME, BOARD_UPDATE_DATA, BOARD_UPDATE_PIECE_OBJECT } from './types';
@@ -37,9 +37,6 @@ export const checkBoardWin = (pieceId) => {
         let hasWon = CheckWin(pieces, pieceId);
         console.log("hasWon: ", hasWon);
         if (hasWon) {
-            const message = isUserTurn ? "You've won!!!!!!" : "Game Over, you lost";
-            alert(message);
-            console.log("Winning board: ", pieces)
             dispatch(updateBoardData("isGameOver", true));
         }
     };
@@ -85,12 +82,7 @@ export const selectBagPiece = (pieceId, isRemote = false) => {
             var t1 = performance.now();
             startMinimax(pieces, pieceId)
                 .then(({ location, pieceId }) => {
-                    const cellId = location.column + (location.row * 4);
-                    const cell = cellCords.find((cords, idx) => idx === cellId);
-                    const [x, y, z] = cell;
-                    const position = {x, y, z};
-                   // console.log("Selected location: ", location, " Selected Piece: ", pieceId);
-                    dispatch(selectBoardCell(location.row, location.column, false, position));
+                    dispatch(selectBoardCell(location.row, location.column, false));
                     const {isGameOver} = getState().board;
                     if (!isGameOver){
                     dispatch(selectBagPiece(pieceId, true));
@@ -105,9 +97,10 @@ export const selectBagPiece = (pieceId, isRemote = false) => {
     };
 };
 
-export const selectBoardCell = (row, column, isRemote = false, position = null) => {
+export const selectBoardCell = (row, column, isRemote = false) => {
     return (dispatch, getState) => {
         const {isOnlineMode} = getState().board;
+        const position = getCellPosition(row, column);
 
         // Get selected piece id or exit otherwise
         const { selectedPieceId, isUserTurn } = getState().board;

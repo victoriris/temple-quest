@@ -52,7 +52,7 @@ export const sendNetworkData = (type, data) => {
     return (dispatch, getState) => {
 
         const { remotePeerId, peer } = getState().network;
-        console.log(`sending to ${remotePeerId}`);
+        console.log(`sending to ${remotePeerId}`, data);
         const conn = peer.connect(remotePeerId);
         conn.on('open', () => {
             conn.send({ type, data });
@@ -114,14 +114,14 @@ export const listenNetworkData = () => {
                 }
 
                 if (type === 'select_piece') {
-                    console.log('receiving selection...');
+                    console.log('receiving selection...', data);
                     dispatch(
                         selectBagPiece(data, true)
                     );
                 }
 
                 if (type === 'place_piece') {
-                    console.log('receving placement...');
+                    console.log('receving placement...', data);
                     const { row, column } = data;
                     dispatch(
                         selectBoardCell(row, column, true)

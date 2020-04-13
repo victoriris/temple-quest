@@ -26,8 +26,8 @@ class GameScreen extends Component {
         this.props.selectBagPiece(pieceId);
     }
 
-    handleCellClick (row, column, position) {
-        this.props.selectBoardCell(row, column, false, position);
+    handleCellClick (row, column) {
+        this.props.selectBoardCell(row, column, false);
     }
 
     isUsedLocation(row, column) {
@@ -51,7 +51,7 @@ class GameScreen extends Component {
             // TODO: Update cord of selected piece
             const column = parseInt(cellIdx) % 4;
             const row = Math.floor(parseInt(cellIdx) / 4);
-            this.handleCellClick(row, column, position);
+            this.handleCellClick(row, column);
         }
         else if (name.includes('_primitive')) {
             //console.log(name);

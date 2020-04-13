@@ -2,10 +2,10 @@ import { Vector3 } from '@babylonjs/core/Maths/math';
 import React, { Component } from 'react';
 import { ArcRotateCamera, Engine, Ground, Model, Scene } from 'react-babylonjs';
 import { connect } from 'react-redux';
-import { initBoard, selectBagPiece, selectBoardCell, updateBoardData, updatePieceObject, stopMusic } from '../actions';
+import { initBoard, selectBagPiece, selectBoardCell, stopMusic, updateBoardData, updatePieceObject } from '../actions';
+import GameNavbar from '../components/GameNavbar';
 import RoomLights from '../components/RoomLights';
 import RoomWalls from '../components/RoomWalls';
-import GameNavbar from '../components/GameNavbar';
 
 
 let baseUrl = `${process.env.PUBLIC_URL}/objects/`;
@@ -22,12 +22,21 @@ class GameScreen extends Component {
         this.props.updateBoardData('isOnlineMode', !isOnlineMode);
     }
 
+    hasValidTurn() {
+        const { isUserTurn, isSingleMode, isOnlineMode } = this.props;
+        return !(!isUserTurn && (isSingleMode || isOnlineMode));
+    }
+
     handlePieceClick (pieceId) {
-        this.props.selectBagPiece(pieceId);
+        const { selectBagPiece } = this.props;
+        if (!this.hasValidTurn()) return;
+        selectBagPiece(pieceId);
     }
 
     handleCellClick (row, column) {
-        this.props.selectBoardCell(row, column, false);
+        const { selectBoardCell } = this.props;
+        if (!this.hasValidTurn()) return;
+        selectBoardCell(row, column, false);
     }
 
     isUsedLocation(row, column) {
@@ -155,8 +164,13 @@ class GameScreen extends Component {
 
 
 const mapStateToProps = ({ board, network }) => {
-    const { pieces, isUserTurn, selectedPieceId, isOnlineMode, hasPieceBeenPicked, cellCords, pieceObjects } = board;
-    return { pieces, isUserTurn, selectedPieceId, isOnlineMode, hasPieceBeenPicked, cellCords, pieceObjects };
+    const { pieces, isUserTurn, selectedPieceId, isOnlineMode } = board;
+    const { hasPieceBeenPicked, cellCords, pieceObjects, isSingleMode } = board;
+    return { 
+        pieces, isUserTurn, selectedPieceId, 
+        isOnlineMode, hasPieceBeenPicked, 
+        cellCords, pieceObjects, isSingleMode
+    };
 };
 
 export default connect(mapStateToProps, {

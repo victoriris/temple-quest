@@ -12,12 +12,12 @@ class GameNavbar extends Component {
   render() {
 
     return (
-      <Menu style={{ margin: 0 }}>
+      <Menu style={{ margin: 0 }} size="huge" inverted>
           <ChatBox >
             <Menu.Item
             name='chat'
             onClick={this.handleItemClick}>
-              <Icon name='chat' />
+              <Icon name='chat' inverted />
               Chat
             </Menu.Item>
          </ChatBox>

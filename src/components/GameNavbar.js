@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Menu, Icon } from 'semantic-ui-react';
 import ChatBox from './ChatBox';
+import TurnBox from './TurnBox';
 
 
 class GameNavbar extends Component {
@@ -14,12 +15,16 @@ class GameNavbar extends Component {
       <Menu style={{ margin: 0 }}>
           <ChatBox >
             <Menu.Item
-            name='editorials'
+            name='chat'
             onClick={this.handleItemClick}>
               <Icon name='chat' />
               Chat
             </Menu.Item>
          </ChatBox>
+         <Menu.Item
+            name='turn'>
+              <TurnBox />
+          </Menu.Item>
       </Menu>
     )
   }

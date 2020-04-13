@@ -35,7 +35,7 @@ export const checkBoardWin = (pieceId) => {
     return (dispatch, getState) => {
         const { pieces, isUserTurn } = getState().board;
         let hasWon = CheckWin(pieces, pieceId);
-        console.log("hasWon: ", hasWon);
+        //console.log("hasWon: ", hasWon);
         if (hasWon) {
             const message = isUserTurn ? "You've won!!!!!!" : "Game Over, you lost";
             alert(message);

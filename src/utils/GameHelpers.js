@@ -55,3 +55,10 @@ export const cellCords = [
     [2.5, 0.15, -7.5], [2.5, 0.15, -2.5], [2.5, 0.15, 2.5], [2.5, 0.15, 7.5],
     [7.5, 0.15, -7.5], [7.5, 0.15, -2.5], [7.5, 0.15, 2.5], [7.5, 0.15, 7.5]
 ];
+
+export function getCellPosition(row, column) {
+    const cellId = column + (row * 4);
+    const cell = cellCords.find((cords, idx) => idx === cellId);
+    const [x, y, z] = cell;
+    return {x, y, z};
+}

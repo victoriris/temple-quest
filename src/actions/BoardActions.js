@@ -4,10 +4,10 @@ import { sendNetworkData } from './NetworkActions';
 import { BOARD_INIT, BOARD_PICK_PIECE, BOARD_PLACE_PIECE, BOARD_RESET_GAME, BOARD_UPDATE_DATA, BOARD_UPDATE_PIECE_OBJECT } from './types';
 
 
-export const endGame = () => {
+export const endGame = (playAgain = false) => {
     return (dispatch, getState) => {
-        dispatch({ type: BOARD_RESET_GAME });
-        history.push('/menu');
+        dispatch({ type: BOARD_RESET_GAME, payload: { playAgain } });
+        if (!playAgain) history.push('/menu');
     };
 };
 
@@ -134,13 +134,6 @@ export const selectBoardCell = (row, column, isRemote = false) => {
                 );
             }
         }
-        const {isGameOver} = getState().board;
-        if (isGameOver){
-            const message = isUserTurn ? "You've won!!!!!!" : "Game Over, you lost";
-            alert(message);
-            dispatch(endGame());
-        }
-
     }
 };
 

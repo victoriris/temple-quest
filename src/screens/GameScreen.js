@@ -6,6 +6,7 @@ import { initBoard, selectBagPiece, selectBoardCell, stopMusic, updateBoardData,
 import GameNavbar from '../components/GameNavbar';
 import RoomLights from '../components/RoomLights';
 import RoomWalls from '../components/RoomWalls';
+import EndModal from '../components/EndModal';
 
 
 let baseUrl = `${process.env.PUBLIC_URL}/objects/`;
@@ -87,6 +88,7 @@ class GameScreen extends Component {
 
         return (
             <>
+            <EndModal />
             <GameNavbar />
           <Engine canvasId="playground" adaptToDeviceRatio antialias>
             <Scene 

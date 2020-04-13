@@ -4,7 +4,7 @@ import negamaxAlphaBeta from 'negamax-alpha-beta';
 import { countWinMoves } from './countWinMoves';
 
 
-async function startMinimax(pieces, selectedPieceId) {
+async function startMinimax(pieces, selectedPieceId, level) {
 
     return new Promise((resolve, reject) => {
         var gameState =  {

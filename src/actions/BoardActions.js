@@ -54,6 +54,7 @@ export const initBoard = () => {
 export const selectBagPiece = (pieceId, isRemote = false) => {
     return (dispatch, getState) => {
         const { isOnlineMode, isSingleMode, pieces, cellCords } = getState().board;
+        const { difficultyLevel } = getState().board;
         dispatch({
             type: BOARD_PICK_PIECE,
             payload: {
@@ -74,7 +75,7 @@ export const selectBagPiece = (pieceId, isRemote = false) => {
         // AI
         else if (isSingleMode && !isRemote){
             var t1 = performance.now();
-            startMinimax(pieces, pieceId)
+            startMinimax(pieces, pieceId, difficultyLevel)
                 .then(({ location, pieceId }) => {
                     const cellId = location.column + (location.row * 4);
                     const cell = cellCords.find((cords, idx) => idx === cellId);

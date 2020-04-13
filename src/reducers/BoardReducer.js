@@ -12,6 +12,7 @@ const INITIAL_STATE = {
     cellCords: cellCords,
     pieceObjects: pieceObjects,
     isGameOver: false,
+    difficultyLevel: 0,
 }
 
 export default (state = INITIAL_STATE, { type, payload }) => {

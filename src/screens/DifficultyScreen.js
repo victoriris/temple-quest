@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
 import { Grid, GridColumn } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 import MenuButton from '../components/MenuButton';
 import history from '../history';
+import { updateBoardData } from '../actions';
 
 
 class DifficultyScreen extends Component {
 
-    handleClick = (route) => history.push(route);
+    handleClick(level) {
+        this.props.updateBoardData('difficultyLevel', level);
+        history.push('board');
+    }
+
     handleExit = () => {};
 
     render () {
@@ -14,11 +20,11 @@ class DifficultyScreen extends Component {
             <Grid stretched className="screen" padded centered columns={3}>
                     <GridColumn verticalAlign="middle">
                         <MenuButton title="easy"
-                        onClick={() => this.handleClick('board')} />
+                        onClick={() => this.handleClick(0)} />
                         <MenuButton title="medium"
-                        onClick={() => this.handleClick('board')} />
+                        onClick={() => this.handleClick(1)} />
                         <MenuButton title="hard"
-                        onClick={() => this.handleClick('board')} />
+                        onClick={() => this.handleClick(2)} />
                        <MenuButton back/>
                     </GridColumn>
             </Grid>
@@ -26,4 +32,6 @@ class DifficultyScreen extends Component {
     }
 }
 
-export default DifficultyScreen;
+export default connect(null, {
+    updateBoardData
+})(DifficultyScreen);

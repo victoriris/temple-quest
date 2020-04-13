@@ -39,16 +39,22 @@ async function startMinimax(pieces, selectedPieceId, level) {
     });
 }
 
-function getDepth(pieces) {
+function getDepth(pieces, level) {
     const leftCount = pieces.filter(p => !p.location).length;
-    if (leftCount > 14) return 1;
-    if (leftCount > 11) return 2;
-    if (leftCount > 7) return 3;
-    if (leftCount > 1) return 4;
-    const turn = pieces.length - leftCount
-    return turn - 2;
+    if (level === 0){
+        if (leftCount > 14){
+            return 1;
+        }
+        return 2;
+    }else{
+        if (leftCount > 14) return 1;
+        if (leftCount > 11) return 2;
+        if (leftCount > 7) return 2;
+        if (leftCount > 1) return 6;
+        const turn = pieces.length - leftCount
+        return turn - 2;
+    }
 }
-
 
 
 /* 

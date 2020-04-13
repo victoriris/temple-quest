@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Menu, Icon } from 'semantic-ui-react';
+import { Menu, Icon, Button } from 'semantic-ui-react';
 import ChatBox from './ChatBox';
 import TurnBox from './TurnBox';
 import { connect } from 'react-redux';
+import { endGame } from '../actions';
+import SettingsModal from './SettingsModal';
 
 
 class GameNavbar extends Component {
@@ -15,14 +17,6 @@ class GameNavbar extends Component {
 
     return (
       <Menu style={{ margin: 0 }} size="huge" inverted>
-          <ChatBox >
-            <Menu.Item
-            name='chat'
-            onClick={this.handleItemClick}>
-              <Icon name='chat' inverted />
-              Chat
-            </Menu.Item>
-         </ChatBox>
          <Menu.Item
             name='turn'>
               <TurnBox />
@@ -32,6 +26,33 @@ class GameNavbar extends Component {
               <Icon name="diamond" color="teal" />
               {score}
           </Menu.Item>
+          <Menu.Menu position="right">
+            <ChatBox >
+              <Menu.Item
+              name='chat'
+              onClick={this.handleItemClick}>
+                <Icon name='chat' inverted />
+                Chat
+              </Menu.Item>
+            </ChatBox>
+            <SettingsModal>
+              <Menu.Item
+              name='end'>
+                <Button icon inverted>
+                  <Icon name="setting" />
+                  Settings
+                </Button>
+              </Menu.Item>
+            </SettingsModal>
+            <Menu.Item
+            name='end'>
+              <Button icon inverted
+              onClick={() => this.props.endGame(false)}>
+                <Icon name="close" color="red" />
+                End game
+              </Button>
+            </Menu.Item>
+          </Menu.Menu>
       </Menu>
     );
   }
@@ -43,4 +64,6 @@ const mapStateToProps = ({ board }) => {
   return { score };
 };
 
-export default connect(mapStateToProps)(GameNavbar);
+export default connect(mapStateToProps, {
+  endGame
+})(GameNavbar);

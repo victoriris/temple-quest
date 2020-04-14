@@ -12,11 +12,8 @@ const INITIAL_STATE = {
     cellCords: cellCords,
     pieceObjects: pieceObjects,
     isGameOver: false,
-<<<<<<< HEAD
     difficultyLevel: 0,
-=======
     score: 0,
->>>>>>> master
 }
 
 export default (state = INITIAL_STATE, { type, payload }) => {

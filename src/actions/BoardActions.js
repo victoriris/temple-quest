@@ -50,13 +50,8 @@ export const initBoard = () => {
 
 export const selectBagPiece = (pieceId, isRemote = false) => {
     return (dispatch, getState) => {
-<<<<<<< HEAD
-        const { isOnlineMode, isSingleMode, pieces, cellCords } = getState().board;
-        const { difficultyLevel } = getState().board;
-=======
         const { isOnlineMode, isSingleMode, pieces } = getState().board;
-        const { selectedPieceId } = getState().board;
-
+        const { selectedPieceId, difficultyLevel } = getState().board;
         // Block acction if there is already a selected piece
         if (selectedPieceId) return;
 
@@ -64,7 +59,6 @@ export const selectBagPiece = (pieceId, isRemote = false) => {
         const isUnplaced = pieces.find(({ id, location }) => id === parseInt(pieceId) && !location);
         if (!isUnplaced) return;
         
->>>>>>> master
         dispatch({
             type: BOARD_PICK_PIECE,
             payload: {

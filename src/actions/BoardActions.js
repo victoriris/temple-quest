@@ -2,6 +2,7 @@ import history from '../history';
 import { CheckWin, getCellPosition, startMinimax } from '../utils';
 import { sendNetworkData } from './NetworkActions';
 import { BOARD_INIT, BOARD_PICK_PIECE, BOARD_PLACE_PIECE, BOARD_RESET_GAME, BOARD_UPDATE_DATA, BOARD_UPDATE_PIECE_OBJECT } from './types';
+import { playGameEndSound } from './AudioActions';
 
 
 export const endGame = (playAgain = false) => {
@@ -38,6 +39,7 @@ export const checkBoardWin = (pieceId) => {
         console.log("hasWon: ", hasWon);
         if (hasWon) {
             dispatch(updateBoardData("isGameOver", true));
+            dispatch(playGameEndSound());
         }
     };
 };

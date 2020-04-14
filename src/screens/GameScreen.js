@@ -18,6 +18,7 @@ class GameScreen extends Component {
 
     handleOnlineChange () {
         const { isOnlineMode } = this.props;
+        console.log('online mode being swapped.');
         this.props.updateBoardData('isOnlineMode', !isOnlineMode);
     }
 

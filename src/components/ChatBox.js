@@ -35,6 +35,7 @@ class ChatBox extends Component {
 
     
     render() {
+        console.log('Rendering chat box');
         if (!this.props.isOnlineMode) return null;
 
         return (

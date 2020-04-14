@@ -84,6 +84,7 @@ export const listenNetworkData = () => {
             if(type === 'peer-unavaliable') {
                 console.log('Peer disconnected');
                 alert('Your opponent appears to have disconnected! Returning you to the main screen.');
+                peer.destroy();
                 history.push('./menu');
             }
         });
@@ -171,6 +172,7 @@ export const getPeersList = () => {
 }
 
 const attemptReconnect = () => {
+    console.log('Disconnected');
     return (getState) => {
         var { peer } = getState().network;
         var secondsAttempted = 0;

@@ -6,8 +6,9 @@ import { initBoard, selectBagPiece, selectBoardCell, updateBoardData, listenNetw
 
 class BoardScreen extends Component {
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.initBoard();
+        this.checkConnection();
     }
 
     handlePieceClick (pieceId) {
@@ -77,6 +78,18 @@ class BoardScreen extends Component {
                 </GridColumn>
             </Grid>
         )
+    }
+}
+
+export const checkConnection  = () => {
+    console.log('Testing connection');
+    var { isOnlineMode, peer, remotePeerId } = this.props;
+    while (true) {
+        if(isOnlineMode) {
+            setTimeout (() => {
+                peer.connect(remotePeerId);
+            }, 10000);
+        }
     }
 }
 

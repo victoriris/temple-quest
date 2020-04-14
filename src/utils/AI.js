@@ -159,7 +159,7 @@ function evaluate(gameState){
        // console.log(gameState, result);
     }
     if (difficulty === 0){
-    result *= 1;
+    result *= ((isUserTurn && isUserPerspective)?1:-1);
     }else{
     result *= ((isUserTurn && isUserPerspective)?-1:-1);
     }

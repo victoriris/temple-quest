@@ -1,5 +1,5 @@
-import { BOARD_UPDATE_DATA, BOARD_INIT, BOARD_PLACE_PIECE, BOARD_PICK_PIECE, BOARD_RESET_GAME, BOARD_UPDATE_PIECE_OBJECT } from "../actions/types";
-import { cellCords, pieceObjects, getInitialPieces } from '../utils';
+import { BOARD_PICK_PIECE, BOARD_PLACE_PIECE, BOARD_RESET_GAME, BOARD_UPDATE_DATA, BOARD_UPDATE_PIECE_OBJECT } from "../actions/types";
+import { cellCords, getInitialPieces, pieceObjects } from '../utils';
 
 
 const INITIAL_STATE = {

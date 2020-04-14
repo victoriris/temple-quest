@@ -33,7 +33,8 @@ export default (state = INITIAL_STATE, { type, payload }) => {
         case NETWORK_RESET_DATA: {
             return {
                 ...INITIAL_STATE,
-                peerId: state.peerId
+                peer: state.peer,
+                peerId: state.peerId,
             };
         }
         

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Container, Form, Grid, GridColumn, GridRow, Confirm, Message, Icon } from 'semantic-ui-react';
+import { Button, Confirm, Container, Grid, GridColumn, GridRow, Icon, Message } from 'semantic-ui-react';
 import { launchMultiplayer, resetNetwork } from '../actions';
-import { getPeersList, initPeer, listenNetworkData, updateNetworkData, sendNetworkData } from '../actions/NetworkActions';
-import PeersList from '../components/PeersList';
+import { getPeersList, initPeer, listenNetworkData, sendNetworkData, updateNetworkData } from '../actions/NetworkActions';
 import MenuButton from '../components/MenuButton';
+import PeersList from '../components/PeersList';
+import UsernameInput from '../components/UsernameInput';
 
 
 class OnlineSetupScreen extends Component{
@@ -18,20 +19,6 @@ class OnlineSetupScreen extends Component{
         this.props.sendNetworkData('inviteStatus', 'declined');
         this.props.updateNetworkData('isInvited', false);
     }
-    handleInputChange = (e) => this.props.updateNetworkData('peerId', e.target.value);
-    handleSubmit = (e) => {
-        e.preventDefault();
-        console.log('checking username');
-        const { peerId } = this.props;
-        console.log(peerId);
-        if(/^[a-zA-Z][a-zA-Z][a-zA-Z][a-zA-Z][a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*[a-zA-Z]*/.test(peerId)) {
-            this.props.initPeer(peerId);
-            this.props.listenNetworkData({});
-        }
-        else {
-            alert('Invalid username, all usernames must be between 4 and 10 characters long as well as only letters.')
-        }
-    };
 
     refreshList() {
         this.props.getPeersList();
@@ -47,29 +34,13 @@ class OnlineSetupScreen extends Component{
     }
 
     render() {
-        const {peerId, peer} = this.props;
-        const isConnected = !!peer;
         return(
 
-        <Grid stretched className="mainScreen" padded centered columns={3}>
-         {!isConnected && (
-                    <Form id="usernameField">
-                        <Form.Field>
-                                <label >Username:</label>
-                                <input placeholder="Username" 
-                                id="username" 
-                                onChange={this.handleInputChange}
-                                value={peerId}
-                                className="usernameField"/>
-                            </Form.Field>
-                            <Button onClick={this.handleSubmit} >
-                                SUBMIT
-                            </Button>
-                        </Form>
-                    )}
+        <Grid stretched className="screen" padded centered columns={3}>
             <GridRow>
                 <GridColumn verticalAlign="middle">
-                    <Container className="mainScreen_option">
+                    <Container>
+                        <UsernameInput />
                     {this.props.inviteSent && this.props.inviteStatus === 'pending' && (
                            <Message icon>
                                <Icon name='circle notched' loading />
@@ -99,7 +70,6 @@ class OnlineSetupScreen extends Component{
                                 REFRESH
                             </Button>
                         )}
-                        <MenuButton back />
                         {!!this.props.peer && !this.props.isInvited && !this.props.inviteSent && (
                             <Button  floated="right" 
                             color="black" size="massive"
@@ -116,6 +86,7 @@ class OnlineSetupScreen extends Component{
                         onCancel={this.handleCancel}
                         />
                     </Container>
+                    <MenuButton back />
                 </GridColumn>
             </GridRow>
         </Grid>

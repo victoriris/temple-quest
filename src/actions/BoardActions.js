@@ -6,7 +6,11 @@ import { BOARD_INIT, BOARD_PICK_PIECE, BOARD_PLACE_PIECE, BOARD_RESET_GAME, BOAR
 
 export const endGame = () => {
     return (dispatch, getState) => {
+        var { peer, isOnlineMode } = getState().network;
         dispatch({ type: BOARD_RESET_GAME });
+        if(isOnlineMode) {
+            peer.destroy();
+        }
         history.push('/menu');
     };
 };

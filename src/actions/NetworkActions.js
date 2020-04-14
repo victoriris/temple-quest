@@ -1,5 +1,6 @@
 import { NETWORK_UPDATE_DATA, NETWORK_RECEIVE_MESSSAGE, NETWORK_RESET_DATA } from './types';
 import Peer from 'peerjs';
+import history from '../history';
 import { selectBagPiece, selectBoardCell, updateBoardData, launchMultiplayer } from './BoardActions';
 
 
@@ -22,7 +23,6 @@ export const connectToPeer = (peerId) => {
         // Make connection to remote peer
         const { peer } = getState().network;
         peer.connect(peerId);
-        dispatch(updateNetworkData('isConnected', true));
         dispatch(updateNetworkData('remotePeerId', peerId));
 
     };
@@ -95,7 +95,6 @@ export const listenNetworkData = () => {
             conn.on('data', ({type, data}) => {
                 if (type === 'inviteStatus' && data === 'accepted') {
                     alert('Your invite was accepted!');
-                    dispatch(updateNetworkData('isConnected', true));
                     dispatch(updateBoardData('isUserTurn', false));
                     dispatch(launchMultiplayer(true));
 
@@ -157,9 +156,8 @@ export const getPeersList = () => {
         var { peer } = getState().network;
         peer.listAllPeers(list => {
             const onlineUsers = list.filter((user) => {
-                if (!peer.isConnected) {
+                console.log(user)
                     return user !== peer.id;
-                }
             });
             dispatch(updateNetworkData('onlineUsers', onlineUsers));
         });
@@ -181,7 +179,8 @@ const attemptReconnect = () => {
                     secondsAttempted++;
                 }
                 else {
-                    alert('Reconnection attempts have timed out, please fix your connection.')
+                    alert('Reconnection attempts have timed out, returning you to the main menu.')
+                    history.pushState('/menu');
                 }
             }
         }, 1000);

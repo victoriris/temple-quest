@@ -19,7 +19,7 @@ class PeersList extends Component {
                 <List.Item 
                 key={idx}
                 onClick={() => this.connectToPeer(p)}>
-                    <Icon name="users" size="large" verticalAlign="middle"/>
+                    <Icon name="users" size="large" verticalalign="middle"/>
                     <List.Content>
                         <List.Header as="a">{p}</List.Header>
                         <List.Description as='a'>An online player</List.Description>

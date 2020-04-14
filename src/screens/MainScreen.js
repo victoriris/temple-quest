@@ -11,7 +11,9 @@ class MainScreen extends Component {
 
     handleClick = (route) => history.push(route);
     handleExit = () => {
-        
+        window.close();
+       // app.close();
+        process.exit();
     };
 
     componentDidMount() {

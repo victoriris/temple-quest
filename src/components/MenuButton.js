@@ -15,7 +15,7 @@ class MenuButton extends Component {
             if (back) {
                 history.goBack();
             } else {
-                onClick();
+                if (onClick) onClick();
             }
         };
 

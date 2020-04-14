@@ -9,9 +9,11 @@
   "dependencies": {
     "@babylonjs/core": "^4.1.0",
     "@babylonjs/gui": "^4.1.0",
+    "@babylonjs/inspector": "^4.1.0",
     "@babylonjs/loaders": "^4.1.0",
     "@dicebear/avatars": "^4.0.8",
     "@dicebear/avatars-gridy-sprites": "^4.0.8",
+    "@react-spring/addons": "^9.0.0-beta.33",
     "@react-spring/animated": "^9.0.0-beta.33",
     "@react-spring/core": "^9.0.0-beta.33",
     "deep-equal": "^2.0.2",
@@ -64,7 +66,7 @@
     "asar": true,
     "appId": "com.404notfound.templequest",
     "copyright": "MIT",
-    "productName": "temple-quest",
+    "productName": "Temple Quest",
     "mac": {
       "target": "pkg",
       "icon": "public/icon.png"

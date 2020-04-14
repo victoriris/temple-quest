@@ -1,10 +1,10 @@
-import { BOARD_UPDATE_DATA, BOARD_INIT, BOARD_PLACE_PIECE, BOARD_PICK_PIECE, BOARD_RESET_GAME, BOARD_UPDATE_PIECE_OBJECT } from "../actions/types";
-import { cellCords, pieceObjects } from '../utils';
+import { BOARD_PICK_PIECE, BOARD_PLACE_PIECE, BOARD_RESET_GAME, BOARD_UPDATE_DATA, BOARD_UPDATE_PIECE_OBJECT } from "../actions/types";
+import { cellCords, getInitialPieces, pieceObjects } from '../utils';
 
 
 const INITIAL_STATE = {
     isUserTurn: true,
-    pieces: [],
+    pieces: getInitialPieces(),
     selectedPieceId: '',
     isOnlineMode: false,
     isSingleMode: true,
@@ -12,7 +12,11 @@ const INITIAL_STATE = {
     cellCords: cellCords,
     pieceObjects: pieceObjects,
     isGameOver: false,
+<<<<<<< HEAD
     difficultyLevel: 0,
+=======
+    score: 0,
+>>>>>>> master
 }
 
 export default (state = INITIAL_STATE, { type, payload }) => {
@@ -35,39 +39,6 @@ export default (state = INITIAL_STATE, { type, payload }) => {
             };
 
             return { ...state, pieceObjects: newPieceObjects };
-        }
-
-        case BOARD_INIT: {
-            let pieces = [];
-
-            for (let i = 0; i < 16; i++) {
-
-                // Convert to binary and add leading zeros
-                const binaryStr = i.toString(2);
-                const leadingZeros = "0".repeat(4 - binaryStr.length);
-                const binaryVal = leadingZeros + binaryStr;
-                
-                // Build current piece
-                const piece = {
-                    id: i,
-                    details: {
-                        light: parseInt(binaryVal[0]),
-                        tall: parseInt(binaryVal[1]),
-                        round: parseInt(binaryVal[2]),
-                        pitted: parseInt(binaryVal[3]),
-                    },
-                    owned: false,
-                    location: null
-                };
-                
-                // Add to pieces list
-                pieces.push(piece);
-            }
-
-
-            //console.log('isUserTurn', state.isUserTurn);
-
-            return { ...state, pieces };
         }
 
         case BOARD_PICK_PIECE: {
@@ -103,6 +74,20 @@ export default (state = INITIAL_STATE, { type, payload }) => {
         }
 
         case BOARD_RESET_GAME: {
+
+            // If the game continues, preserve settings
+            if (payload && payload.playAgain) {
+                const scoreWon = state.isUserTurn ? state.pieces.filter(p=>!p.location).length : 0;
+                return {
+                    ...INITIAL_STATE,
+                    isOnlineMode: state.isOnlineMode,
+                    isSingleMode: state.isSingleMode,
+                    score: state.score += scoreWon,
+
+                }
+            }
+
+            // Otherwise wipe out everything
             return {
                 ...INITIAL_STATE
             };

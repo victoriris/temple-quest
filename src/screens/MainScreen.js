@@ -10,7 +10,9 @@ import { connect } from 'react-redux';
 class MainScreen extends Component {
 
     handleClick = (route) => history.push(route);
-    handleExit = () => {};
+    handleExit = () => {
+        
+    };
 
     componentDidMount() {
         this.props.playMenuSound();

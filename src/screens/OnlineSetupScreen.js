@@ -63,20 +63,7 @@ class OnlineSetupScreen extends Component{
                         <PeersList />
                     <Container
                     className="mainScreen__option">
-                         {!!this.props.peer && !this.props.isInvited && !this.props.inviteSent && (
-                            <Button 
-                            color="black" size="massive"
-                            onClick={() => this.refreshList()}>
-                                REFRESH
-                            </Button>
-                        )}
-                        {!!this.props.peer && !this.props.isInvited && !this.props.inviteSent && (
-                            <Button  floated="right" 
-                            color="black" size="massive"
-                            onClick={this.handleClick}>
-                                CONNECT
-                            </Button>
-                        )}
+                        
                         <Confirm
                         open={this.props.isInvited && !this.props.inviteSent}
                         content= {this.props.remotePeerId  + ' would like to play with you!'}

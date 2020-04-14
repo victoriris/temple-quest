@@ -9,8 +9,14 @@ class EndModal extends Component {
     handleClick = (playAgain) => this.props.endGame(playAgain);
 
     render() {
-        const { isGameOver, isUserTurn } = this.props;
-        const message = isUserTurn ? "You've won!!!!!!" : "Game Over, you lost";
+        const { isGameOver, isUserTurn, isOnlineMode, isSingleMode } = this.props;
+        const { playerOne, playerTwo, peerId, remotePeerId } = this.props;
+        let message = isUserTurn ? "You've won!!!!!!" : "Game Over, you lost";
+        if (!isSingleMode) {
+            if (isOnlineMode) message = isUserTurn ? 'You' : remotePeerId;
+            else message = isUserTurn ? playerOne : playerTwo;
+            message += ' won the game!';
+        }
         return (
         <Modal
         open={isGameOver}
@@ -21,8 +27,8 @@ class EndModal extends Component {
             <h3>Do you want to play other round?</h3>
             </Modal.Content>
             <Modal.Actions>
-            <Button color='green' onClick={() => this.handleClick(false)} inverted>
-                <Icon name='crosshairs' /> No
+            <Button color='red' onClick={() => this.handleClick(false)} inverted>
+                <Icon name='cancel' /> No
             </Button>
             <Button color='green' onClick={() => this.handleClick(true)} inverted>
                 <Icon name='checkmark' /> Yes
@@ -33,9 +39,14 @@ class EndModal extends Component {
     }
 }
 
-const mapStateToProps = ({ board }) => {
-    const { score, isGameOver, isUserTurn } = board;
-    return { score, isGameOver, isUserTurn };
+const mapStateToProps = ({ board, network }) => {
+    const { score, isGameOver, isUserTurn, isOnlineMode, isSingleMode } = board;
+    const { playerTwo, playerOne } = board;
+    const { peerId, remotePeerId } = network;
+    return { 
+        score, isGameOver, isUserTurn, isOnlineMode, isSingleMode,
+        playerOne, playerTwo, peerId, remotePeerId 
+    };
 };
 
 export default connect(mapStateToProps, {

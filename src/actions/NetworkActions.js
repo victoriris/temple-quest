@@ -81,6 +81,11 @@ export const listenNetworkData = () => {
                 alert('Username is already taken, please select another');
                 dispatch(updateNetworkData('peer', null));
             }
+            if(type === 'peer-unavaliable') {
+                console.log('Peer disconnected');
+                alert('Your opponent appears to have disconnected! Returning you to the main screen.');
+                history.push('./menu');
+            }
         });
         peer.on('connection', (conn) => {
 
@@ -88,6 +93,7 @@ export const listenNetworkData = () => {
             conn.on('open', () => {
                 if (!remotePeerId.length) {
                     dispatch(updateNetworkData('remotePeerId', conn.peer));
+                    console.log(remotePeerId.disconnected);
                     dispatch(updateNetworkData('isInvited', true));
                 }
             })
@@ -156,8 +162,7 @@ export const getPeersList = () => {
         var { peer } = getState().network;
         peer.listAllPeers(list => {
             const onlineUsers = list.filter((user) => {
-                console.log(user)
-                    return user !== peer.id;
+                return user !== peer.id;
             });
             dispatch(updateNetworkData('onlineUsers', onlineUsers));
         });
@@ -180,6 +185,7 @@ const attemptReconnect = () => {
                 }
                 else {
                     alert('Reconnection attempts have timed out, returning you to the main menu.')
+                    peer.destroy();
                     history.pushState('/menu');
                 }
             }

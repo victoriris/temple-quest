@@ -13,6 +13,8 @@ const INITIAL_STATE = {
     pieceObjects: pieceObjects,
     isGameOver: false,
     score: 0,
+    playerOne: '',
+    playerTwo: '',
 }
 
 export default (state = INITIAL_STATE, { type, payload }) => {

@@ -31,13 +31,15 @@ class GameNavbar extends Component {
               <Menu.Item
               name='chat'
               onClick={this.handleItemClick}>
-                <Icon name='chat' inverted />
-                Chat
+                <Button icon inverted>
+                  <Icon name='chat' />
+                  Chat
+                </Button>
               </Menu.Item>
             </ChatBox>
             <SettingsModal>
               <Menu.Item
-              name='end'>
+              name='settings'>
                 <Button icon inverted>
                   <Icon name="setting" />
                   Settings

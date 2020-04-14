@@ -13,6 +13,8 @@ const INITIAL_STATE = {
     pieceObjects: pieceObjects,
     isGameOver: false,
     score: 0,
+    playerOne: '',
+    playerTwo: '',
 }
 
 export default (state = INITIAL_STATE, { type, payload }) => {
@@ -79,7 +81,8 @@ export default (state = INITIAL_STATE, { type, payload }) => {
                     isOnlineMode: state.isOnlineMode,
                     isSingleMode: state.isSingleMode,
                     score: state.score += scoreWon,
-
+                    playerOne: state.playerOne,
+                    playerTwo: state.playerTwo,
                 }
             }
 

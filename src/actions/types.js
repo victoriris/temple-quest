@@ -4,7 +4,6 @@
 
 // Audio
 export const AUDIO_UPDATE_DATA = 'AUDIO_UPDATE_DATA';
-export const AUDIO_INTRO_SOUND = 'AUDIO_INTRO_SOUND';
 export const AUDIO_PLAY_MENU_SOUND = 'AUDIO_PLAY_MENU_SOUND';
 export const AUDIO_PLAY_SOUND = 'audio_play_sound';
 export const AUDIO_MOVE_PIECE = 'AUDIO_MOVE_PIECE';
@@ -21,10 +20,9 @@ export const BOARD_UPDATE_PIECE_OBJECT = 'board_update_piece_object';
 
 // Intro
 export const INTRO_UPDATE_DATA = 'intro_update_data';
-export const EXAMPLE_TEST_DATA = 'example_test_data';
 
 
-// Chat
+// Network
 export const NETWORK_UPDATE_DATA = 'chat_update_data';
 export const NETWORK_RECEIVE_MESSSAGE = 'network_receive_messsage';
 export const NETWORK_RECEIVE_DATA = 'network_receive_data';

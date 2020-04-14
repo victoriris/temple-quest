@@ -1,7 +1,6 @@
-import { AUDIO_UPDATE_DATA, AUDIO_MUTE_SOUND, AUDIO_MUTE_MUSIC, AUDIO_INTRO_SOUND, BOARD_PLACE_PIECE, BOARD_PICK_PIECE, BOARD_RESET_GAME, AUDIO_PLAY_SOUND } from "../actions/types";
+import { AUDIO_UPDATE_DATA, AUDIO_MUTE_SOUND, AUDIO_MUTE_MUSIC, BOARD_PLACE_PIECE, BOARD_PICK_PIECE, BOARD_RESET_GAME, AUDIO_PLAY_SOUND } from "../actions/types";
 import stoneSound from '../assets/sounds/stone.wav';
 import stonePickSound from '../assets/sounds/stone-pick.wav';
-import successSound from '../assets/sounds/game-success.wav'
 
 
 const INITIAL_STATE = {
@@ -43,17 +42,6 @@ export default (state = INITIAL_STATE, { type, payload }) => {
         case AUDIO_MUTE_SOUND:
             let newSoundOn = !state.soundOn;
             return { ...state, soundOn: newSoundOn };
-
-        case AUDIO_INTRO_SOUND:
-            return state;
-
-        case BOARD_RESET_GAME: {
-
-            return { ...state, 
-                playingSound: true, 
-                soundUrl: successSound
-            }
-        }
 
         default:
             return state;

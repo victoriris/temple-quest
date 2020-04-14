@@ -1,6 +1,7 @@
 import CongaSound from '../assets/sounds/CongaSound-4.wav';
 import MenuMusic from '../assets/sounds/JungleMenu.wav';
 import IntroMusic from '../assets/sounds/TeamLogo.wav';
+import successSound from '../assets/sounds/game-success.wav'
 import { AUDIO_MOVE_PIECE, AUDIO_UPDATE_DATA, AUDIO_PLAY_SOUND } from './types';
 
 
@@ -13,6 +14,11 @@ export const stopMusic = () => {
         }
     }
 };
+
+export const playGameEndSound = () => ({
+    type: AUDIO_PLAY_SOUND,
+    payload: successSound
+})
 
 export const playMenuSound = () => {
     

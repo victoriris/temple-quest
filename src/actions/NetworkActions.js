@@ -150,6 +150,7 @@ export const getPeersList = () => {
     return (dispatch, getState) => {
         // Refresh connected users list
         var { peer } = getState().network;
+        if (!peer) return;
         peer.listAllPeers(list => {
             const onlineUsers = list.filter((user) => {
                 return user !== peer.id;

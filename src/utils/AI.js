@@ -13,6 +13,7 @@ async function startMinimax(pieces, selectedPieceId, level) {
             lastPieceID: '',
             isUserTurn: false,
             isUserPerspective: true,
+            difficulty: level,
         }
 
         for (const piece of pieces) {
@@ -150,15 +151,18 @@ gameState is better for the current player-to-move.
 */
 function evaluate(gameState){
     let result = 0;
-    const { isUserTurn, pieces, isUserPerspective } = gameState;
+    const { isUserTurn, pieces, isUserPerspective, difficulty } = gameState;
 
     result = countWinMoves(pieces);
     if (result) {
        // console.log('evaluating....');
        // console.log(gameState, result);
     }
+    if (difficulty === 0){
+    result *= 1;
+    }else{
     result *= ((isUserTurn && isUserPerspective)?-1:-1);
-    
+    }
     return result;
 }
 

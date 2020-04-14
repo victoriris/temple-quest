@@ -21,13 +21,16 @@ export default (state = INITIAL_STATE, { type, payload }) => {
             return { ...state, [payload.prop]: payload.value };
 
         case NETWORK_RECEIVE_MESSSAGE:
+
+            const newMessages = [{
+                createdBy: payload.peerId,
+                createdOn: moment().utc(),
+                content: payload.data,
+            }, ...state.messages];
+
             return {
                 ...state,
-                messages: [...state.messages, {
-                    createdBy: payload.peerId,
-                    createdOn: moment().utc(),
-                    content: payload.data,
-                }]
+                messages: newMessages
             };
 
         case NETWORK_RESET_DATA: {

@@ -21,7 +21,7 @@ function createWindow () {
   defaultHeight: 800,
   maximize: true,
   fullscreen: false,
-  autoHideMenuBar: false
+  autoHideMenuBar: true
   });
   mainWindow.maximize()
   // and load the index.html of the app.

@@ -37,9 +37,14 @@ export const checkBoardWin = (pieceId) => {
         const { pieces, isUserTurn } = getState().board;
         const { isOnlineMode, isSingleMode } = getState().board;
         let hasWon = CheckWin(pieces, pieceId);
-        console.log("hasWon: ", hasWon);
-        if (hasWon) {
+        const boardIsFull = pieces.every(piece => !!piece.location);
+
+        if (hasWon || boardIsFull) {
             dispatch(updateBoardData("isGameOver", true));
+            // if is not win, then is tie due to full board
+            if (!hasWon) {
+                dispatch(updateBoardData("isTie", true));
+            }
             const isMultiplayer = !isOnlineMode && !isSingleMode;
             dispatch(playGameEndSound(isUserTurn || isMultiplayer));
         }

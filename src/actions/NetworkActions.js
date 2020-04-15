@@ -76,16 +76,16 @@ export const listenNetworkData = () => {
         });
         
         peer.on('error', function({type}) {
-            if (type === 'unavailable-id') {
+            if (type === "unavailable-id") {
                 console.log('Id is taken already');
                 alert('Username is already taken, please select another');
                 dispatch(updateNetworkData('peer', null));
             }
-            if(type === 'peer-unavaliable') {
+            if(type === "peer-unavaliable") {
                 console.log('Peer disconnected');
-                alert('Your opponent appears to have disconnected! Returning you to the main screen.');
+                alert('Your opponent appears to have disconnected! Attempting to reconnect.');
                 peer.destroy();
-                history.push('./menu');
+                //history.push('./menu');
             }
         });
         peer.on('connection', (conn) => {

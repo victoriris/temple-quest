@@ -83,8 +83,8 @@ class OnlineSetupScreen extends Component{
                            <Message icon>
                                <Icon name='circle notched' loading />
                                <Message.Content>
-                                <Message.Header>Invite Sent</Message.Header>
-                                    Your invite has been sent, please wait for a response.
+                                <Message.Header>Invite Declined</Message.Header>
+                                    Your invite has been declined, please invite someone else.
                                </Message.Content>
                            </Message> 
                         )}

@@ -66,7 +66,7 @@ export const sendNetworkData = (type, data) => {
 export const listenNetworkData = () => {
 
     return (dispatch, getState) => {
-        const { peer, remotePeerId } = getState().network;
+        const { peer, remotePeerId, isGameOn } = getState().network;
         
         // Listen for own connection
         peer.on('open', function(id) {
@@ -83,19 +83,20 @@ export const listenNetworkData = () => {
             }
             if(type === "peer-unavaliable") {
                 console.log('Peer disconnected');
-                alert('Your opponent appears to have disconnected! Attempting to reconnect.');
+                alert('Your opponent appears to have disconnected!');
                 peer.destroy();
-                //history.push('./menu');
+                history.push('/menu');
             }
         });
         peer.on('connection', (conn) => {
-
             // Connection was made by remote peer
             conn.on('open', () => {
-                if (!remotePeerId.length) {
+                console.log(isGameOn);
+                if (!isGameOn) {
                     dispatch(updateNetworkData('remotePeerId', conn.peer));
-                    console.log(remotePeerId.disconnected);
                     dispatch(updateNetworkData('isInvited', true));
+                } else {
+                    dispatch(sendNetworkData('inviteStatus', 'declined'));
                 }
             })
             // Data was received from remote peer
@@ -138,6 +139,7 @@ export const listenNetworkData = () => {
         });
         peer.on('disconnected', () => {
             alert('You have disconnected, attempting to reconnect...');
+            dispatch(updateNetworkData('isDisconnected', true));
             attemptReconnect();
         });
     };
@@ -173,15 +175,16 @@ export const getPeersList = () => {
 
 const attemptReconnect = () => {
     console.log('Disconnected');
-    return (getState) => {
+    return (dispatch, getState) => {
         var { peer } = getState().network;
         var secondsAttempted = 0;
         setTimeout (() => {
             try {
                 peer.reconnect();
+                dispatch(updateNetworkData('isDisconnected', false));
             }
             catch (e) {
-                if (secondsAttempted < 30) {
+                if (secondsAttempted < 20) {
                     attemptReconnect();
                     secondsAttempted++;
                 }

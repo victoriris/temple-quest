@@ -2,7 +2,9 @@ import { Vector3 } from '@babylonjs/core/Maths/math';
 import React, { Component } from 'react';
 import { ArcRotateCamera, Engine, Ground, Model, Scene } from 'react-babylonjs';
 import { connect } from 'react-redux';
-import { initBoard, selectBagPiece, selectBoardCell, updateBoardData, updatePieceObject } from '../actions';
+import history from '../history';
+import { initBoard, selectBagPiece, selectBoardCell, updateBoardData, updatePieceObject, updateNetworkData } from '../actions';
+import { Button, Container, Modal } from 'semantic-ui-react';
 import RoomLights from '../components/RoomLights';
 import RoomWalls from '../components/RoomWalls';
 import GameNavbar from '../components/GameNavbar';
@@ -28,6 +30,12 @@ class GameScreen extends Component {
 
     handleCellClick (row, column, position) {
         this.props.selectBoardCell(row, column, false, position);
+    }
+
+    handleButtonClick () {
+        var { peer } = this.props;
+        peer.destroy();
+        history.push('/menu');
     }
 
     isUsedLocation(row, column) {
@@ -75,9 +83,21 @@ class GameScreen extends Component {
     }
 
     render () {
-
+        var { isDisconnected } = this.props;
+        updateNetworkData('isGameOn', true);
         return (
             <>
+            <Container>
+            <Modal trigger={isDisconnected} basic size='small'>
+                    <Modal.Content>
+                        <p>You have disconnected from the server, attempting to reconnect...</p>
+                    </Modal.Content>
+                    <Modal.Actions>
+                        <Button basic color='red'>Return To Menu</Button>
+                    </Modal.Actions>
+                </Modal>
+            </Container>
+            
             <GameNavbar />
           <Engine canvasId="playground" adaptToDeviceRatio antialias>
             <Scene 
@@ -156,9 +176,10 @@ class GameScreen extends Component {
 
 const mapStateToProps = ({ board, network }) => {
     const { pieces, isUserTurn, selectedPieceId, isOnlineMode, hasPieceBeenPicked, cellCords, pieceObjects } = board;
+    const { peer, isDisconnected } = network;
     return { pieces, isUserTurn, selectedPieceId, isOnlineMode, hasPieceBeenPicked, cellCords, pieceObjects };
 };
 
 export default connect(mapStateToProps, {
-    initBoard, selectBagPiece, selectBoardCell, updateBoardData, updatePieceObject
+    initBoard, selectBagPiece, selectBoardCell, updateBoardData, updatePieceObject, updateNetworkData
 })(GameScreen);

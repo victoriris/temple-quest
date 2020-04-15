@@ -1,6 +1,6 @@
 import { CheckWin, startMinimax } from '../helpers';
 import history from '../history';
-import { sendNetworkData } from './NetworkActions';
+import { sendNetworkData, updateNetworkData } from './NetworkActions';
 import { BOARD_INIT, BOARD_PICK_PIECE, BOARD_PLACE_PIECE, BOARD_RESET_GAME, BOARD_UPDATE_DATA, BOARD_UPDATE_PIECE_OBJECT } from './types';
 
 
@@ -30,6 +30,7 @@ export const updatePieceObject = (pieceId, prop, value) => {
 export const launchMultiplayer = (isOnlineMode = false) => {
     return (dispatch, getState) => {
         dispatch(updateBoardData('isSingleMode', false));
+        dispatch(updateNetworkData('isGameOn', true));
         if (isOnlineMode) dispatch(updateBoardData('isOnlineMode', true));
         history.push('board');
     };
@@ -50,8 +51,8 @@ export const checkBoardWin = (pieceId) => {
 };
 
 export const initBoard = () => {
-    return {
-        type: BOARD_INIT
+    return (dispatch) => {
+        dispatch(updateNetworkData('isGameOn', true));
     };
 };
 

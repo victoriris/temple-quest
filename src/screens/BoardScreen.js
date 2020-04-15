@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Grid, Container, GridColumn } from 'semantic-ui-react';
+import history from '../history';
+import { Button, Grid, Container, GridColumn, Modal } from 'semantic-ui-react';
 import { initBoard, selectBagPiece, selectBoardCell, updateBoardData, listenNetworkData } from '../actions';
 
 
@@ -13,7 +14,6 @@ class BoardScreen extends Component {
 
     handlePieceClick (pieceId) {
         this.props.selectBagPiece(pieceId);
-
     }
 
     handleCellClick (row, column) {
@@ -60,7 +60,7 @@ class BoardScreen extends Component {
     }
 
     render() {
-        const { selectedPieceId, isUserTurn, isOnlineMode } = this.props;
+        const { selectedPieceId, isUserTurn, isOnlineMode, isDisconnected } = this.props;
 
         return (
             <Grid className="screen">
@@ -94,7 +94,7 @@ export const checkConnection  = () => {
 }
 
 const mapStateToProps = ({ board, network }) => {
-    const { remotePeerId, peer } = network;
+    const { remotePeerId, peer, isDisconnected } = network;
     const { pieces, isUserTurn, selectedPieceId, isOnlineMode, isSingleMode } = board;
     return { pieces, isUserTurn, selectedPieceId, remotePeerId, isOnlineMode, peer, isSingleMode };
 };

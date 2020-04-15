@@ -108,6 +108,11 @@ class GameScreen extends Component {
                         target={Vector3.Zero()} 
                         minZ={0.001} />
                         <RoomLights />
+                        <Model sceneFilename={`treasureChest.glb`}
+                            rootUrl = {baseUrl}
+                            scaling = {new Vector3(6, 6, 6)}
+                            position = { new Vector3(-25, -1.3, 0) }
+                        />
                         {roomId === 1 && (<RoomWalls roomId={1} />)}
                         {roomId === 2 && (<RoomWalls roomId={2} />)}
                         {roomId === 1 && this.renderGround(1)}

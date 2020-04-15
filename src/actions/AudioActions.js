@@ -16,14 +16,9 @@ export const stopMusic = () => {
     }
 };
 
-export const playGameEndSound = () => ({
+export const playGameEndSound = (isWin = true) => ({
     type: AUDIO_PLAY_SOUND,
-    payload: successSound
-})
-
-export const playGameLoseSound = () => ({
-    type: AUDIO_PLAY_SOUND,
-    payload: loseSound
+    payload: isWin ? successSound : loseSound
 })
 
 export const playMenuSound = () => {

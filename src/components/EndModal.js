@@ -22,7 +22,7 @@ class EndModal extends Component {
         open={isGameOver}
         basic
         size='small'>
-            <Header icon='browser' content={message} />
+            <Header icon='flag' content={message} />
             <Modal.Content>
             <h3>Do you want to play other round?</h3>
             </Modal.Content>

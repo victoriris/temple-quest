@@ -35,14 +35,13 @@ export const launchMultiplayer = (isOnlineMode = false) => {
 export const checkBoardWin = (pieceId) => { 
     return (dispatch, getState) => {
         const { pieces, isUserTurn } = getState().board;
+        const { isOnlineMode, isSingleMode } = getState().board;
         let hasWon = CheckWin(pieces, pieceId);
         console.log("hasWon: ", hasWon);
         if (hasWon) {
             dispatch(updateBoardData("isGameOver", true));
-            if(isUserTurn)
-                dispatch(playGameEndSound());
-            else    
-                dispatch(playGameLoseSound());
+            const isMultiplayer = !isOnlineMode && !isSingleMode;
+            dispatch(playGameEndSound(isUserTurn || isMultiplayer));
         }
     };
 };

@@ -12,7 +12,8 @@ class GameNavbar extends Component {
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
   render() {
-    const { score } = this.props;
+    const { score, isOnlineMode, isSingleMode } = this.props;
+    const isMultiplayer = !isOnlineMode && !isSingleMode;
 
 
     return (
@@ -22,11 +23,11 @@ class GameNavbar extends Component {
             name='turn'>
               <TurnBox />
           </Menu.Item>
-         <Menu.Item
+         {!isMultiplayer && (<Menu.Item
             name='turn'>
               <Icon name="diamond" color="teal" />
               {score}
-          </Menu.Item>
+          </Menu.Item>)}
           <Menu.Menu position="right">
             <ChatBox >
               <Menu.Item
@@ -63,8 +64,8 @@ class GameNavbar extends Component {
 
 
 const mapStateToProps = ({ board }) => {
-  const { score } = board;
-  return { score };
+  const { score, isOnlineMode, isSingleMode } = board;
+  return { score, isOnlineMode, isSingleMode };
 };
 
 export default connect(mapStateToProps, {

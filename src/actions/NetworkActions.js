@@ -1,6 +1,6 @@
 import { NETWORK_UPDATE_DATA, NETWORK_RECEIVE_MESSSAGE, NETWORK_RESET_DATA } from './types';
 import Peer from 'peerjs';
-import history from './history';
+import history from '../history';
 import { selectBagPiece, selectBoardCell, updateBoardData, launchMultiplayer } from './BoardActions';
 
 

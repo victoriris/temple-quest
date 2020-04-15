@@ -1,5 +1,6 @@
 import { NETWORK_UPDATE_DATA, NETWORK_RECEIVE_MESSSAGE, NETWORK_RESET_DATA } from './types';
 import Peer from 'peerjs';
+import history from './history';
 import { selectBagPiece, selectBoardCell, updateBoardData, launchMultiplayer } from './BoardActions';
 
 
@@ -79,6 +80,12 @@ export const listenNetworkData = () => {
                 console.log('Id is taken already');
                 alert('Username is already taken, please select another');
                 dispatch(updateNetworkData('peer', null));
+            }
+            if(type === "peer-unavaliable") {
+                console.log('Peer disconnected');
+                alert('Your opponent appears to have disconnected!');
+                peer.destroy();
+                history.push('/menu');
             }
         });
         peer.on('connection', (conn) => {

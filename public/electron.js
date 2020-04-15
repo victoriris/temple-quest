@@ -19,9 +19,9 @@ function createWindow () {
   mainWindow = new BrowserWindow({
   defaultWidth: 1000,
   defaultHeight: 800,
-  maximize: false,
-  fullscreen: true,
-  autoHideMenuBar: true
+  maximize: true,
+  fullscreen: false,
+  autoHideMenuBar: false
   });
   mainWindow.maximize()
   // and load the index.html of the app.

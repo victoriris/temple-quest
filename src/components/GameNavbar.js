@@ -16,7 +16,8 @@ class GameNavbar extends Component {
 
 
     return (
-      <Menu style={{ margin: 0 }} size="huge" inverted>
+      <Menu style={{ margin: 0 }} size="huge" inverted
+      className="gameNavBar">
          <Menu.Item
             name='turn'>
               <TurnBox />

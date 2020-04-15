@@ -97,14 +97,15 @@ class GameScreen extends Component {
                     onMeshPicked={this.meshPicked.bind(this)} >
                         <ArcRotateCamera 
                         name="camera1"
-                        alpha={0} beta={0}
                         radius={35} 
                         setPosition={[new Vector3(30, 25, 0)]}
-                        lowerBetaLimit = {0.95}
                         upperRadiusLimit = {39}
                         lowerRadiusLimit = {20}
                         panningSensibility = {0}
-                        upperBetaLimit = {(Math.PI / 2) * 0.99}
+                        lowerAlphaLimit = {Math.PI / -18}
+                        upperAlphaLimit = {Math.PI / 18}
+                        lowerBetaLimit = {Math.PI / 3}
+                        upperBetaLimit = {(Math.PI / 3) *1}
                         target={Vector3.Zero()} 
                         minZ={0.001} />
                         <RoomLights />

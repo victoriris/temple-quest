@@ -4,7 +4,7 @@ import negamaxAlphaBeta from 'negamax-alpha-beta';
 import { countWinMoves } from './countWinMoves';
 
 
-async function startMinimax(pieces, selectedPieceId) {
+async function startMinimax(pieces, selectedPieceId, level) {
 
     return new Promise((resolve, reject) => {
         var gameState =  {
@@ -13,6 +13,7 @@ async function startMinimax(pieces, selectedPieceId) {
             lastPieceID: '',
             isUserTurn: false,
             isUserPerspective: true,
+            difficulty: level,
         }
 
         for (const piece of pieces) {
@@ -39,16 +40,22 @@ async function startMinimax(pieces, selectedPieceId) {
     });
 }
 
-function getDepth(pieces) {
+function getDepth(pieces, level) {
     const leftCount = pieces.filter(p => !p.location).length;
-    if (leftCount > 14) return 1;
-    if (leftCount > 11) return 2;
-    if (leftCount > 7) return 3;
-    if (leftCount > 1) return 4;
-    const turn = pieces.length - leftCount
-    return turn - 2;
+    if (level === 0){
+        if (leftCount > 14){
+            return 1;
+        }
+        return 2;
+    }else{
+        if (leftCount > 14) return 1;
+        if (leftCount > 11) return 2;
+        if (leftCount > 7) return 4;
+        if (leftCount > 1) return 6;
+        const turn = pieces.length - leftCount
+        return turn - 2;
+    }
 }
-
 
 
 /* 
@@ -144,15 +151,18 @@ gameState is better for the current player-to-move.
 */
 function evaluate(gameState){
     let result = 0;
-    const { isUserTurn, pieces, isUserPerspective } = gameState;
+    const { isUserTurn, pieces, isUserPerspective, difficulty } = gameState;
 
     result = countWinMoves(pieces);
     if (result) {
        // console.log('evaluating....');
        // console.log(gameState, result);
     }
+    if (difficulty === 0){
+    result *= ((isUserTurn && isUserPerspective)?1:-1);
+    }else{
     result *= ((isUserTurn && isUserPerspective)?-1:-1);
-    
+    }
     return result;
 }
 

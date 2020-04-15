@@ -2,7 +2,6 @@ import history from '../history';
 import { CheckWin, getCellPosition, startMinimax } from '../utils';
 import { sendNetworkData } from './NetworkActions';
 import { BOARD_INIT, BOARD_PICK_PIECE, BOARD_PLACE_PIECE, BOARD_RESET_GAME, BOARD_UPDATE_DATA, BOARD_UPDATE_PIECE_OBJECT } from './types';
-import { playGameEndSound, playGameLoseSound } from './AudioActions';
 
 
 export const endGame = (playAgain = false) => {
@@ -34,8 +33,7 @@ export const launchMultiplayer = (isOnlineMode = false) => {
 
 export const checkBoardWin = (pieceId) => { 
     return (dispatch, getState) => {
-        const { pieces, isUserTurn } = getState().board;
-        const { isOnlineMode, isSingleMode } = getState().board;
+        const { pieces } = getState().board;
         let hasWon = CheckWin(pieces, pieceId);
         const boardIsFull = pieces.every(piece => !!piece.location);
 
@@ -59,8 +57,8 @@ export const initBoard = () => {
 
 export const selectBagPiece = (pieceId, isRemote = false) => {
     return (dispatch, getState) => {
-        const { isOnlineMode, isSingleMode, pieces } = getState().board;
-        const { selectedPieceId } = getState().board;
+        const { isOnlineMode, isSingleMode, pieces, cellCords } = getState().board;
+        const { selectedPieceId, difficultyLevel } = getState().board;
 
         // Block acction if there is already a selected piece
         if (selectedPieceId) return;
@@ -89,7 +87,7 @@ export const selectBagPiece = (pieceId, isRemote = false) => {
         // AI
         else if (isSingleMode && !isRemote){
             var t1 = performance.now();
-            startMinimax(pieces, pieceId)
+            startMinimax(pieces, pieceId, difficultyLevel)
                 .then(({ location, pieceId }) => {
                     dispatch(selectBoardCell(location.row, location.column, false));
                     const {isGameOver} = getState().board;

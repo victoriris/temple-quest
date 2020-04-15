@@ -12,6 +12,7 @@ const INITIAL_STATE = {
     cellCords: cellCords,
     pieceObjects: pieceObjects,
     isGameOver: false,
+    difficultyLevel: 0,
     isTie: false,
     score: 0,
     playerOne: '',

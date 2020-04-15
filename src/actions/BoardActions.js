@@ -2,7 +2,6 @@ import history from '../history';
 import { CheckWin, getCellPosition, startMinimax } from '../utils';
 import { sendNetworkData } from './NetworkActions';
 import { BOARD_INIT, BOARD_PICK_PIECE, BOARD_PLACE_PIECE, BOARD_RESET_GAME, BOARD_UPDATE_DATA, BOARD_UPDATE_PIECE_OBJECT } from './types';
-import { playGameEndSound, playGameLoseSound } from './AudioActions';
 
 
 export const endGame = (playAgain = false) => {
@@ -34,14 +33,11 @@ export const launchMultiplayer = (isOnlineMode = false) => {
 
 export const checkBoardWin = (pieceId) => { 
     return (dispatch, getState) => {
-        const { pieces, isUserTurn } = getState().board;
-        const { isOnlineMode, isSingleMode } = getState().board;
+        const { pieces } = getState().board;
         let hasWon = CheckWin(pieces, pieceId);
-        //console.log("hasWon: ", hasWon);
+        console.log("hasWon: ", hasWon);
         if (hasWon) {
             dispatch(updateBoardData("isGameOver", true));
-            const isMultiplayer = !isOnlineMode && !isSingleMode;
-            dispatch(playGameEndSound(isUserTurn || isMultiplayer));
         }
     };
 };
@@ -54,8 +50,10 @@ export const initBoard = () => {
 
 export const selectBagPiece = (pieceId, isRemote = false) => {
     return (dispatch, getState) => {
+<<<<<<< HEAD
         const { isOnlineMode, isSingleMode, pieces } = getState().board;
-        const { selectedPieceId, difficultyLevel } = getState().board;
+        const { selectedPieceId } = getState().board;
+
         // Block acction if there is already a selected piece
         if (selectedPieceId) return;
 
@@ -63,6 +61,10 @@ export const selectBagPiece = (pieceId, isRemote = false) => {
         const isUnplaced = pieces.find(({ id, location }) => id === parseInt(pieceId) && !location);
         if (!isUnplaced) return;
         
+=======
+        const { isOnlineMode, isSingleMode, pieces, cellCords } = getState().board;
+        const { difficultyLevel } = getState().board;
+>>>>>>> Add difficulty selector
         dispatch({
             type: BOARD_PICK_PIECE,
             payload: {

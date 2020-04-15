@@ -100,13 +100,8 @@ class GameScreen extends Component {
                 alpha={0} beta={0}
                 radius={35} 
                 setPosition={[new Vector3(30, 25, 0)]}
-<<<<<<< HEAD
-                lowerBetaLimit = {0.5}
-                upperRadiusLimit = {40}
-=======
                 lowerBetaLimit = {0.95}
                 upperRadiusLimit = {39}
->>>>>>> master
                 lowerRadiusLimit = {20}
                 panningSensibility = {0}
                 upperBetaLimit = {(Math.PI / 2) * 0.99}

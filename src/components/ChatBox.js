@@ -40,26 +40,28 @@ class ChatBox extends Component {
         return (
             <Modal trigger={this.props.children}>
                 <Modal.Header>Chat</Modal.Header>
-                <Modal.Content>
+                <Modal.Content scrolling>
                     <Modal.Description>
                         <Feed>
                             {this.renderMessages()}
                         </Feed>
                     
                     </Modal.Description>
-                    <Input action
-                    fluid 
-                    size="large"
-                    placeholder='Message...'>
-                        <input onChange={this.handleMessageInput} 
-                        value={this.props.messageInput}/>
-                        <Button icon labelPosition='right'
-                        onClick={this.handleMessageSend.bind(this)}>
-                            Send
-                            <Icon name='send' />
-                        </Button>
-                    </Input>
                 </Modal.Content>
+                <Modal.Actions>
+                    <Input action
+                        fluid 
+                        size="large"
+                        placeholder='Message...'>
+                            <input onChange={this.handleMessageInput} 
+                            value={this.props.messageInput}/>
+                            <Button icon labelPosition='right'
+                            onClick={this.handleMessageSend.bind(this)}>
+                                Send
+                                <Icon name='send' />
+                            </Button>
+                    </Input>
+                </Modal.Actions>
             </Modal>
         )
     };

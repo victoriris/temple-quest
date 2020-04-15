@@ -1,28 +1,38 @@
 import React, { Component } from 'react';
-import { Icon, List, Container } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import { Button, Header, List, Segment } from 'semantic-ui-react';
 import { connectToPeer, getPeersList, initPeer, listenNetworkData, updateNetworkData } from '../actions/NetworkActions';
-
+import Avatar from './Avatar';
 
 class PeersList extends Component {
+
+    componentDidMount () {
+        this.props.getPeersList();
+    }
+
 
     connectToPeer(peerId) {
         this.props.updateNetworkData('remotePeerId', peerId);
         this.props.connectToPeer(peerId);
+        this.props.updateNetworkData('inviteSent', true);
     }
 
     displayPeersListItems () {
         var peersList = this.props.onlineUsers;
+        if (!peersList.length) {
+            return "No available users";
+        }
 
         return peersList.map((p, idx) => {
             return (
                 <List.Item 
                 key={idx}
                 onClick={() => this.connectToPeer(p)}>
-                    <Icon name="users" size="large" verticalAlign="middle"/>
+                    <Avatar seed={p} />
                     <List.Content>
-                        <List.Header as="a">{p}</List.Header>
-                        <List.Description as='a'>An online player</List.Description>
+                        <List.Header>
+                            {p}
+                        </List.Header>
                     </List.Content>
                 </List.Item>
             );
@@ -30,21 +40,36 @@ class PeersList extends Component {
     }
 
     render () {
-        if (!this.props.peer) return null;
+        const {peer, isInvited, inviteSent} = this.props;
+        if (!peer || isInvited || inviteSent) return null;
        
         return (
-            <Container className="onlineScreen">
-                <List divided relaxed>
+            <Segment>
+                <Header as='h3' 
+                dividing
+                size="large"
+                textAlign="left">
+                    Online Users
+                    <Button color="black" floated="right"
+                    onClick={this.props.getPeersList}>
+                        Refresh
+                    </Button>
+                    <Header.Subheader>
+                        Select one to send an invite!
+                    </Header.Subheader>
+                   
+                </Header>
+                <List selection verticalAlign="middle" size="huge" className="peersList">
                     {this.displayPeersListItems()}
                 </List>
-            </Container>
+            </Segment>
         );
     }
 };
 
 const mapStateToProps = ({ network }) => {
-    const { remotePeerId, onlineUsers, peer, peerId } = network;
-    return {remotePeerId, onlineUsers, peer, peerId};
+    const { remotePeerId, onlineUsers, peer, peerId, inviteSent, isInvited } = network;
+    return {remotePeerId, onlineUsers, peer, peerId, inviteSent, isInvited};
 };
 
 export default connect(mapStateToProps, {

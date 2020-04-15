@@ -10,11 +10,6 @@ import { connect } from 'react-redux';
 class MainScreen extends Component {
 
     handleClick = (route) => history.push(route);
-    handleExit = () => {
-        window.close();
-       // app.close();
-        process.exit();
-    };
 
     componentDidMount() {
         this.props.playMenuSound();
@@ -36,8 +31,6 @@ class MainScreen extends Component {
                         onClick={() => this.handleClick('settings')}/>
                         <MenuButton title='about'
                         onClick={() => this.handleClick('about')}/>
-                        <MenuButton title='exit'
-                        onClick={() => this.handleExit()}/>
                     </GridColumn>
                 </GridRow>
             </Grid>

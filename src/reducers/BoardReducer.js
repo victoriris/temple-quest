@@ -14,6 +14,10 @@ const INITIAL_STATE = {
     isGameOver: false,
     difficultyLevel: 0,
     score: 0,
+    playerOne: '',
+    playerTwo: '',
+    roundCount: 0,
+    roomId: 1,
 }
 
 export default (state = INITIAL_STATE, { type, payload }) => {
@@ -75,12 +79,16 @@ export default (state = INITIAL_STATE, { type, payload }) => {
             // If the game continues, preserve settings
             if (payload && payload.playAgain) {
                 const scoreWon = state.isUserTurn ? state.pieces.filter(p=>!p.location).length : 0;
+                const newRoundCount = state.roundCount + 1;
                 return {
                     ...INITIAL_STATE,
                     isOnlineMode: state.isOnlineMode,
                     isSingleMode: state.isSingleMode,
                     score: state.score += scoreWon,
-
+                    playerOne: state.playerOne,
+                    playerTwo: state.playerTwo,
+                    roundCount: newRoundCount,
+                    roomId: (newRoundCount%2)+1,
                 }
             }
 

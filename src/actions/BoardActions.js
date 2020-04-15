@@ -35,9 +35,16 @@ export const checkBoardWin = (pieceId) => {
     return (dispatch, getState) => {
         const { pieces } = getState().board;
         let hasWon = CheckWin(pieces, pieceId);
-        console.log("hasWon: ", hasWon);
-        if (hasWon) {
+        const boardIsFull = pieces.every(piece => !!piece.location);
+
+        if (hasWon || boardIsFull) {
             dispatch(updateBoardData("isGameOver", true));
+            // if is not win, then is tie due to full board
+            if (!hasWon) {
+                dispatch(updateBoardData("isTie", true));
+            }
+            const isMultiplayer = !isOnlineMode && !isSingleMode;
+            dispatch(playGameEndSound(isUserTurn || isMultiplayer));
         }
     };
 };
@@ -50,9 +57,8 @@ export const initBoard = () => {
 
 export const selectBagPiece = (pieceId, isRemote = false) => {
     return (dispatch, getState) => {
-<<<<<<< HEAD
-        const { isOnlineMode, isSingleMode, pieces } = getState().board;
-        const { selectedPieceId } = getState().board;
+        const { isOnlineMode, isSingleMode, pieces, cellCords } = getState().board;
+        const { selectedPieceId, difficultyLevel } = getState().board;
 
         // Block acction if there is already a selected piece
         if (selectedPieceId) return;
@@ -61,10 +67,6 @@ export const selectBagPiece = (pieceId, isRemote = false) => {
         const isUnplaced = pieces.find(({ id, location }) => id === parseInt(pieceId) && !location);
         if (!isUnplaced) return;
         
-=======
-        const { isOnlineMode, isSingleMode, pieces, cellCords } = getState().board;
-        const { difficultyLevel } = getState().board;
->>>>>>> Add difficulty selector
         dispatch({
             type: BOARD_PICK_PIECE,
             payload: {

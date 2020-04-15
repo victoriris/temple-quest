@@ -9,7 +9,7 @@ class EndModal extends Component {
     handleClick = (playAgain) => this.props.endGame(playAgain);
 
     render() {
-        const { isGameOver, isUserTurn, isOnlineMode, isSingleMode } = this.props;
+        const { isGameOver, isUserTurn, isOnlineMode, isSingleMode, isTie } = this.props;
         const { playerOne, playerTwo, peerId, remotePeerId } = this.props;
         let message = isUserTurn ? "You've won!!!!!!" : "Game Over, you lost";
         if (!isSingleMode) {
@@ -17,6 +17,7 @@ class EndModal extends Component {
             else message = isUserTurn ? playerOne : playerTwo;
             message += ' won the game!';
         }
+        if (isTie) message = "Game Over. Is a tie!";
         return (
         <Modal
         open={isGameOver}
@@ -40,12 +41,12 @@ class EndModal extends Component {
 }
 
 const mapStateToProps = ({ board, network }) => {
-    const { score, isGameOver, isUserTurn, isOnlineMode, isSingleMode } = board;
+    const { score, isGameOver, isUserTurn, isOnlineMode, isSingleMode, isTie } = board;
     const { playerTwo, playerOne } = board;
     const { peerId, remotePeerId } = network;
     return { 
         score, isGameOver, isUserTurn, isOnlineMode, isSingleMode,
-        playerOne, playerTwo, peerId, remotePeerId 
+        playerOne, playerTwo, peerId, remotePeerId, isTie
     };
 };
 

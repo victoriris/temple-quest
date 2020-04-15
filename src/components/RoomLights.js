@@ -1,6 +1,6 @@
 import { Vector3 } from '@babylonjs/core/Maths/math';
 import React, { Component } from 'react';
-import { DirectionalLight, ShadowGenerator } from 'react-babylonjs';
+import { DirectionalLight, ShadowGenerator, HemisphericLight } from 'react-babylonjs';
 
 
 class RoomLights extends Component {
@@ -8,10 +8,11 @@ class RoomLights extends Component {
     renderLights () {
         const intensity = 1.7;
         const lights = [
-            {direction: [-1, -.35, 1] , position: [20, 20, -20]},
-            {direction: [1, -.35, -1] , position: [-20, 20, 20]},
-            {direction: [-1, -.35, -1] , position: [20, 20, 20]},
-            {direction: [1, -.35, 1] , position: [-20, 20, -20]},
+            // {direction: [1, -.35, 0] , position: [20, 20, 0]}
+            // {direction: [-1, -.35, 1] , position: [20, 20, -20]}, // BL
+            {direction: [1, -.35, -1] , position: [-20, 20, 20]}, // TR
+            // {direction: [-1, -.35, -1] , position: [20, 20, 20]}, // BR
+            {direction: [1, -.35, 1] , position: [-20, 20, -20]}, // TL
         ];
 
         return lights.map((light, idx) => {
@@ -36,6 +37,10 @@ class RoomLights extends Component {
 
         return (
             <>
+                <HemisphericLight
+                intensity = {1.5}
+                position = {Vector3.Up()}
+                />
                 {this.renderLights()}
             </>
         );

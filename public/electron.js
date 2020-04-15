@@ -19,8 +19,8 @@ function createWindow () {
   mainWindow = new BrowserWindow({
   defaultWidth: 1000,
   defaultHeight: 800,
-  maximize: false,
-  fullscreen: true,
+  maximize: true,
+  fullscreen: false,
   autoHideMenuBar: true
   });
   mainWindow.maximize()

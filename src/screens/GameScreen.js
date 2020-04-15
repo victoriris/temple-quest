@@ -88,34 +88,40 @@ class GameScreen extends Component {
         const { roomId } = this.props;
 
         return (
-            <>
+            <div className="gameScreen">
             <EndModal />
-            <GameNavbar />
-          <Engine canvasId="playground" adaptToDeviceRatio antialias>
-            <Scene 
-            onSceneMount={this.onSceneMount}
-            onMeshPicked={this.meshPicked.bind(this)} >
-                <ArcRotateCamera 
-                name="camera1"
-                alpha={0} beta={0}
-                radius={35} 
-                setPosition={[new Vector3(30, 25, 0)]}
-                lowerBetaLimit = {0.95}
-                upperRadiusLimit = {39}
-                lowerRadiusLimit = {20}
-                panningSensibility = {0}
-                upperBetaLimit = {(Math.PI / 2) * 0.99}
-                target={Vector3.Zero()} 
-                minZ={0.001} />
-                <RoomLights />
-                {roomId === 1 && (<RoomWalls roomId={1} />)}
-                {roomId === 2 && (<RoomWalls roomId={2} />)}
-                {roomId === 1 && this.renderGround(1)}
-                {roomId === 2 && this.renderGround(2)}
-                {this.renderPieces()}
-            </Scene>
-          </Engine>
-        </>
+            <GameNavbar/>
+                <Engine canvasId="playground" adaptToDeviceRatio antialias>
+                    <Scene 
+                    onSceneMount={this.onSceneMount}
+                    onMeshPicked={this.meshPicked.bind(this)} >
+                        <ArcRotateCamera 
+                        name="camera1"
+                        radius={35} 
+                        setPosition={[new Vector3(30, 25, 0)]}
+                        upperRadiusLimit = {39}
+                        lowerRadiusLimit = {20}
+                        panningSensibility = {0}
+                        lowerAlphaLimit = {Math.PI / -18}
+                        upperAlphaLimit = {Math.PI / 18}
+                        lowerBetaLimit = {Math.PI / 3}
+                        upperBetaLimit = {(Math.PI / 3) *1}
+                        target={Vector3.Zero()} 
+                        minZ={0.001} />
+                        <RoomLights />
+                        <Model sceneFilename={`treasureChest.glb`}
+                            rootUrl = {baseUrl}
+                            scaling = {new Vector3(6, 6, 6)}
+                            position = { new Vector3(-25, -1.3, 0) }
+                        />
+                        {roomId === 1 && (<RoomWalls roomId={1} />)}
+                        {roomId === 2 && (<RoomWalls roomId={2} />)}
+                        {roomId === 1 && this.renderGround(1)}
+                        {roomId === 2 && this.renderGround(2)}
+                        {this.renderPieces()}
+                    </Scene>
+                </Engine>
+        </div>
         );
     }
 

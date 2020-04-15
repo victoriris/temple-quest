@@ -13,6 +13,7 @@ const INITIAL_STATE = {
     pieceObjects: pieceObjects,
     isGameOver: false,
     difficultyLevel: 0,
+    isTie: false,
     score: 0,
     playerOne: '',
     playerTwo: '',

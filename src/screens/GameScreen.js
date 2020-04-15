@@ -85,6 +85,7 @@ class GameScreen extends Component {
     }
 
     render () {
+        const { roomId } = this.props;
 
         return (
             <>
@@ -99,37 +100,47 @@ class GameScreen extends Component {
                 alpha={0} beta={0}
                 radius={35} 
                 setPosition={[new Vector3(30, 25, 0)]}
-                lowerBetaLimit = {0.5}
-                upperRadiusLimit = {50}
+                lowerBetaLimit = {0.95}
+                upperRadiusLimit = {39}
                 lowerRadiusLimit = {20}
                 panningSensibility = {0}
                 upperBetaLimit = {(Math.PI / 2) * 0.99}
                 target={Vector3.Zero()} 
                 minZ={0.001} />
                 <RoomLights />
-                <Model sceneFilename="gameBoard.glb"
-                    rootUrl = {baseUrl}
-                />
-                <Model sceneFilename="slabForPieces.glb"
-                    rootUrl = {baseUrl}
-                    position = { new Vector3(0, 0.069, 15) }
-                />
-                <Model sceneFilename="coaster.glb"
-                    rootUrl = {baseUrl}
-                    position = { new Vector3(0, 0.15, -13) }
-                />
-                <RoomWalls />
-                <Ground name="ground" subdivisions={1} >
-                    <Model sceneFilename="floor.glb"
-                        rootUrl = {baseUrl}
-                        position = {Vector3.Zero() }
-                    />
-                </Ground>
-                {this.renderCells()}
+                {roomId === 1 && (<RoomWalls roomId={1} />)}
+                {roomId === 2 && (<RoomWalls roomId={2} />)}
+                {roomId === 1 && this.renderGround(1)}
+                {roomId === 2 && this.renderGround(2)}
                 {this.renderPieces()}
             </Scene>
           </Engine>
         </>
+        );
+    }
+
+    renderGround(roomId) {
+        return (
+            <> 
+                <Model sceneFilename={`gameBoard${roomId}.glb`}
+                    rootUrl = {baseUrl}
+                />
+                <Model sceneFilename={`slabForPieces${roomId}.glb`}
+                    rootUrl = {baseUrl}
+                    position = { new Vector3(0, 0.069, 15) }
+                />
+                <Model sceneFilename={`coaster${roomId}.glb`}
+                    rootUrl = {baseUrl}
+                    position = { new Vector3(0, 0.15, -13) }
+                />
+                <Ground name="ground" subdivisions={1} >
+                    <Model sceneFilename={`floor${roomId}.glb`}
+                        rootUrl = {baseUrl}
+                        position = {Vector3.Zero() }
+                    />
+                </Ground>
+                {this.renderCells(roomId)}
+            </>
         );
     }
 
@@ -150,10 +161,10 @@ class GameScreen extends Component {
         });
     }
 
-    renderCells() {
+    renderCells(roomId) {
         return this.props.cellCords.map((cord, idx)=>{
             return (
-                <Model sceneFilename="pieceThatGoesInHole.glb"
+                <Model sceneFilename={`pieceThatGoesInHole${roomId}.glb`}
                     rootUrl = {baseUrl}
                     position = {new Vector3(cord[0], 0.015, cord[2])}
                     key={idx}
@@ -166,11 +177,11 @@ class GameScreen extends Component {
 
 
 const mapStateToProps = ({ board, network }) => {
-    const { pieces, isUserTurn, selectedPieceId, isOnlineMode } = board;
+    const { pieces, isUserTurn, selectedPieceId, isOnlineMode, roomId } = board;
     const { hasPieceBeenPicked, cellCords, pieceObjects, isSingleMode } = board;
     return { 
         pieces, isUserTurn, selectedPieceId, 
-        isOnlineMode, hasPieceBeenPicked, 
+        isOnlineMode, hasPieceBeenPicked, roomId,
         cellCords, pieceObjects, isSingleMode
     };
 };
